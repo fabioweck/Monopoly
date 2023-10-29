@@ -25,7 +25,6 @@ namespace Monopoly
     {
 
         public static int NumberOfPlayers = 0;
-        public List<PlayerViewModel> Players = new List<PlayerViewModel>();      
         public List<Label> LblPlayers = new List<Label>();
 
         public MainWindow()
@@ -37,16 +36,16 @@ namespace Monopoly
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //View.DieView dieView = new View.DieView(CurrentPlayer);
-            //dieView.Show();
-            //Label dice = new Label();
-            //dice.Content = "Die 1: 3, Die 2: 4. Move 7 places.";
-            //dice.FontSize = 20;
-            //dice.Background = Brushes.White;
-            //Grid.SetRow(dice, 5);
-            //Grid.SetColumn(dice, 5);
-            //Grid.SetColumnSpan(dice, 5);
-            //BoardGrid.Children.Add(dice);
+            View.DieView dieView = new View.DieView(PlayerViewModel.CurrentPlayer);
+            dieView.Show();
+            Label dice = new Label();
+            dice.Content = "Die 1: 3, Die 2: 4. Move 7 places.";
+            dice.FontSize = 20;
+            dice.Background = Brushes.White;
+            Grid.SetRow(dice, 5);
+            Grid.SetColumn(dice, 5);
+            Grid.SetColumnSpan(dice, 5);
+            BoardGrid.Children.Add(dice);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -57,22 +56,22 @@ namespace Monopoly
         private void HowManyPlayers(object sender, EventArgs e)
         {
             PlayerCountQuestion playerCount = new PlayerCountQuestion();
-            playerCount.Show();
+            playerCount.ShowDialog();
 
-            for(int i = 0; i < LblPlayers.Count; i++)
+            for(int i = 0; i < NumberOfPlayers; i++)
             {
-                Players.Add(new PlayerViewModel());
+                PlayerViewModel.Players.Add(new PlayerViewModel());
 
                 //-----------------------------------------------------
                 Label myLabel = new Label();
 
                 // Create a source object (in this case, a simple class with a property)
-                PlayerViewModel myData = Players[i];
+                PlayerViewModel myData = PlayerViewModel.Players[i];
 
                 // Create a Binding object and set the path to the property you want to bind
-                Binding bindingRow = new Binding(Players[i].Row.ToString());
-                Binding bindingColumn = new Binding(Players[i].Column.ToString());
-                Binding bindingName = new Binding(Players[i].Name.ToString());
+                Binding bindingRow = new Binding("Row");
+                Binding bindingColumn = new Binding("Column");
+                Binding bindingName = new Binding("Name");
 
                 // Set the source of the binding to your data object
                 bindingRow.Source = myData;
@@ -80,22 +79,21 @@ namespace Monopoly
                 bindingName.Source = myData;
 
                 // Apply the binding to the Label's Content property
-                myLabel.SetBinding(Label.ContentProperty, bindingRow);
-                myLabel.SetBinding(Label.ContentProperty, bindingColumn);
+                myLabel.SetBinding(Label.ContentProperty, bindingName);
+                myLabel.SetBinding(Grid.RowProperty, bindingRow);
+                myLabel.SetBinding(Grid.ColumnProperty, bindingColumn);
+
                 //-----------------------------------------------------
 
-                Binding myBinding = new Binding();
-                myBinding.Source = Players[0];
+                //Label label = new Label();
 
-                Label label = new Label();
-
-                label.Content = Players[i].Name;
-                Grid.SetRow(label, Players[i].Row);
-                Grid.SetColumn(label, Players[i].Column);
+                //label.Content = Players[i].Name;
+                //Grid.SetRow(label, Players[i].Row);
+                //Grid.SetColumn(label, Players[i].Column);
                 
 
-                LblPlayers.Add(label);
-                BoardGrid.Children.Add(label);
+                LblPlayers.Add(myLabel);
+                BoardGrid.Children.Add(myLabel);
 
             };
         }

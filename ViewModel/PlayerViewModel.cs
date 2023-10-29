@@ -16,7 +16,10 @@ namespace Monopoly.ViewModel
     {
         public static int PVMcount = 0;
         public PlayerModel Player { get; set; }
+        public static PlayerViewModel CurrentPlayer = null;
         public static List<PlayerModel> PlayerModels = new List<PlayerModel>();
+        public static List<PlayerViewModel> Players = new List<PlayerViewModel>();
+
 
         //public static PlayerModel Player1 { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -28,7 +31,7 @@ namespace Monopoly.ViewModel
             set {
                 int x = (int)Player.Position.X;
                 x = value;
-                    OnPropertyChanged(nameof(Column));
+                OnPropertyChanged(nameof(Column));
             } 
         }
 
@@ -56,6 +59,8 @@ namespace Monopoly.ViewModel
             else point = new Point(3, 3);
             Player = new PlayerModel($"P{PVMcount}", point);
             PlayerModels.Add(Player);
+            Players.Add(this);
+            CurrentPlayer = Players[0];
         }
 
         public void MovePlayer(int column, int row)

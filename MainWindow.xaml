@@ -81,12 +81,5 @@
             Grid.ColumnSpan="2"
             Click="Button_Click"
             Content="Roll dice" />
-        <Label
-            x:Name="lblPlayer1"
-            Grid.Row="{Binding Row}"
-            Grid.Column="{Binding Column}"
-            Background="Aqua"
-            Content="{Binding Name}"
-            FontSize="16" />
     </Grid>
 </Window>
