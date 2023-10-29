@@ -9,38 +9,47 @@ using System.Windows;
 
 namespace Monopoly.ViewModel
 {
+    /// <summary>
+    /// <see cref="PlayerViewModel"/> controls the changes to <see cref="PlayerModel"/>'s poroperties and reflects those changes on <see cref="MainWindow"/>.
+    /// </summary>
     public class PlayerViewModel : INotifyPropertyChanged
     {
+        public static int PVMcount = 0;
+        public static PlayerModel CurrentPlayer { get; set; }
+        public static List<PlayerModel> PlayerModels { get; set; }
 
-        public static PlayerModel Player1 { get; set; }
+        //public static PlayerModel Player1 { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
         public int Column 
         { 
-            get { return Player1.Position[0];}
+            get { return (int)CurrentPlayer.Position.X;}
 
             set {
-                    Player1.Position[0] = value;
+                int x = (int)CurrentPlayer.Position.X;
+                x = value;
                     OnPropertyChanged(nameof(Column));
             } 
         }
 
         public int Row 
         { 
-            get { return Player1.Position[0]; }
+            get { return (int)CurrentPlayer.Position.Y; }
 
             set
             {
-                Player1.Position[1] = value;
+                int y = (int)CurrentPlayer.Position.Y;
+                y = value;
                 OnPropertyChanged(nameof(Row));
             }
         }
 
-        public string Name { get { return Player1.Name; } }
+        public string Name { get { return CurrentPlayer.Name; } }
 
         public PlayerViewModel()
         {
-            Player1 = new PlayerModel("Player1", new int[] {2,2});
+            PVMcount++;
+            PlayerModels.Add(new PlayerModel($"Player{PVMcount}", new Point(2,2)));
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -51,7 +60,7 @@ namespace Monopoly.ViewModel
         public void MovePlayer(int column, int row)
         {
             Column = column;
-            Player1.Position[1] = row;
+            Row = row;
         }
     }
 }

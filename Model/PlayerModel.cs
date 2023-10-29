@@ -13,9 +13,9 @@ namespace Monopoly.Model
     public class PlayerModel
     {
         public string Name { get; set; }
-        public int[] Position { get; set; }
+        public Point Position { get; set; }
 
-        public PlayerModel(string name, int[] position)
+        public PlayerModel(string name, Point position)
         { 
             Name = name;
             Position = position;

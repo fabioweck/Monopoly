@@ -22,19 +22,18 @@ namespace Monopoly
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        public PlayerViewModel Player { get; set; }
+        
 
         public MainWindow()
         {
             InitializeComponent();
-            Player = new PlayerViewModel();
-            lblPlayer1.DataContext = Player;
+            CurrentPlayer = new PlayerViewModel();
+            lblPlayer1.DataContext = CurrentPlayer;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            View.DieView dieView = new View.DieView(Player);
+            View.DieView dieView = new View.DieView(CurrentPlayer);
             dieView.Show();
             //Label dice = new Label();
             //dice.Content = "Die 1: 3, Die 2: 4. Move 7 places.";
@@ -48,7 +47,12 @@ namespace Monopoly
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Player.MovePlayer(3, 4);
+            CurrentPlayer.MovePlayer(3, 4);
+        }
+
+        public void HowManyPlayers()
+        {
+            MessageBox.Show("How Many Players?");
         }
     }
 }
