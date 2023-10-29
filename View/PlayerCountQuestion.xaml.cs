@@ -23,5 +23,37 @@ namespace Monopoly.View
         {
             InitializeComponent();
         }
+
+        private void NumberOfPlayers(object sender, RoutedEventArgs e)
+        {
+            Button button;
+            
+            try
+            {
+                button = (Button)sender;
+                switch (button.Content)
+                {
+                    case "2":
+                        MainWindow.NumberOfPlayers = 2;
+                        break;
+                    case "3":
+                        MainWindow.NumberOfPlayers = 3;
+                        break;
+                    case "4":
+                        MainWindow.NumberOfPlayers = 4;
+                        break;
+                    default:
+                        Application.Current.Shutdown();
+                        break;
+                }
+            }
+            catch(NotSupportedException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
+            this.Close();
+
+        }
     }
 }
