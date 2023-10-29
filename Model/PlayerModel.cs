@@ -20,5 +20,10 @@ namespace Monopoly.Model
             Name = name;
             Position = position;
         }
+
+        public override string ToString()
+        {
+            return $"{Name} :: {Position.X} . {Position.Y}";
+        }
     }
 }

@@ -60,7 +60,7 @@ namespace Monopoly
 
             for(int i = 0; i < NumberOfPlayers; i++)
             {
-                PlayerViewModel.Players.Add(new PlayerViewModel());
+                new PlayerViewModel();
 
                 //-----------------------------------------------------
                 Label myLabel = new Label();

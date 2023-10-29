@@ -15,21 +15,21 @@ namespace Monopoly.ViewModel
     public class PlayerViewModel : INotifyPropertyChanged
     {
         public static int PVMcount = 0;
+        public int instanceNumber = 0;
+
         public PlayerModel Player { get; set; }
         public static PlayerViewModel CurrentPlayer = null;
         public static List<PlayerModel> PlayerModels = new List<PlayerModel>();
         public static List<PlayerViewModel> Players = new List<PlayerViewModel>();
 
-
-        //public static PlayerModel Player1 { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
         public int Column 
         { 
-            get { return (int)Player.Position.X;}
+            get { return (int)PlayerModels[instanceNumber].Position.X;}
 
             set {
-                int x = (int)Player.Position.X;
+                int x = (int)PlayerModels[instanceNumber].Position.X;
                 x = value;
                 OnPropertyChanged(nameof(Column));
             } 
@@ -37,11 +37,11 @@ namespace Monopoly.ViewModel
 
         public int Row 
         { 
-            get { return (int)Player.Position.Y; }
+            get { return (int)PlayerModels[instanceNumber].Position.Y; }
 
             set
             {
-                int y = (int)Player.Position.Y;
+                int y = (int)PlayerModels[instanceNumber].Position.Y;
                 y = value;
                 OnPropertyChanged(nameof(Row));
             }
@@ -51,6 +51,7 @@ namespace Monopoly.ViewModel
 
         public PlayerViewModel()
         {
+            instanceNumber = PVMcount;
             PVMcount++;
             Point point; 
             if (PVMcount == 1) point = new Point(1, 1);
@@ -74,5 +75,9 @@ namespace Monopoly.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public override string ToString()
+        {
+            return $"{Name} :: {Row} . {Column}";
+        }
     }
 }
