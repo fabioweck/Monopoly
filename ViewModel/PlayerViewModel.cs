@@ -29,8 +29,8 @@ namespace Monopoly.ViewModel
             get { return (int)PlayerModels[instanceNumber].Position.X;}
 
             set {
-                int x = (int)PlayerModels[instanceNumber].Position.X;
-                x = value;
+                Point p = PlayerModels[instanceNumber].Position;
+                PlayerModels[instanceNumber].Position = new Point(p.X + value, p.Y);
                 OnPropertyChanged(nameof(Column));
             } 
         }
@@ -41,8 +41,8 @@ namespace Monopoly.ViewModel
 
             set
             {
-                int y = (int)PlayerModels[instanceNumber].Position.Y;
-                y = value;
+                Point p = PlayerModels[instanceNumber].Position;
+                PlayerModels[instanceNumber].Position = new Point(p.X, p.Y + value);
                 OnPropertyChanged(nameof(Row));
             }
         }
@@ -75,9 +75,10 @@ namespace Monopoly.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        // This is to assist in debugging:
         public override string ToString()
         {
-            return $"{Name} :: {Row} . {Column}";
+            return $"{Name} :: R{Row} | C{Column}";
         }
     }
 }

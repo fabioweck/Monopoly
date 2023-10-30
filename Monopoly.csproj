@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -56,9 +57,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\DieModel.cs" />
+    <Compile Include="Model\SpaceModel.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\DieViewModel.cs" />
     <Compile Include="ViewModel\ILogic.cs" />
     <Compile Include="ViewModel\PlayerViewModel.cs" />
+    <Compile Include="ViewModel\SpaceViewModel.cs" />
     <Compile Include="View\DieView.xaml.cs">
       <DependentUpon>DieView.xaml</DependentUpon>
     </Compile>
@@ -91,11 +99,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -114,7 +117,127 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="monopolyBoard.jpg" />
+    <Resource Include="Properties\Tile0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile01_Brown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile02_Chest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile03_Brown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile04_Tax.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile05_Rail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile06_Teal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile07_Chance.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile08_Teal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile09_Teal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile10_Visitor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile11_Pink.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile12_Light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile13_Pink.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile14_Pink.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile15_Rail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile19_Orange.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile20_Parking.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile21_Red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile22_Chance.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile23_Red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile24_Red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile25_Rail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile26_Yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile27_Yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile28_Water.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile29_Yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile30_GoToJail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile31_Green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile32_Green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile33_Chest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile34_Green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile35_Rail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile36_Chance.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile37_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile38_Tax.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile39_Blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\monopolyBoard.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile16_Orange.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile17_Chest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Properties\Tile18_Orange.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

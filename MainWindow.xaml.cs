@@ -30,8 +30,6 @@ namespace Monopoly
         public MainWindow()
         {
             InitializeComponent();
-            //Player1 = new PlayerViewModel();
-            //lblPlayer1.DataContext = CurrentPlayer;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

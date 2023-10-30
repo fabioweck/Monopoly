@@ -15,7 +15,7 @@
         Width="850"
         Height="850">
         <Grid.Background>
-            <ImageBrush ImageSource="/monopolyBoard.jpg" Stretch="Fill" />
+            <ImageBrush ImageSource="/Properties/monopolyBoard.jpg"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*" />
