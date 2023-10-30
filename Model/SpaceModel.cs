@@ -16,13 +16,10 @@ namespace Monopoly.Model
         public string Group { get; set; }
         public int Price { get; set; } = 0;
         public int[] Rent { get; set; } = { };
-
-
-
-
         public int HousePrice {  get; set; } = 0;
         public int Houses { get; set; } = 0;
         public Bitmap Image = null;
+        public PlayerModel Owner = null;
 
         public SpaceModel(string name, string description, string type, Bitmap img)
         {

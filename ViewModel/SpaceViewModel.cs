@@ -11,11 +11,37 @@ namespace Monopoly.ViewModel
     {
         public Dictionary<int, SpaceModel> spaceModels;
 
-        public void Action()
+
+        // Assign ownership of a property.
+        public void AddOwner(SpaceModel space, PlayerModel player)
+        {
+            space.Owner = player;
+        }
+
+        public void BuyProperty(SpaceModel space, PlayerModel player)
+        {
+            AddOwner(space, player);
+            player.Balance -= space.Price;
+        }
+
+        public void RemoveOwner(SpaceModel space, PlayerModel player)
+        {
+            space.Owner = null;
+        }
+
+        // Resolves what happens when the player lands on a space.
+        public void Resolve(SpaceModel space, PlayerModel player)
         {
             // What happens when the player lands here?
             // Depending on the Type
             // If it's a property, offer to buy - or pay rent to owner.
+            if (space.Type == "Property")
+            {
+                if (space.Owner == null)
+                {
+
+                }
+            }
             // If it's a Card, open a card.
             // If it's Jail, go to jail.
             // If it's Bank, resolve money exchange.
