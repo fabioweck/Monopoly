@@ -54,7 +54,6 @@ namespace Monopoly.Model
             ColumnSpan = columnSpan;
         }
 
-
         // For properties:
         public PropertyModel(string name, string description, Bitmap img, string group, int price, int housePrice, int rent0, int rent1, int rent2, int rent3, int rent4, int rent5, int row, int column, int rowSpan, int columnSpan) : base(name, description, img, row, column, rowSpan, columnSpan) 
         {

@@ -14,16 +14,19 @@ namespace Monopoly.ViewModel
     /// </summary>
     public class PlayerViewModel : INotifyPropertyChanged
     {
+        // Static Fields
         public static int PVMcount = 0;
-        public int instanceNumber = 0;
-
-        public PlayerModel Player { get; set; }
         public static PlayerViewModel CurrentPlayer = null;
         public static List<PlayerModel> PlayerModels = new List<PlayerModel>();
         public static List<PlayerViewModel> Players = new List<PlayerViewModel>();
 
+        // Member Fields
+        public int instanceNumber = 0;
+        public PlayerModel Player { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
+        // Member Properties
+        public string Name { get { return Player.Name; } }
         public int Column 
         { 
             get { return (int)PlayerModels[instanceNumber].Position.X;}
@@ -46,8 +49,6 @@ namespace Monopoly.ViewModel
                 OnPropertyChanged(nameof(Row));
             }
         }
-
-        public string Name { get { return Player.Name; } }
 
         public PlayerViewModel()
         {
@@ -75,7 +76,6 @@ namespace Monopoly.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        // This is to assist in debugging:
         public override string ToString()
         {
             return $"{Name} :: R{Row} | C{Column}";
