@@ -39,8 +39,7 @@ namespace Monopoly.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Moves += 1;
-            Player.MovePlayer(Moves*2, 2);
+            Player.MovePlayer(Moves);
             this.Close();
         }
     }

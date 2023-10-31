@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Monopoly.Model
 {
@@ -14,7 +15,7 @@ namespace Monopoly.Model
         public string Description { get; set; }
         public string Type { get; set; } = "Neutral";
         public Bitmap Image = null;
-        public int Row {  get; set; }
+        public int Row { get; set; }
         public int Column { get; set; }
         public int RowSpan { get; set; } = 2;
         public int ColumnSpan { get; set; } = 2;
@@ -43,6 +44,12 @@ namespace Monopoly.Model
             ColumnSpan = columnSpan;
         }
 
-
+        public static void ReadCard(SpaceModel sm)
+        {
+            if (sm.Type == "Card")
+            {
+                MessageBox.Show("Obtained a card");
+            }
+        }
     }
 }

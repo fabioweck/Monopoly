@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monopoly.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Drawing;
@@ -16,7 +17,7 @@ namespace Monopoly.Model
         public int[] Rent { get; set; } = { };
         public int HousePrice { get; set; } = 0;
         public int HousesBuilt { get; set; } = 0;
-        public PlayerModel Owner = null;
+        public PlayerViewModel Owner = null;
 
         // For Railroad companies:
         public PropertyModel(string name, string description, Bitmap img, int price, int rent0, int rent1, int rent2, int rent3, int row, int column, int rowSpan, int columnSpan) : base(name, description, img, row, column, rowSpan, columnSpan)

@@ -27,6 +27,7 @@ namespace Monopoly.ViewModel
 
         // Member Properties
         public string Name { get { return Player.Name; } }
+        public int Position { get; set; } = 0;
         public int Column 
         { 
             get { return (int)PlayerModels[instanceNumber].Position.X;}
@@ -65,10 +66,12 @@ namespace Monopoly.ViewModel
             CurrentPlayer = Players[0];
         }
 
-        public void MovePlayer(int column, int row)
+        public void MovePlayer(int spaces)
         {
-            Column = column;
-            Row = row;
+            int newPosition = Position + spaces;
+            var targetSpace = SpaceViewModel.spaceModels.Where(x => x.Key == newPosition);
+                Column = targetSpace.First().Value.Column;
+                Row = targetSpace.First().Value.Row;
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
