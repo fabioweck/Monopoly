@@ -69,7 +69,8 @@ namespace Monopoly.ViewModel
                     "Brown",                                            // Group
                     60,                                                 // Price to buy
                     50,                                                 // Cost per house
-                    2, 10, 30, 90, 160, 250);                           // Rent[]
+                    2, 10, 30, 90, 160, 250,                            // Rent[]
+                    1, 1, 3, 3);                             
             spaceModels.Add(1, sm1);
                 
             spaceModels.Add(2,
