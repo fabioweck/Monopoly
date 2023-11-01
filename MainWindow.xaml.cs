@@ -35,8 +35,9 @@ namespace Monopoly
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            View.DieView dieView = new View.DieView(PlayerViewModel.CurrentPlayer);
-            dieView.Show();
+            View.DieView dieView = new View.DieView();
+            dieView.ShowDialog();
+            PlayerViewModel.CurrentPlayer.MovePlayer(dieView.Roll);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

@@ -14,6 +14,9 @@ namespace Monopoly.ViewModel
     /// </summary>
     public class PlayerViewModel : INotifyPropertyChanged
     {
+        //Delegates
+        public delegate void Transaction(int amount);
+
         // Static Fields
         public static int PVMcount = 0;
         public static PlayerViewModel CurrentPlayer = null;
@@ -66,12 +69,22 @@ namespace Monopoly.ViewModel
             CurrentPlayer = Players[0];
         }
 
+        public void LapCompleted(int amount)
+        {
+            Player.Balance += amount;
+        }
+
+        public void ChangeBalance(Transaction transaction, int amount)
+        {
+            transaction(amount);
+        }
+
         public void MovePlayer(int spaces)
         {
             int newPosition = Position + spaces;
             if (newPosition > 39) { 
                 newPosition -= 39;
-                // toDo pay $200
+                ChangeBalance(LapCompleted, 200);
             }
             var targetSpace = SpaceViewModel.spaceModels[newPosition];
                 Column = targetSpace.Column;

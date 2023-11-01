@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,25 +23,24 @@ namespace Monopoly.View
     public partial class DieView : Window
     {
         public DieViewModel Dice {  get; set; }
-        public int Moves { get; set; }
-        public PlayerViewModel Player { get; set; }
+        public int Roll { get; set; }
 
-        public DieView(PlayerViewModel player)
+        public DieView()
         {
             
             InitializeComponent();
 
-            Player = player;
-
             Dice = new DieViewModel();
             int[] face = Dice.RollDice();
-            Moves = face[0] + face[1];
-            lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Move {Moves} places!";
+            Roll = face[0] + face[1];
+            lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Move {Roll} places!";
+            MovePlayerAndClose();
+
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void MovePlayerAndClose()
         {
-            Player.MovePlayer(Moves);
+            await Task.Delay(2000);
             this.Close();
         }
     }
