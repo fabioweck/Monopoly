@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Monopoly.Model
 {
-    internal class PropertyModel : SpaceModel 
+    public class PropertyModel : SpaceModel 
     {
         public string Group { get; set; }
         public int Price { get; set; } = 0;
-        public int[] Rent { get; set; } = { };
+        public int[] Rent { get; set; } = new int[6];
         public int HousePrice { get; set; } = 0;
         public int HousesBuilt { get; set; } = 0;
         public PlayerViewModel Owner = null;

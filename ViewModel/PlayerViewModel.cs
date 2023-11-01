@@ -34,7 +34,7 @@ namespace Monopoly.ViewModel
 
             set {
                 Point p = PlayerModels[instanceNumber].Position;
-                PlayerModels[instanceNumber].Position = new Point(p.X + value, p.Y);
+                PlayerModels[instanceNumber].Position = new Point(value, p.Y);
                 OnPropertyChanged(nameof(Column));
             } 
         }
@@ -46,7 +46,7 @@ namespace Monopoly.ViewModel
             set
             {
                 Point p = PlayerModels[instanceNumber].Position;
-                PlayerModels[instanceNumber].Position = new Point(p.X, p.Y + value);
+                PlayerModels[instanceNumber].Position = new Point(p.X, value);
                 OnPropertyChanged(nameof(Row));
             }
         }
@@ -69,9 +69,14 @@ namespace Monopoly.ViewModel
         public void MovePlayer(int spaces)
         {
             int newPosition = Position + spaces;
-            var targetSpace = SpaceViewModel.spaceModels.Where(x => x.Key == newPosition);
-                Column = targetSpace.First().Value.Column;
-                Row = targetSpace.First().Value.Row;
+            if (newPosition > 39) { 
+                newPosition -= 39;
+                // toDo pay $200
+            }
+            var targetSpace = SpaceViewModel.spaceModels[newPosition];
+                Column = targetSpace.Column;
+                Row = targetSpace.Row;
+            Position = newPosition;
         }
 
         protected virtual void OnPropertyChanged(string propertyName)

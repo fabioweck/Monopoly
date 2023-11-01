@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace Monopoly.Model
 {
-    internal class SpaceModel
+    public class SpaceModel
     {
         public string Name { get; set; }
         public string Description { get; set; }

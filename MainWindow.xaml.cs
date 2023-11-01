@@ -30,20 +30,13 @@ namespace Monopoly
         public MainWindow()
         {
             InitializeComponent();
+            SpaceViewModel.PopulateBoard();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             View.DieView dieView = new View.DieView(PlayerViewModel.CurrentPlayer);
             dieView.Show();
-            Label dice = new Label();
-            dice.Content = "Die 1: 3, Die 2: 4. Move 7 places.";
-            dice.FontSize = 20;
-            dice.Background = Brushes.White;
-            Grid.SetRow(dice, 5);
-            Grid.SetColumn(dice, 5);
-            Grid.SetColumnSpan(dice, 5);
-            BoardGrid.Children.Add(dice);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -80,6 +73,7 @@ namespace Monopoly
                 myLabel.SetBinding(Label.ContentProperty, bindingName);
                 myLabel.SetBinding(Grid.RowProperty, bindingRow);
                 myLabel.SetBinding(Grid.ColumnProperty, bindingColumn);
+                myLabel.Background = Brushes.Aqua;
 
                 //-----------------------------------------------------
 

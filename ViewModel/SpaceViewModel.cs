@@ -7,9 +7,14 @@ using System.Threading.Tasks;
 
 namespace Monopoly.ViewModel
 {
-    internal class SpaceViewModel
+    public class SpaceViewModel
     {
-        public static Dictionary<int, SpaceModel> spaceModels;
+        public static Dictionary<int, SpaceModel> spaceModels = new Dictionary<int, SpaceModel>();
+
+        public SpaceViewModel()
+        {
+
+        }
 
         // Assign ownership of a property.
         public void AddOwner(PropertyModel property, PlayerViewModel pvm)
@@ -56,7 +61,7 @@ namespace Monopoly.ViewModel
 
 
 
-        public void PopulateBoard()
+        public static void PopulateBoard()
         {
             spaceModels.Add(0,
                 new SpaceModel(
@@ -74,7 +79,7 @@ namespace Monopoly.ViewModel
                     60,                                                 // Price to buy
                     50,                                                 // Cost per house
                     2, 10, 30, 90, 160, 250,                            // Rent[]
-                    1, 5, 3, 2);                             
+                    1, 4, 3, 2);                             
             spaceModels.Add(1, sm1);
                 
             spaceModels.Add(2,
@@ -83,7 +88,7 @@ namespace Monopoly.ViewModel
                     "Community Chest Cards. Space #2",
                     "Card",
                     Properties.Resources.Tile02_Chest,
-                    1, 7, 3, 2));
+                    1, 6, 3, 2));
 
             SpaceModel sm3 = new PropertyModel(
                    "Baltic Avenue",                                     // Name
@@ -93,7 +98,7 @@ namespace Monopoly.ViewModel
                    60,                                                  // Price to buy
                    50,                                                  // Cost per house
                    4, 20, 60, 180, 320, 450,                            // Rent[]
-                   1, 9, 3, 2);
+                   1, 8, 3, 2);
             spaceModels.Add(3, sm3);                         
 
             spaceModels.Add(4,
@@ -102,7 +107,7 @@ namespace Monopoly.ViewModel
                     "Pay Taxes! Space#4",
                     "Bank",
                     Properties.Resources.Tile04_Tax,                         
-                    1, 11, 3, 2));
+                    1, 10, 3, 2));
 
             SpaceModel sm5 = new PropertyModel(
                     "Reading Railroad",                                 // Name
@@ -110,7 +115,7 @@ namespace Monopoly.ViewModel
                     Properties.Resources.Tile05_Rail,                   // Image
                     200,                                                // Price to buy
                     25, 50, 100, 200,                                   // Rent[]
-                   1, 13, 3, 2);
+                   1, 12, 3, 2);
             spaceModels.Add(5, sm5);
 
             SpaceModel sm6 = new PropertyModel(
@@ -121,7 +126,7 @@ namespace Monopoly.ViewModel
                     100,                                                // Price to buy
                     50,                                                 // Cost per house
                     6, 30, 90, 270, 400, 550,                           // Rent[]
-                    1, 15, 3, 2);
+                    1, 14, 3, 2);
             spaceModels.Add(6, sm6);
 
             spaceModels.Add(7,
@@ -130,7 +135,7 @@ namespace Monopoly.ViewModel
                     "Chance Cards. Space#7",
                     "Card",
                     Properties.Resources.Tile07_Chance,
-                   1, 17, 3, 2));
+                   1, 16, 3, 2));
 
             SpaceModel sm8 = new PropertyModel(
                     "Vermont Avenue",                                   // Name
@@ -140,7 +145,7 @@ namespace Monopoly.ViewModel
                     100,                                                // Price to buy
                     50,                                                 // Cost per house
                     6, 30, 90, 270, 400, 550,                           // Rent[]
-                    1, 19, 3, 2);
+                    1, 18, 3, 2);
             spaceModels.Add(8, sm8);
 
             SpaceModel sm9 = new PropertyModel(
@@ -151,7 +156,7 @@ namespace Monopoly.ViewModel
                     120,                                                // Price to buy
                     50,                                                 // Cost per House
                     8, 40, 100, 300, 450, 600,                          // Rent[]
-                    1, 21, 3, 2);
+                    1, 20, 3, 2);
             spaceModels.Add(9, sm9);                      
 
             spaceModels.Add(10,
@@ -160,7 +165,7 @@ namespace Monopoly.ViewModel
                     "You are just visiting. Space#10",
                     "Neutral",
                     Properties.Resources.Tile07_Chance,
-                   1, 23, 3, 3));
+                   1, 22, 3, 3));
 
             SpaceModel sm11 = new PropertyModel(
                     "St. Charles Place",                                // Name
@@ -170,16 +175,16 @@ namespace Monopoly.ViewModel
                     140,                                                // Price to buy
                     100,                                                // Cost per House
                     10, 50, 150, 450, 625, 750,                         // Rent[]
-                    4, 23, 2, 3);
+                    4, 22, 2, 3);
             spaceModels.Add(11,sm11);
 
             SpaceModel sm12 = new PropertyModel(
-                "Electric Company",
-                "Utility Company. Space#12",
-                Properties.Resources.Tile12_Light,
-                150,
-                4, 10,      // Multiply this by the dice roll
-                    6, 23, 2, 3);
+                    "Electric Company",
+                    "Utility Company. Space#12",
+                    Properties.Resources.Tile12_Light,
+                    150,
+                    4, 10,      // Multiply this by the dice roll
+                    6, 22, 2, 3);
             spaceModels.Add(12, sm12);
 
 
@@ -191,7 +196,7 @@ namespace Monopoly.ViewModel
                     140,                                                // Price to buy
                     100,                                                // Cost per House
                     10, 50, 150, 450, 625, 750,                         // Rent[]
-                    8, 23, 2, 3);
+                    8, 22, 2, 3);
             spaceModels.Add(13, sm13);
 
             SpaceModel sm14 = new PropertyModel(
@@ -202,7 +207,7 @@ namespace Monopoly.ViewModel
                     160,                                                // Price to buy
                     100,                                                // Cost per House
                     12, 60, 180, 500, 700, 900,                         // Rent[]
-                    1, 1, 2, 3);
+                    10, 22, 2, 3);
             spaceModels.Add(14, sm14);
 
             SpaceModel sm15 = new PropertyModel(
@@ -211,7 +216,7 @@ namespace Monopoly.ViewModel
                     Properties.Resources.Tile15_Rail,                   // Image
                     200,                                                // Price to buy
                     25, 50, 100, 200,                                   // Rent[]
-                    1, 1, 2, 3);
+                    12, 22, 2, 3);
             spaceModels.Add(15, sm15);
             
             SpaceModel sm16 = new PropertyModel(
@@ -222,7 +227,7 @@ namespace Monopoly.ViewModel
                     180,                                                // Price to buy
                     100,                                                // Cost per House
                     14, 70, 200, 550, 750, 950,                         // Rent[]
-                    1, 1, 2, 3);
+                    14, 22, 2, 3);
             spaceModels.Add(16, sm16);
 
             spaceModels.Add(17,
@@ -231,7 +236,7 @@ namespace Monopoly.ViewModel
                     "Community Chest Cards. Space #17",
                     "Card",
                     Properties.Resources.Tile17_Chest,                        
-                    1, 1, 2, 3));
+                    16, 22, 2, 3));
 
             SpaceModel sm18 = new PropertyModel(
                     "Tennessee Avenue",                                 // Name
@@ -241,7 +246,7 @@ namespace Monopoly.ViewModel
                     180,                                                // Price to buy
                     100,                                                // Cost per House
                     14, 70, 200, 550, 750, 950,                         // Rent[]
-                    1, 1, 2, 3);
+                    18, 22, 2, 3);
             spaceModels.Add(18, sm18);
 
             SpaceModel sm19 = new PropertyModel(
@@ -252,7 +257,7 @@ namespace Monopoly.ViewModel
                     200,                                                // Price to buy
                     100,                                                // Cost per House
                     16, 80, 220, 600, 800, 1000,                        // Rent[]
-                    1, 1, 2, 3);
+                    20, 22, 2, 3);
             spaceModels.Add(19, sm19);
             
             spaceModels.Add(20,
@@ -261,7 +266,7 @@ namespace Monopoly.ViewModel
                     "Free Parking. Space #20",
                     "Neutral",
                     Properties.Resources.Tile20_Parking,
-                   1, 1, 3, 3));
+                   22, 22, 3, 3));
 
             SpaceModel sm21 = new PropertyModel(
                     "Kentucky Avenue",                                  // Name
@@ -271,7 +276,7 @@ namespace Monopoly.ViewModel
                     220,                                                // Price to buy
                     150,                                                // Cost per House
                     18, 90, 250, 700, 875, 1050,                        // Rent[]
-                    1, 1, 3, 2);
+                    22, 20, 3, 2);
             spaceModels.Add(21, sm21);
 
             spaceModels.Add(22,
@@ -280,7 +285,7 @@ namespace Monopoly.ViewModel
                     "Chance Cards. Space#22",
                     "Card",
                     Properties.Resources.Tile22_Chance,
-                   1, 1, 3, 2));
+                   22, 18, 3, 2));
 
             SpaceModel sm23 = new PropertyModel(
                     "Indiana Avenue",                                   // Name
@@ -290,7 +295,7 @@ namespace Monopoly.ViewModel
                     220,                                                // Price to buy
                     150,                                                // Cost per House
                     18, 90, 250, 700, 875, 1050,                        // Rent[]
-                    1, 1, 3, 2);
+                    22, 16, 3, 2);
             spaceModels.Add(23, sm23);
 
             SpaceModel sm24 = new PropertyModel(
@@ -301,7 +306,7 @@ namespace Monopoly.ViewModel
                     240,                                                // Price to buy
                     150,                                                // Cost per House
                     20, 100, 300, 750, 925, 1100,                       // Rent[]
-                    1, 1, 3, 2);
+                    22, 14, 3, 2);
             spaceModels.Add(24, sm24);
 
             SpaceModel sm25 = new PropertyModel(
@@ -310,7 +315,7 @@ namespace Monopoly.ViewModel
                     Properties.Resources.Tile25_Rail,                   // Image
                     200,                                                // Price to buy
                     25, 50, 100, 200,                                   // Rent[]
-                    1, 1, 3, 2);
+                    22, 12, 3, 2);
             spaceModels.Add(25, sm25);
 
             SpaceModel sm26 = new PropertyModel(
@@ -321,7 +326,7 @@ namespace Monopoly.ViewModel
                     260,                                                // Price to buy
                     150,                                                // Cost per House
                     22, 110, 360, 800, 975, 1150,                       // Rent[]
-                    1, 1, 3, 2);
+                    22, 10, 3, 2);
             spaceModels.Add(26, sm26);
 
             SpaceModel sm27 = new PropertyModel(
@@ -332,7 +337,7 @@ namespace Monopoly.ViewModel
                     260,                                                // Price to buy
                     150,                                                // Cost per House
                     22, 110, 360, 800, 975, 1150,                       // Rent[]
-                    1, 1, 3, 2);
+                    22, 8, 3, 2);
             spaceModels.Add(27, sm27);
 
             SpaceModel sm28 = new PropertyModel(
@@ -341,7 +346,7 @@ namespace Monopoly.ViewModel
                     Properties.Resources.Tile28_Water,
                     150,
                     4, 10, // Multiply this by the dice roll
-                   1, 1, 3, 2);
+                   22, 6, 3, 2);
             spaceModels.Add(28, sm28);
 
             SpaceModel sm29 = new PropertyModel(
@@ -352,7 +357,7 @@ namespace Monopoly.ViewModel
                     280,                                                // Price to buy
                     150,                                                // Cost per House
                     24, 120, 360, 850, 1025, 1200,                      // Rent[]
-                    1, 1, 3, 2);
+                    22, 4, 3, 2);
             spaceModels.Add(29, sm29);
 
             spaceModels.Add(30,
@@ -361,7 +366,7 @@ namespace Monopoly.ViewModel
                     "Go to jail. Space#30",
                     "Jail",
                     Properties.Resources.Tile30_GoToJail,
-                   1, 1, 3, 3));
+                   22, 1, 3, 3));
 
             SpaceModel sm31 = new PropertyModel(
                     "Pacific Avenue",                                   // Name
@@ -371,7 +376,7 @@ namespace Monopoly.ViewModel
                     300,                                                // Price to buy
                     200,                                                // Cost per House
                     26, 130, 390, 900, 1100, 1275,                      // Rent[]
-                    1, 1, 2, 3);
+                    20, 1, 2, 3);
             spaceModels.Add(31, sm31);
 
             SpaceModel sm32 = new PropertyModel(
@@ -382,7 +387,7 @@ namespace Monopoly.ViewModel
                     300,                                                // Price to buy
                     200,                                                // Cost per House
                     26, 130, 390, 900, 1100, 1275,                      // Rent[]
-                    1, 1, 2, 3);
+                    18, 1, 2, 3);
             spaceModels.Add(32, sm32);
 
             spaceModels.Add(33,
@@ -391,7 +396,7 @@ namespace Monopoly.ViewModel
                     "Community Chest Cards. Space #33",
                     "Card",
                     Properties.Resources.Tile33_Chest,
-                   1, 1, 2, 3));
+                   16, 1, 2, 3));
 
             SpaceModel sm34 = new PropertyModel(
                     "Pennsylvania Avenue",                              // Name
@@ -401,7 +406,7 @@ namespace Monopoly.ViewModel
                     320,                                                // Price to buy
                     200,                                                // Cost per House
                     28, 150, 45, 1000, 1200, 1400,                      // Rent[]
-                    1, 1, 2, 3);
+                    14, 1, 2, 3);
             spaceModels.Add(34, sm34);
 
             SpaceModel sm35 = new PropertyModel(
@@ -410,7 +415,7 @@ namespace Monopoly.ViewModel
                     Properties.Resources.Tile35_Rail,                   // Image
                     200,                                                // Price to buy
                     25, 50, 100, 200,                                   // Rent[]
-                    1, 1, 2, 3);
+                    12, 1, 2, 3);
             spaceModels.Add(35, sm35);
 
             spaceModels.Add(36,
@@ -419,7 +424,7 @@ namespace Monopoly.ViewModel
                     "Chance Cards. Space#36",
                     "Card",
                     Properties.Resources.Tile36_Chance,
-                   1, 1, 2, 3));
+                   10, 1, 2, 3));
 
             SpaceModel sm37 = new PropertyModel(
                     "Park Place",                                       // Name
@@ -429,7 +434,7 @@ namespace Monopoly.ViewModel
                     350,                                                // Price to buy
                     200,                                                // Cost per House
                     35, 175, 500, 1100, 1300, 1500,                     // Rent[]
-                    1, 1, 2, 3);
+                    8, 1, 2, 3);
             spaceModels.Add(37, sm37);
 
             spaceModels.Add(38,
@@ -438,7 +443,7 @@ namespace Monopoly.ViewModel
                     "Pay Taxes! Space#38",
                     "Bank",
                     Properties.Resources.Tile38_Tax,
-                   1, 1, 2, 3));
+                   6, 1, 2, 3));
 
             SpaceModel sm39 = new PropertyModel(
                     "Boardwalk",                                        // Name
@@ -448,7 +453,7 @@ namespace Monopoly.ViewModel
                     400,                                                // Price to buy
                     200,                                                // Cost per House
                     50, 200, 600, 1400, 1700, 2000,                     // Rent[]
-                    1, 1, 2, 3);                                                     
+                    4, 1, 2, 3);                                                     
             spaceModels.Add(39, sm39);
         }
     }
