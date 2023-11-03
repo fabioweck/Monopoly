@@ -15,7 +15,7 @@
         Width="850"
         Height="850">
         <Grid.Background>
-            <ImageBrush ImageSource="/Properties/monopolyBoard.jpg"/>
+            <ImageBrush ImageSource="/Properties/monopolyBoard.jpg" Stretch="Fill"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.45*" />
@@ -88,5 +88,10 @@
                Grid.ColumnSpan="2"
                Background="Blue" />
         <Image />
+        <Image Grid.Column="23" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="100" Margin="0,23,0,0" Grid.RowSpan="4" Grid.Row="14" VerticalAlignment="Top" Width="100">
+            <Image.OpacityMask>
+                <ImageBrush/>
+            </Image.OpacityMask>
+        </Image>
     </Grid>
 </Window>

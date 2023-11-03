@@ -6,6 +6,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Monopoly.Model
 {
@@ -14,14 +16,23 @@ namespace Monopoly.Model
         public string Name { get; set; }
         public string Description { get; set; }
         public string Type { get; set; } = "Neutral";
-        public Bitmap Image = null;
+        public string Image = null;
+        public ImageSource ImgSrc
+        {
+            get
+            {
+                return new BitmapImage(new Uri($"pack://application:,,,/Images/{Image}.png"));
+            }
+        }
+
+            
         public int Row { get; set; }
         public int Column { get; set; }
         public int RowSpan { get; set; } = 2;
         public int ColumnSpan { get; set; } = 2;
 
 
-        public SpaceModel(string name, string description, string type, Bitmap img, int row, int column, int rowSpan, int columnSpan)
+        public SpaceModel(string name, string description, string type, string img, int row, int column, int rowSpan, int columnSpan)
         {
             Name = name;
             Description = description;
@@ -33,7 +44,7 @@ namespace Monopoly.Model
             ColumnSpan = columnSpan;
         }
 
-        public SpaceModel(string name, string description, Bitmap img, int row, int column, int rowSpan, int columnSpan)
+        public SpaceModel(string name, string description, string img, int row, int column, int rowSpan, int columnSpan)
         {
             Name = name;
             Description = description;

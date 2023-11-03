@@ -120,127 +120,127 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile0.png" />
+    <Resource Include="Images\Tile0.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile01_Brown.png" />
+    <Resource Include="Images\Tile01_Brown.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile02_Chest.png" />
+    <Resource Include="Images\Tile02_Chest.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile03_Brown.png" />
+    <Resource Include="Images\Tile03_Brown.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile04_Tax.png" />
+    <Resource Include="Images\Tile04_Tax.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile05_Rail.png" />
+    <Resource Include="Images\Tile05_Rail.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile06_Teal.png" />
+    <Resource Include="Images\Tile06_Teal.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile07_Chance.png" />
+    <Resource Include="Images\Tile07_Chance.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile08_Teal.png" />
+    <Resource Include="Images\Tile08_Teal.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile09_Teal.png" />
+    <Resource Include="Images\Tile09_Teal.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile10_Visitor.png" />
+    <Resource Include="Images\Tile10_Visitor.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile11_Pink.png" />
+    <Resource Include="Images\Tile11_Pink.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile12_Light.png" />
+    <Resource Include="Images\Tile12_Light.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile13_Pink.png" />
+    <Resource Include="Images\Tile13_Pink.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile14_Pink.png" />
+    <Resource Include="Images\Tile14_Pink.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile15_Rail.png" />
+    <Resource Include="Images\Tile15_Rail.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile19_Orange.png" />
+    <Resource Include="Images\Tile19_Orange.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile20_Parking.png" />
+    <Resource Include="Images\Tile20_Parking.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile21_Red.png" />
+    <Resource Include="Images\Tile21_Red.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile22_Chance.png" />
+    <Resource Include="Images\Tile22_Chance.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile23_Red.png" />
+    <Resource Include="Images\Tile23_Red.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile24_Red.png" />
+    <Resource Include="Images\Tile24_Red.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile25_Rail.png" />
+    <Resource Include="Images\Tile25_Rail.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile26_Yellow.png" />
+    <Resource Include="Images\Tile26_Yellow.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile27_Yellow.png" />
+    <Resource Include="Images\Tile27_Yellow.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile28_Water.png" />
+    <Resource Include="Images\Tile28_Water.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile29_Yellow.png" />
+    <Resource Include="Images\Tile29_Yellow.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile30_GoToJail.png" />
+    <Resource Include="Images\Tile30_GoToJail.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile31_Green.png" />
+    <Resource Include="Images\Tile31_Green.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile32_Green.png" />
+    <Resource Include="Images\Tile32_Green.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile33_Chest.png" />
+    <Resource Include="Images\Tile33_Chest.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile34_Green.png" />
+    <Resource Include="Images\Tile34_Green.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile35_Rail.png" />
+    <Resource Include="Images\Tile35_Rail.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile36_Chance.png" />
+    <Resource Include="Images\Tile36_Chance.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile37_Blue.png" />
+    <Resource Include="Images\Tile37_Blue.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile38_Tax.png" />
+    <Resource Include="Images\Tile38_Tax.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile39_Blue.png" />
+    <Resource Include="Images\Tile39_Blue.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Properties\monopolyBoard.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile16_Orange.png" />
+    <Resource Include="Images\Tile16_Orange.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile17_Chest.png" />
+    <Resource Include="Images\Tile17_Chest.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Properties\Tile18_Orange.png" />
+    <Resource Include="Images\Tile18_Orange.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -77,9 +77,16 @@ namespace Monopoly
                 myLabel.SetBinding(Label.ContentProperty, bindingName);
                 myLabel.SetBinding(Grid.RowProperty, bindingRow);
                 myLabel.SetBinding(Grid.ColumnProperty, bindingColumn);
-                myLabel.Background = Brushes.Aqua;
+
+
+                myLabel.Background = new SolidColorBrush(Color.FromRgb(200,200,250));
+
 
                 //-----------------------------------------------------
+
+                // Iterate through our dictionary and create data binding to properly display on View:
+
+                
 
                 //Label label = new Label();
 
@@ -91,7 +98,39 @@ namespace Monopoly
                 LblPlayers.Add(myLabel);
                 BoardGrid.Children.Add(myLabel);
 
-            };
+            }
+
+            foreach (var space in SpaceViewModel.spaceModels)
+            {
+                // Create a new control:
+                Image image = new Image();
+
+                // Create the data source:
+                SpaceModel sm = space.Value;
+
+                // Create the Binding objects to set the path to the properties:
+                Binding bindRow = new Binding("Row");
+                Binding bindCol = new Binding("Column");
+                Binding bindRowSpan = new Binding("RowSpan");
+                Binding bindColSpan = new Binding("ColumnSpan");
+                Binding bindImg = new Binding("ImgSrc");
+
+                // Set the source to the data source previously defined:
+                bindRow.Source = sm;
+                bindCol.Source = sm;
+                bindRowSpan.Source = sm;
+                bindColSpan.Source = sm;
+                bindImg.Source = sm;
+
+                // Apply the binding to the controls' properties:
+                image.SetBinding(Grid.RowProperty, bindRow);
+                image.SetBinding(Grid.ColumnProperty, bindCol);
+                image.SetBinding(Grid.RowSpanProperty, bindRowSpan);
+                image.SetBinding(Grid.ColumnSpanProperty, bindColSpan);
+                image.SetBinding(Image.SourceProperty, bindImg);
+                BoardGrid.Children.Add(image);
+
+            }
         }
 
         private void DrawSpaces()

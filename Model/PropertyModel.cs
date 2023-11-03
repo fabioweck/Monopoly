@@ -20,7 +20,7 @@ namespace Monopoly.Model
         public PlayerViewModel Owner = null;
 
         // For Railroad companies:
-        public PropertyModel(string name, string description, Bitmap img, int price, int rent0, int rent1, int rent2, int rent3, int row, int column, int rowSpan, int columnSpan) : base(name, description, img, row, column, rowSpan, columnSpan)
+        public PropertyModel(string name, string description, string img, int price, int rent0, int rent1, int rent2, int rent3, int row, int column, int rowSpan, int columnSpan) : base(name, description, img, row, column, rowSpan, columnSpan)
         {
             Type = "Property";
             Group = "Railroad";
@@ -39,7 +39,7 @@ namespace Monopoly.Model
         }
 
         // For Utility companies:
-        public PropertyModel(string name, string description, Bitmap img, int price, int rent0, int rent1, int row, int column, int rowSpan, int columnSpan) : base(name, description, img, row, column, rowSpan, columnSpan)
+        public PropertyModel(string name, string description, string img, int price, int rent0, int rent1, int row, int column, int rowSpan, int columnSpan) : base(name, description, img, row, column, rowSpan, columnSpan)
         {
             Type = "Property";
             Group = "Utility";
@@ -56,7 +56,7 @@ namespace Monopoly.Model
         }
 
         // For properties:
-        public PropertyModel(string name, string description, Bitmap img, string group, int price, int housePrice, int rent0, int rent1, int rent2, int rent3, int rent4, int rent5, int row, int column, int rowSpan, int columnSpan) : base(name, description, img, row, column, rowSpan, columnSpan) 
+        public PropertyModel(string name, string description, string img, string group, int price, int housePrice, int rent0, int rent1, int rent2, int rent3, int rent4, int rent5, int row, int column, int rowSpan, int columnSpan) : base(name, description, img, row, column, rowSpan, columnSpan) 
         {
             Type = "Property";
             Name = name;
