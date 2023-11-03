@@ -1,4 +1,5 @@
-﻿using Monopoly.View;
+﻿using Monopoly.Model;
+using Monopoly.View;
 using Monopoly.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,8 @@ namespace Monopoly
         {
             InitializeComponent();
             SpaceViewModel.PopulateBoard();
+            //CardView = new CardViewModel();
+            //Card1.DataContext = CardView;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -89,6 +92,14 @@ namespace Monopoly
                 BoardGrid.Children.Add(myLabel);
 
             };
+        }
+
+        private void DrawSpaces()
+        {
+            foreach(var space in SpaceViewModel.spaceModels)
+            {
+                
+            }
         }
     }
 }

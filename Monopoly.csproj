@@ -56,6 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\CardModel.cs" />
     <Compile Include="Model\DieModel.cs" />
     <Compile Include="Model\PropertyModel.cs" />
     <Compile Include="Model\SpaceModel.cs" />
@@ -64,6 +65,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\CardViewModel.cs" />
     <Compile Include="ViewModel\DieViewModel.cs" />
     <Compile Include="ViewModel\ILogic.cs" />
     <Compile Include="ViewModel\PlayerViewModel.cs" />

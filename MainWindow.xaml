@@ -81,5 +81,12 @@
             Grid.ColumnSpan="2"
             Click="Button_Click"
             Content="Roll dice" />
+        <Label x:Name="Card1"
+               Content="{Binding Description}"
+               Grid.Row="{Binding Row}"
+               Grid.Column="{Binding Column}"
+               Grid.ColumnSpan="2"
+               Background="Blue" />
+        <Image />
     </Grid>
 </Window>
