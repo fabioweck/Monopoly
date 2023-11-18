@@ -32,6 +32,7 @@ namespace Monopoly
         {
             InitializeComponent();
             SpaceViewModel.PopulateBoard();
+            LodgingViewModel.PopulateBoard();
             //CardView = new CardViewModel();
             //Card1.DataContext = CardView;
         }
@@ -131,6 +132,38 @@ namespace Monopoly
                 image.SetBinding(Grid.ColumnSpanProperty, bindColSpan);
                 image.SetBinding(Image.SourceProperty, bindImg);
                 BoardGrid.Children.Add(image);
+
+            }
+
+            foreach (var lodging in LodgingViewModel.LodgingModel)
+            {
+                // Create a new control:
+                Image lodgingImage = new Image();
+
+                // Create the data source:
+                LodgingModel lm = lodging.Value;
+
+                // Create the Binding objects to set the path to the properties:
+                Binding bindRow = new Binding("Row");
+                Binding bindCol = new Binding("Column");
+                Binding bindRowSpan = new Binding("RowSpan");
+                Binding bindColSpan = new Binding("ColumnSpan");
+                Binding bindImg = new Binding("ImgSrc");
+
+                // Set the source to the data source previously defined:
+                bindRow.Source = lm;
+                bindCol.Source = lm;
+                bindRowSpan.Source = lm;
+                bindColSpan.Source = lm;
+                bindImg.Source = lm;
+
+                // Apply the binding to the controls' properties:
+                lodgingImage.SetBinding(Grid.RowProperty, bindRow);
+                lodgingImage.SetBinding(Grid.ColumnProperty, bindCol);
+                lodgingImage.SetBinding(Grid.RowSpanProperty, bindRowSpan);
+                lodgingImage.SetBinding(Grid.ColumnSpanProperty, bindColSpan);
+                lodgingImage.SetBinding(Image.SourceProperty, bindImg);
+                BoardGrid.Children.Add(lodgingImage);
 
             }
         }

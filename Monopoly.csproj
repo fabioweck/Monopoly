@@ -59,6 +59,7 @@
     <Compile Include="Model\CardModel.cs" />
     <Compile Include="Model\DieModel.cs" />
     <Compile Include="Model\PropertyModel.cs" />
+    <Compile Include="Model\LodgingModel.cs" />
     <Compile Include="Model\SpaceModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -69,6 +70,7 @@
     <Compile Include="ViewModel\DieViewModel.cs" />
     <Compile Include="ViewModel\ILogic.cs" />
     <Compile Include="ViewModel\PlayerViewModel.cs" />
+    <Compile Include="ViewModel\LodgingViewModel.cs" />
     <Compile Include="ViewModel\SpaceViewModel.cs" />
     <Compile Include="View\DieView.xaml.cs">
       <DependentUpon>DieView.xaml</DependentUpon>
@@ -241,6 +243,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Tile18_Orange.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\hotel.png" />
+    <Resource Include="Images\house.png" />
+    <Resource Include="Images\house_double.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
