@@ -37,11 +37,12 @@ namespace Monopoly
             //Card1.DataContext = CardView;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void RollDice_Click(object sender, RoutedEventArgs e)
         {
             View.DieView dieView = new View.DieView();
             dieView.ShowDialog();
             PlayerViewModel.CurrentPlayer.MovePlayer(dieView.Roll);
+            PerformLogic();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -167,6 +168,37 @@ namespace Monopoly
 
             }
         }
+
+        public void PerformLogic()
+        {
+            CheckPlayerOverProperty();
+        }
+
+        public void CheckPlayerOverProperty()
+        {
+            PlayerViewModel currentPlayer = PlayerViewModel.CurrentPlayer;
+            var currentSpace = SpaceViewModel.spaceModels[PlayerViewModel.CurrentPlayer.Position];
+            
+            if(currentSpace.GetType() == typeof(PropertyModel))
+            {
+                PropertyModel property = (PropertyModel)currentSpace;
+                
+                MessageBoxResult result = MessageBox.Show($"Would you like to buy this property for ${property.Price}?", "Landed on a private property.", MessageBoxButton.YesNo);
+
+                if(result == MessageBoxResult.Yes)
+                {
+                    currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Price);
+                    property.Owner = PlayerViewModel.CurrentPlayer;
+                    P1balance.Content = "P1 balance: " + currentPlayer.Balance;
+                }
+                else
+                {
+                    currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Rent[0]);
+                    P1balance.Content = "P1 balance: " + currentPlayer.Balance;
+                }
+            }
+        }
+
     }
 }
 

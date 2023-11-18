@@ -54,6 +54,13 @@ namespace Monopoly.ViewModel
             }
         }
 
+        public int Balance
+        {
+            get { return PlayerModels[instanceNumber].Balance; }
+
+            set { PlayerModels[instanceNumber].Balance = value; OnPropertyChanged(nameof(Balance));}
+        }
+
         public PlayerViewModel()
         {
             instanceNumber = PVMcount;
