@@ -78,10 +78,11 @@ namespace Monopoly
                 myLabel.SetBinding(Grid.RowProperty, bindingRow);
                 myLabel.SetBinding(Grid.ColumnProperty, bindingColumn);
 
-
                 myLabel.Background = new SolidColorBrush(Color.FromRgb(200,200,250));
+                myLabel.Name = $"Player{i}";
 
-
+                Panel.SetZIndex(myLabel, 2);
+                
                 //-----------------------------------------------------
 
                 // Iterate through our dictionary and create data binding to properly display on View:
@@ -98,6 +99,7 @@ namespace Monopoly
                 LblPlayers.Add(myLabel);
                 BoardGrid.Children.Add(myLabel);
 
+                // TODO - Set Panel.Zindex on boardGrid (each player should have the ZIndex set to 1 or higher)
             }
 
             foreach (var space in SpaceViewModel.spaceModels)
@@ -130,14 +132,6 @@ namespace Monopoly
                 image.SetBinding(Image.SourceProperty, bindImg);
                 BoardGrid.Children.Add(image);
 
-            }
-        }
-
-        private void DrawSpaces()
-        {
-            foreach(var space in SpaceViewModel.spaceModels)
-            {
-                
             }
         }
     }

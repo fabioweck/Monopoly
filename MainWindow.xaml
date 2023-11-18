@@ -81,12 +81,6 @@
             Grid.ColumnSpan="2"
             Click="Button_Click"
             Content="Roll dice" />
-        <Label x:Name="Card1"
-               Content="{Binding Description}"
-               Grid.Row="{Binding Row}"
-               Grid.Column="{Binding Column}"
-               Grid.ColumnSpan="2"
-               Background="Blue" />
         <Image />
         <Image Grid.Column="23" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="100" Margin="0,23,0,0" Grid.RowSpan="4" Grid.Row="14" VerticalAlignment="Top" Width="100">
             <Image.OpacityMask>

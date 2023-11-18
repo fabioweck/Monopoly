@@ -89,7 +89,7 @@ namespace Monopoly.ViewModel
             var targetSpace = SpaceViewModel.spaceModels[newPosition];
                 Column = targetSpace.Column;
                 Row = targetSpace.Row;
-            Position = newPosition;
+                Position = newPosition;
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
