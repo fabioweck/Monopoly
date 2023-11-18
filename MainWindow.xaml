@@ -10,82 +10,82 @@
     SizeToContent="WidthAndHeight"
     mc:Ignorable="d"
     Loaded="HowManyPlayers">
-    <Grid
+	<Grid
         x:Name="BoardGrid"
         Width="850"
         Height="850">
-        <Grid.Background>
-            <ImageBrush ImageSource="/Properties/monopolyBoard.jpg" Stretch="Fill"/>
-        </Grid.Background>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.45*" />
-            <ColumnDefinition Width="1.13*" />
-            <ColumnDefinition Width="1.13*" />
-            <ColumnDefinition Width="1.13*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width=".97*" />
-            <ColumnDefinition Width="1.12*" />
-            <ColumnDefinition Width="1.12*" />
-            <ColumnDefinition Width="1.12*" />
-            <ColumnDefinition Width="0.45*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.45*" />
-            <RowDefinition Height="1.13*" />
-            <RowDefinition Height="1.13*" />
-            <RowDefinition Height="1.13*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height=".97*" />
-            <RowDefinition Height="1.13*" />
-            <RowDefinition Height="1.13*" />
-            <RowDefinition Height="1.13*" />
-            <RowDefinition Height="0.45*" />
-        </Grid.RowDefinitions>
-        <Button
+		<Grid.Background>
+			<ImageBrush ImageSource="/Properties/monopolyBoard.jpg" Stretch="Fill"/>
+		</Grid.Background>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="15*" />
+			<ColumnDefinition Width="38*" />
+			<ColumnDefinition Width="38*" />
+			<ColumnDefinition Width="38*" />
+			<ColumnDefinition Width="32*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="33*" />
+			<ColumnDefinition Width="38*" />
+			<ColumnDefinition Width="38*" />
+			<ColumnDefinition Width="38*" />
+			<ColumnDefinition Width="15*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="0.45*" />
+			<RowDefinition Height="1.13*" />
+			<RowDefinition Height="1.13*" />
+			<RowDefinition Height="1.13*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height=".97*" />
+			<RowDefinition Height="1.13*" />
+			<RowDefinition Height="1.13*" />
+			<RowDefinition Height="1.13*" />
+			<RowDefinition Height="0.45*" />
+		</Grid.RowDefinitions>
+		<Button
             x:Name="btnRollDice"
             Grid.Row="5"
             Grid.RowSpan="2"
             Grid.Column="5"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             Click="Button_Click"
-            Content="Roll dice" />
-        <Image />
-        <Image Grid.Column="23" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="100" Margin="0,23,0,0" Grid.RowSpan="4" Grid.Row="14" VerticalAlignment="Top" Width="100">
-            <Image.OpacityMask>
-                <ImageBrush/>
-            </Image.OpacityMask>
-        </Image>
-    </Grid>
+            Content="Roll dice" Margin="0,0,33,0" />
+		<Image Grid.ColumnSpan="2" Margin="0,0,38,0" />
+		<Image Grid.Column="22" Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="100" Margin="38,23,0,0" Grid.RowSpan="4" Grid.Row="14" VerticalAlignment="Top" Width="100">
+			<Image.OpacityMask>
+				<ImageBrush/>
+			</Image.OpacityMask>
+		</Image>
+	</Grid>
 </Window>

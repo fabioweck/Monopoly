@@ -79,9 +79,9 @@ namespace Monopoly.ViewModel
                     60,                                                 // Price to buy
                     50,                                                 // Cost per house
                     2, 10, 30, 90, 160, 250,                            // Rent[]
-                    1, 4, 3, 2);                             
+                    1, 4, 3, 2);
             spaceModels.Add(1, sm1);
-                
+
             spaceModels.Add(2,
                 new SpaceModel(
                     "Community Chest",
@@ -99,7 +99,7 @@ namespace Monopoly.ViewModel
                    50,                                                  // Cost per house
                    4, 20, 60, 180, 320, 450,                            // Rent[]
                    1, 8, 3, 2);
-            spaceModels.Add(3, sm3);                         
+            spaceModels.Add(3, sm3);
 
             spaceModels.Add(4,
                 new SpaceModel(
