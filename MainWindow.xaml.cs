@@ -42,7 +42,7 @@ namespace Monopoly
             View.DieView dieView = new View.DieView();
             dieView.ShowDialog();
             PlayerViewModel.CurrentPlayer.MovePlayer(dieView.Roll);
-            PerformLogic();
+            ResolveLogic();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -169,9 +169,12 @@ namespace Monopoly
             }
         }
 
-        public void PerformLogic()
+        // After rolling the dice, resolve game's logic:
+        public void ResolveLogic()
         {
             CheckPlayerOverProperty();
+
+            ChangePlayer();
         }
 
         public void CheckPlayerOverProperty()
@@ -197,6 +200,19 @@ namespace Monopoly
                     P1balance.Content = "P1 balance: " + currentPlayer.Balance;
                 }
             }
+        }
+
+        private static void ChangePlayer()
+        {
+            ;
+            if (PlayerViewModel.Players.IndexOf(PlayerViewModel.CurrentPlayer) >= PlayerViewModel.Players.Count - 1)
+                PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[0];
+            else
+            {
+                int _ind = PlayerViewModel.Players.IndexOf(PlayerViewModel.CurrentPlayer) + 1;
+                PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[_ind];
+            }
+            
         }
 
     }

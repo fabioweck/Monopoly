@@ -18,9 +18,16 @@ namespace Monopoly.ViewModel
         public delegate void Transaction(int amount);
 
         // Static Fields
+
+        // How many players are playing:
         public static int PVMcount = 0;
+
         public static PlayerViewModel CurrentPlayer = null;
+
+        // A list of our player models:
         public static List<PlayerModel> PlayerModels = new List<PlayerModel>();
+
+        // A list of our player view-models:
         public static List<PlayerViewModel> Players = new List<PlayerViewModel>();
 
         // Member Fields
@@ -90,7 +97,7 @@ namespace Monopoly.ViewModel
         {
             int newPosition = Position + spaces;
             if (newPosition > 39) { 
-                newPosition -= 39;
+                newPosition -= 40;
                 ChangeBalance(LapCompleted, 200);
             }
             var targetSpace = SpaceViewModel.spaceModels[newPosition];
