@@ -98,13 +98,40 @@
             </Image.OpacityMask>
         </Image>
         <Label
-            x:Name="P1balance"
-            Grid.Row="5"
-            Grid.Column="10"
+            x:Name="P1"
+            Grid.Row="4"
+            Grid.Column="7"
             Grid.ColumnSpan="5"
             Content="P1 balance: 1500"
             FontSize="16"
             FontWeight="Bold"
-            />
+            Visibility="Hidden" />
+        <Label
+            x:Name="P2"
+            Grid.Row="5"
+            Grid.Column="7"
+            Grid.ColumnSpan="5"
+            Content="P2 balance: 1500"
+            FontSize="16"
+            FontWeight="Bold"
+            Visibility="Hidden" />
+        <Label
+            x:Name="P3"
+            Grid.Row="4"
+            Grid.Column="12"
+            Grid.ColumnSpan="5"
+            Content="P3 balance: 1500"
+            FontSize="16"
+            FontWeight="Bold"
+            Visibility="Hidden" />
+        <Label
+            x:Name="P4"
+            Grid.Row="5"
+            Grid.Column="12"
+            Grid.ColumnSpan="5"
+            Content="P4 balance: 1500"
+            FontSize="16"
+            FontWeight="Bold"
+            Visibility="Hidden" />
     </Grid>
 </Window>
