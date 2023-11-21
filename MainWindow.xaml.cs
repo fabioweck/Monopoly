@@ -27,12 +27,16 @@ namespace Monopoly
 
         public static int NumberOfPlayers = 0;
         public List<Label> LblPlayers = new List<Label>();
+        public List<Label> LblPlayersBalance;
 
         public MainWindow()
         {
             InitializeComponent();
             SpaceViewModel.PopulateBoard();
             LodgingViewModel.PopulateBoard();
+
+            LblPlayersBalance = new List<Label>() { P1, P2, P3, P4 };
+
             //CardView = new CardViewModel();
             //Card1.DataContext = CardView;
         }
@@ -45,17 +49,12 @@ namespace Monopoly
             ResolveLogic();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            //CurrentPlayer.MovePlayer(3, 4);
-        }
-
         private void HowManyPlayers(object sender, EventArgs e)
         {
             PlayerCountQuestion playerCount = new PlayerCountQuestion();
             playerCount.ShowDialog();
 
-            for(int i = 0; i < NumberOfPlayers; i++)
+            for (int i = 0; i < NumberOfPlayers; i++)
             {
                 new PlayerViewModel();
 
@@ -80,28 +79,30 @@ namespace Monopoly
                 myLabel.SetBinding(Grid.RowProperty, bindingRow);
                 myLabel.SetBinding(Grid.ColumnProperty, bindingColumn);
 
-                myLabel.Background = new SolidColorBrush(Color.FromRgb(200,200,250));
+                myLabel.Background = new SolidColorBrush(Color.FromRgb(200, 200, 250));
                 myLabel.Name = $"Player{i}";
 
                 Panel.SetZIndex(myLabel, 2);
-                
+
                 //-----------------------------------------------------
 
                 // Iterate through our dictionary and create data binding to properly display on View:
 
-                
+
 
                 //Label label = new Label();
 
                 //label.Content = Players[i].Name;
                 //Grid.SetRow(label, Players[i].Row);
                 //Grid.SetColumn(label, Players[i].Column);
-                
+
 
                 LblPlayers.Add(myLabel);
                 BoardGrid.Children.Add(myLabel);
 
                 // TODO - Set Panel.Zindex on boardGrid (each player should have the ZIndex set to 1 or higher)
+
+                LblPlayersBalance[i].Visibility = Visibility.Visible;
             }
 
             foreach (var space in SpaceViewModel.spaceModels)
@@ -175,29 +176,56 @@ namespace Monopoly
             CheckPlayerOverProperty();
 
             ChangePlayer();
+
+            CheckBankruptcy();
         }
 
         public void CheckPlayerOverProperty()
         {
             PlayerViewModel currentPlayer = PlayerViewModel.CurrentPlayer;
             var currentSpace = SpaceViewModel.spaceModels[PlayerViewModel.CurrentPlayer.Position];
-            
-            if(currentSpace.GetType() == typeof(PropertyModel))
+
+            if (currentSpace.GetType() == typeof(PropertyModel))
             {
                 PropertyModel property = (PropertyModel)currentSpace;
-                
-                MessageBoxResult result = MessageBox.Show($"Would you like to buy this property for ${property.Price}?", "Landed on a private property.", MessageBoxButton.YesNo);
 
-                if(result == MessageBoxResult.Yes)
+                if (property.Owner == null)
                 {
-                    currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Price);
-                    property.Owner = PlayerViewModel.CurrentPlayer;
-                    P1balance.Content = "P1 balance: " + currentPlayer.Balance;
+                    MessageBoxResult result = MessageBox.Show($"Would you like to buy this property for ${property.Price}?", "Landed on a private property.", MessageBoxButton.YesNo);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Price);
+                        property.Owner = PlayerViewModel.CurrentPlayer;
+
+                        foreach (Label lbl in LblPlayersBalance)
+                        {
+                            if (lbl.Name == currentPlayer.Name)
+                            {
+                                lbl.Content = $"{currentPlayer.Name} balance: " + currentPlayer.Balance;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
                 else
                 {
                     currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Rent[0]);
-                    P1balance.Content = "P1 balance: " + currentPlayer.Balance;
+                    property.Owner.ChangeBalance(value => property.Owner.Balance += value, property.Rent[0]);
+                    foreach (Label lbl in LblPlayersBalance)
+                    {
+                        if (lbl.Name == currentPlayer.Name)
+                        {
+                            lbl.Content = $"{currentPlayer.Name} balance: " + currentPlayer.Balance;
+                        }
+                        if (lbl.Name == property.Owner.Name)
+                        {
+                            lbl.Content = $"{property.Owner.Name} balance: " + property.Owner.Balance;
+                        }
+                    }
                 }
             }
         }
@@ -212,9 +240,18 @@ namespace Monopoly
                 int _ind = PlayerViewModel.Players.IndexOf(PlayerViewModel.CurrentPlayer) + 1;
                 PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[_ind];
             }
-            
         }
 
+        public void CheckBankruptcy()
+        {
+            foreach(PlayerViewModel player in PlayerViewModel.Players)
+            {
+                if(player.Balance <= 0)
+                {
+                    MessageBox.Show($"{player.Name} went bankruptcy...");
+                }
+            }
+        }
     }
 }
 
