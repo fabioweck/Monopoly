@@ -232,7 +232,6 @@ namespace Monopoly
 
         private static void ChangePlayer()
         {
-            ;
             if (PlayerViewModel.Players.IndexOf(PlayerViewModel.CurrentPlayer) >= PlayerViewModel.Players.Count - 1)
                 PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[0];
             else
@@ -248,7 +247,7 @@ namespace Monopoly
             {
                 if(player.Balance <= 0)
                 {
-                    MessageBox.Show($"{player.Name} went bankruptcy...");
+                    MessageBox.Show($"{player.Name} has gone bankrupt...");
                 }
             }
         }
