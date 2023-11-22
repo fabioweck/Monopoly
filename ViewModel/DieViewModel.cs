@@ -22,6 +22,7 @@ namespace Monopoly.ViewModel
         {
             Random rnd = new Random();
             int[] randomNumber = { Die1.Faces[rnd.Next(1, 6)], Die1.Faces[rnd.Next(1, 6)] };
+
             return randomNumber;
         }
     }

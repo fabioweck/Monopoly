@@ -3,6 +3,7 @@ using Monopoly.View;
 using Monopoly.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
@@ -43,9 +44,23 @@ namespace Monopoly
 
         private void RollDice_Click(object sender, RoutedEventArgs e)
         {
-            View.DieView dieView = new View.DieView();
+            //Open dice window to roll dice
+            DieView dieView = new DieView();
             dieView.ShowDialog();
-            PlayerViewModel.CurrentPlayer.MovePlayer(dieView.Roll);
+
+            //Get the result
+            int move = dieView.Roll;
+
+            //If move is zero, it means that the player rolled dice and got 3 doubles
+            //Send the player to the jail
+            if (move != 0) PlayerViewModel.CurrentPlayer.MovePlayer(move);
+            else
+            {
+                GoToJail();
+                ChangePlayer();
+                return;
+            }
+
             ResolveLogic();
         }
 
@@ -180,19 +195,33 @@ namespace Monopoly
             CheckBankruptcy();
         }
 
-        public void CheckPlayerOverProperty()
+        //Check the player over properties and do the logic
+        public async void CheckPlayerOverProperty()
         {
+            
+            //Get both current player and current property
             PlayerViewModel currentPlayer = PlayerViewModel.CurrentPlayer;
             var currentSpace = SpaceViewModel.spaceModels[PlayerViewModel.CurrentPlayer.Position];
 
+            if(currentPlayer.Position == 30)
+            {
+                MessageBox.Show("Go to the jail...", ":(", MessageBoxButton.OK);
+                GoToJail();
+                return;
+            }
+            //Check if the space is a property
             if (currentSpace.GetType() == typeof(PropertyModel))
             {
+                //if yes, cast to Property type
                 PropertyModel property = (PropertyModel)currentSpace;
 
+                //Once the property has no owner, offer to buy it to the current player
                 if (property.Owner == null)
                 {
+
                     MessageBoxResult result = MessageBox.Show($"Would you like to buy this property for ${property.Price}?", "Landed on a private property.", MessageBoxButton.YesNo);
 
+                    //If the player wants to buy the property, pass the function to balance to perform the calculation
                     if (result == MessageBoxResult.Yes)
                     {
                         currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Price);
@@ -206,15 +235,21 @@ namespace Monopoly
                             }
                         }
                     }
-                    else
+                    else //Otherwise, do nothing
                     {
                         return;
                     }
                 }
                 else
                 {
+                    //If the player is the owner, do nothing OR add houses/hotel
+                    if (property.Owner == PlayerViewModel.CurrentPlayer) return;
+
+                    //If the player is not the owner, pass the functions to debit from current player and pay rent to the owner
                     currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Rent[0]);
                     property.Owner.ChangeBalance(value => property.Owner.Balance += value, property.Rent[0]);
+
+                    //Update their balance on the screen
                     foreach (Label lbl in LblPlayersBalance)
                     {
                         if (lbl.Name == currentPlayer.Name)
@@ -226,21 +261,27 @@ namespace Monopoly
                             lbl.Content = $"{property.Owner.Name} balance: " + property.Owner.Balance;
                         }
                     }
+
+                    //TODO - check 
                 }
             }
         }
 
+        //Call the next player to roll the dice
         private static void ChangePlayer()
         {
+            //If the player is the last in the list, call the first one
             if (PlayerViewModel.Players.IndexOf(PlayerViewModel.CurrentPlayer) >= PlayerViewModel.Players.Count - 1)
                 PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[0];
             else
             {
+                //If not the last, call the next player
                 int _ind = PlayerViewModel.Players.IndexOf(PlayerViewModel.CurrentPlayer) + 1;
                 PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[_ind];
             }
         }
 
+        //Check if any of the players if bankrupt after game logic
         public void CheckBankruptcy()
         {
             foreach(PlayerViewModel player in PlayerViewModel.Players)
@@ -248,7 +289,27 @@ namespace Monopoly
                 if(player.Balance <= 0)
                 {
                     MessageBox.Show($"{player.Name} has gone bankrupt...");
+
+                    //TODO - remove player and update status on screen (game over?)
                 }
+            }
+        }
+
+        public void GoToJail()
+        {
+            //Get both current player and current property
+            PlayerViewModel currentPlayer = PlayerViewModel.CurrentPlayer;
+
+            //If the player is behind position 10 (prison)
+            if(currentPlayer.Position < 10)
+            {
+                int move = 10 - currentPlayer.Position;
+                currentPlayer.MovePlayer(move);
+            }
+            else //If the player is ahead of position 10
+            {
+                int move = 10 - currentPlayer.Position + 40;
+                currentPlayer.MovePlayer(move);
             }
         }
     }

@@ -22,20 +22,48 @@ namespace Monopoly.View
     /// </summary>
     public partial class DieView : Window
     {
-        public DieViewModel Dice {  get; set; }
+        public DieViewModel Dice {  get; set; } = new DieViewModel();
         public int Roll { get; set; }
 
         public DieView()
         {
             
             InitializeComponent();
+            GetNumbers();
 
-            Dice = new DieViewModel();
-            int[] face = Dice.RollDice();
-            Roll = face[0] + face[1];
-            lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Move {Roll} places!";
-            MovePlayerAndClose();
+        }
 
+        private async void GetNumbers()
+        {
+            int countDouble = 0;
+            while(true)
+            {
+                int[] face = Dice.RollDice();
+
+                if (face[0] == face[1])
+                {
+                    countDouble++;
+                    if (countDouble == 3)
+                    {
+                        lblDiceResult.Content = $"You got 3 doubles. Go to the prison...";
+                        MovePlayerAndClose();
+                        Roll = 0;
+                        break;
+                    }
+
+                    lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Double! Roll dice again...";
+                    await Task.Delay(2000);
+                    continue;
+                }
+                else
+                {
+                    Roll = face[0] + face[1];
+                    lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Move {Roll} places!";
+                    MovePlayerAndClose();
+                    break;
+                } 
+            }
+            
         }
 
         private async void MovePlayerAndClose()
