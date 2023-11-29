@@ -14,7 +14,7 @@ namespace Monopoly.Model
     {
         public string Name { get; set; }
         public Point Position { get; set; }
-        public int Balance { get; set; } = 1500;
+        public int Balance { get; set; } = 150000;
 
         public PlayerModel(string name, Point position)
         { 
