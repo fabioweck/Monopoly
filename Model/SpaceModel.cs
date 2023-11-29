@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography;
@@ -17,6 +18,16 @@ namespace Monopoly.Model
         public string Description { get; set; }
         public string Type { get; set; } = "Neutral";
         public string Image = null;
+        private string v1;
+        private string v2;
+        private string v3;
+        private string v4;
+        private int v5;
+        private int v6;
+        private int v7;
+        private int v8;
+        private string img;
+
         public ImageSource ImgSrc
         {
             get
@@ -30,9 +41,11 @@ namespace Monopoly.Model
         public int Column { get; set; }
         public int RowSpan { get; set; } = 2;
         public int ColumnSpan { get; set; } = 2;
+        public int SpaceNumber { get; set; }
 
 
-        public SpaceModel(string name, string description, string type, string img, int row, int column, int rowSpan, int columnSpan)
+
+        public SpaceModel(string name, string description, string type, string img, int row, int column, int rowSpan, int columnSpan, int spaceNumber)
         {
             Name = name;
             Description = description;
@@ -42,13 +55,26 @@ namespace Monopoly.Model
             Column = column;
             RowSpan = rowSpan;
             ColumnSpan = columnSpan;
+            SpaceNumber = spaceNumber;
+        }
+
+        public SpaceModel(string name, string description, string img, int row, int column, int rowSpan, int columnSpan, int spaceNumber)
+        {
+            Name = name;
+            Description = description;
+            Image = img;
+            Row = row;
+            Column = column;
+            RowSpan = rowSpan;
+            ColumnSpan = columnSpan;
+            SpaceNumber = spaceNumber;
         }
 
         public SpaceModel(string name, string description, string img, int row, int column, int rowSpan, int columnSpan)
         {
             Name = name;
             Description = description;
-            Image = img;
+            this.img = img;
             Row = row;
             Column = column;
             RowSpan = rowSpan;
@@ -62,5 +88,13 @@ namespace Monopoly.Model
                 MessageBox.Show("Obtained a card");
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }

@@ -10,6 +10,8 @@ namespace Monopoly.ViewModel
     public class SpaceViewModel
     {
         public static Dictionary<int, SpaceModel> spaceModels = new Dictionary<int, SpaceModel>();
+        public static Dictionary<int, PlayerViewModel> spaceOwners = new Dictionary<int, PlayerViewModel>();
+
 
         public SpaceViewModel()
         {
@@ -20,18 +22,31 @@ namespace Monopoly.ViewModel
         public void AddOwner(PropertyModel property, PlayerViewModel pvm)
         {
             property.Owner = pvm;
+            spaceOwners[property.SpaceNumber] = pvm;
         }
 
         public void BuyProperty(PropertyModel property, PlayerViewModel pvm)
         {
             AddOwner(property, pvm);
+            property.OwnerName = pvm.Name;
             pvm.Player.Balance -= property.Price;
         }
 
         public void RemoveOwner(PropertyModel property, PlayerViewModel pvm)
         {
             property.Owner = null;
+            spaceOwners.Remove(property.SpaceNumber);
         }
+
+
+        public PlayerViewModel GetOwner(int spaceNumber)
+    {
+        if (spaceOwners.ContainsKey(spaceNumber))
+        {
+            return spaceOwners[spaceNumber];
+        }
+        return null;
+    }
 
         // Resolves what happens when the player lands on a space.
         public void Resolve(PropertyModel property, PlayerViewModel pvm)
@@ -69,7 +84,7 @@ namespace Monopoly.ViewModel
                     "Starting point. Pass here to receive $200.",
                     "Neutral", // Neutral because the money is earned when we pass, not when we land.
                     "Tile0",                          
-                   1, 1, 3, 3));
+                   1, 1, 3, 3, 0));
 
             SpaceModel sm1 = new PropertyModel(
                     "Meditarranean Avenue",                             // Name
@@ -88,7 +103,7 @@ namespace Monopoly.ViewModel
                     "Community Chest Cards. Space #2",
                     "Card",
                     "Tile02_Chest",
-                    1, 6, 3, 2));
+                    1, 6, 3, 2, 1));
 
             SpaceModel sm3 = new PropertyModel(
                    "Baltic Avenue",                                     // Name
@@ -107,7 +122,7 @@ namespace Monopoly.ViewModel
                     "Pay Taxes! Space#4",
                     "Bank",
                     "Tile04_Tax",                         
-                    1, 10, 3, 2));
+                    1, 10, 3, 2, 2));
 
             SpaceModel sm5 = new PropertyModel(
                     "Reading Railroad",                                 // Name
@@ -135,7 +150,7 @@ namespace Monopoly.ViewModel
                     "Chance Cards. Space#7",
                     "Card",
                     "Tile07_Chance",
-                   1, 16, 3, 2));
+                   1, 16, 3, 2, 3));
 
             SpaceModel sm8 = new PropertyModel(
                     "Vermont Avenue",                                   // Name
@@ -165,7 +180,7 @@ namespace Monopoly.ViewModel
                     "You are just visiting. Space#10",
                     "Neutral",
                     "Tile10_Visitor",
-                   1, 22, 3, 3));
+                   1, 22, 3, 3, 4));
 
             SpaceModel sm11 = new PropertyModel(
                     "St. Charles Place",                                // Name
@@ -236,7 +251,7 @@ namespace Monopoly.ViewModel
                     "Community Chest Cards. Space #17",
                     "Card",
                     "Tile17_Chest",                        
-                    16, 22, 2, 3));
+                    16, 22, 2, 3, 5));
 
             SpaceModel sm18 = new PropertyModel(
                     "Tennessee Avenue",                                 // Name
@@ -266,7 +281,7 @@ namespace Monopoly.ViewModel
                     "Free Parking. Space #20",
                     "Neutral",
                     "Tile20_Parking",
-                   22, 22, 3, 3));
+                   22, 22, 3, 3, 6));
 
             SpaceModel sm21 = new PropertyModel(
                     "Kentucky Avenue",                                  // Name
@@ -285,7 +300,7 @@ namespace Monopoly.ViewModel
                     "Chance Cards. Space#22",
                     "Card",
                     "Tile22_Chance",
-                   22, 18, 3, 2));
+                   22, 18, 3, 2, 7));
 
             SpaceModel sm23 = new PropertyModel(
                     "Indiana Avenue",                                   // Name
@@ -366,7 +381,7 @@ namespace Monopoly.ViewModel
                     "Go to jail. Space#30",
                     "Jail",
                     "Tile30_GoToJail",
-                   22, 1, 3, 3));
+                   22, 1, 3, 3, 8));
 
             SpaceModel sm31 = new PropertyModel(
                     "Pacific Avenue",                                   // Name
@@ -396,7 +411,7 @@ namespace Monopoly.ViewModel
                     "Community Chest Cards. Space #33",
                     "Card",
                     "Tile33_Chest",
-                   16, 1, 2, 3));
+                   16, 1, 2, 3, 9));
 
             SpaceModel sm34 = new PropertyModel(
                     "Pennsylvania Avenue",                              // Name
@@ -424,7 +439,7 @@ namespace Monopoly.ViewModel
                     "Chance Cards. Space#36",
                     "Card",
                     "Tile36_Chance",
-                   10, 1, 2, 3));
+                   10, 1, 2, 3, 10));
 
             SpaceModel sm37 = new PropertyModel(
                     "Park Place",                                       // Name
@@ -443,7 +458,7 @@ namespace Monopoly.ViewModel
                     "Pay Taxes! Space#38",
                     "Bank",
                     "Tile38_Tax",
-                   6, 1, 2, 3));
+                   6, 1, 2, 3, 11));
 
             SpaceModel sm39 = new PropertyModel(
                     "Boardwalk",                                        // Name
