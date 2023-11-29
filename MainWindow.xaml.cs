@@ -64,6 +64,24 @@ namespace Monopoly
             ResolveLogic();
         }
 
+        private SolidColorBrush GetPlayerColor(int instanceNumber)
+        {
+            switch (instanceNumber)
+            {
+                case 0: // Player 1
+                    return new SolidColorBrush(Color.FromRgb(0, 102, 204));
+                case 1: // Player 2
+                    return new SolidColorBrush(Color.FromRgb(255, 140, 0));
+                case 2: // Player 3
+                    return new SolidColorBrush(Color.FromRgb(255, 69, 0)); 
+                case 3: // Player 4
+                    return new SolidColorBrush(Color.FromRgb(34, 139, 34)); 
+                default:
+                    return new SolidColorBrush(Colors.Gray);
+            }
+        }
+
+
         private void HowManyPlayers(object sender, EventArgs e)
         {
             PlayerCountQuestion playerCount = new PlayerCountQuestion();
@@ -94,7 +112,10 @@ namespace Monopoly
                 myLabel.SetBinding(Grid.RowProperty, bindingRow);
                 myLabel.SetBinding(Grid.ColumnProperty, bindingColumn);
 
-                myLabel.Background = new SolidColorBrush(Color.FromRgb(200, 200, 250));
+                SolidColorBrush playerColorBrush = GetPlayerColor(myData.instanceNumber);
+                myLabel.Background = new SolidColorBrush(playerColorBrush.Color); 
+
+
                 myLabel.Name = $"Player{i}";
 
                 Panel.SetZIndex(myLabel, 2);
@@ -202,8 +223,9 @@ namespace Monopoly
             //Get both current player and current property
             PlayerViewModel currentPlayer = PlayerViewModel.CurrentPlayer;
             var currentSpace = SpaceViewModel.spaceModels[PlayerViewModel.CurrentPlayer.Position];
+            SolidColorBrush playerColorBrush = new SolidColorBrush();
 
-            if(currentPlayer.Position == 30)
+            if (currentPlayer.Position == 30)
             {
                 MessageBox.Show("Go to the jail...", ":(", MessageBoxButton.OK);
                 GoToJail();
@@ -227,6 +249,78 @@ namespace Monopoly
                         currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Price);
                         property.Owner = PlayerViewModel.CurrentPlayer;
 
+                        // Create a label for the property
+                        Label propertyLabel = new Label();
+                        propertyLabel.Content = property.Owner.Name;
+                        propertyLabel.FontSize = 12;
+                        propertyLabel.FontWeight = FontWeights.Bold;
+
+                        // Set the Grid row and column
+                        //Top
+                        if(property.Row >= 0 && property.Row <= 3 && property.Column >= 0 && property.Column <= 21)
+                        {
+                            propertyLabel.SetValue(Grid.RowProperty, property.Row + 3);
+                            propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
+                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+                        }
+                        //Right
+                        if (property.Row >= 4 && property.Row <= 21 && property.Column >= 22 && property.Column <= 24)
+                        {
+                            propertyLabel.SetValue(Grid.RowProperty, property.Row);
+                            propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
+                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+                        }
+                        //Bottom
+                        if (property.Row >= 22 && property.Row <= 24 && property.Column >= 0 && property.Column <= 21)
+                        {
+                            propertyLabel.SetValue(Grid.RowProperty, property.Row - 1);
+                            propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
+                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+                        }
+                        //Left
+                        if (property.Row >= 0 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
+                        {
+                            propertyLabel.SetValue(Grid.RowProperty, property.Row);
+                            propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
+                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+                        }
+                        //Left-top corner
+                        if (property.Row >= 4 && property.Row <= 5 && property.Column >= 0 && property.Column <= 3)
+                        {
+                            propertyLabel.SetValue(Grid.RowProperty, 5);
+                            propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
+                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+                        }
+                        //Left-bottom corner
+                        if (property.Row >= 20 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
+                        {
+                            propertyLabel.SetValue(Grid.RowProperty, 20);
+                            propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
+                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+                        }
+                        //Right-top corner
+                        if (property.Row >= 4 && property.Row <= 5 && property.Column >= 22 && property.Column <= 24)
+                        {
+                            propertyLabel.SetValue(Grid.RowProperty, 5);
+                            propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
+                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+                        }
+
+                        // Label with the same color of the player
+                        propertyLabel.Foreground = GetPlayerColor(PlayerViewModel.CurrentPlayer.instanceNumber);
+                        Console.WriteLine(playerColorBrush.Color.ToString());
+
+                        // Add the label to the Grid
+                        BoardGrid.Children.Add(propertyLabel);
+
+                        //Update balance on panel
                         foreach (Label lbl in LblPlayersBalance)
                         {
                             if (lbl.Name == currentPlayer.Name)

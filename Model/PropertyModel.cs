@@ -17,7 +17,26 @@ namespace Monopoly.Model
         public int[] Rent { get; set; } = new int[6];
         public int HousePrice { get; set; } = 0;
         public int HousesBuilt { get; set; } = 0;
-        public PlayerViewModel Owner = null;
+
+        private string ownerName;
+
+        private PlayerViewModel _owner;
+        public string OwnerName
+        {
+            get { return ownerName; }
+            set
+            {
+                ownerName = value;
+                OnPropertyChanged(nameof(OwnerName));
+            }
+        }
+
+        public PlayerViewModel Owner
+        {
+            get { return _owner; }
+            set { _owner = value; /* Add any additional logic if needed */ }
+        }
+
 
         // For Railroad companies:
         public PropertyModel(string name, string description, string img, int price, int rent0, int rent1, int rent2, int rent3, int row, int column, int rowSpan, int columnSpan) : base(name, description, img, row, column, rowSpan, columnSpan)

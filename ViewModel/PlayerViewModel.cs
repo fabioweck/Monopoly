@@ -113,7 +113,7 @@ namespace Monopoly.ViewModel
 
         public override string ToString()
         {
-            return $"{Name} :: R{Row} | C{Column}";
+            return $"{Name} :: R{Row} | C{Column} :: B{Balance}";
         }
     }
 }
