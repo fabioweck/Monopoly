@@ -115,5 +115,21 @@ namespace Monopoly.ViewModel
         {
             return $"{Name} :: R{Row} | C{Column} :: B{Balance}";
         }
+
+        public static void GoToJail()
+        {
+
+            //If the player is behind position 10 (prison)
+            if (PlayerViewModel.CurrentPlayer.Position < 10)
+            {
+                int move = 10 - PlayerViewModel.CurrentPlayer.Position;
+                PlayerViewModel.CurrentPlayer.MovePlayer(move);
+            }
+            else //If the player is ahead of position 10
+            {
+                int move = 10 - PlayerViewModel.CurrentPlayer.Position + 40;
+                PlayerViewModel.CurrentPlayer.MovePlayer(move);
+            }
+        }
     }
 }

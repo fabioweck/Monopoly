@@ -56,7 +56,7 @@ namespace Monopoly
             if (move != 0) PlayerViewModel.CurrentPlayer.MovePlayer(move);
             else
             {
-                GoToJail();
+                PlayerViewModel.GoToJail();
                 ChangePlayer();
                 return;
             }
@@ -64,7 +64,7 @@ namespace Monopoly
             ResolveLogic();
         }
 
-        private SolidColorBrush GetPlayerColor(int instanceNumber)
+        public static SolidColorBrush GetPlayerColor(int instanceNumber)
         {
             switch (instanceNumber)
             {
@@ -177,162 +177,11 @@ namespace Monopoly
         // After rolling the dice, resolve game's logic:
         public void ResolveLogic()
         {
-            CheckPlayerOverProperty();
+            SpaceViewModel.Resolve(BoardGrid, LblPlayersBalance, AddLodgingToBoard);
 
             ChangePlayer();
 
             CheckBankruptcy();
-        }
-
-        //Check the player over properties and do the logic
-        public async void CheckPlayerOverProperty()
-        {
-            
-            //Get both current player and current property
-            PlayerViewModel currentPlayer = PlayerViewModel.CurrentPlayer;
-            var currentSpace = SpaceViewModel.spaceModels[PlayerViewModel.CurrentPlayer.Position];
-            SolidColorBrush playerColorBrush = new SolidColorBrush();
-
-            if (currentPlayer.Position == 30)
-            {
-                MessageBox.Show("Go to the jail...", ":(", MessageBoxButton.OK);
-                GoToJail();
-                return;
-            }
-            //Check if the space is a property
-            if (currentSpace.GetType() == typeof(PropertyModel))
-            {
-                //if yes, cast to Property type
-                PropertyModel property = (PropertyModel)currentSpace;
-
-                //Once the property has no owner, offer to buy it to the current player
-                if (property.Owner == null)
-                {
-                    
-                    MessageBoxResult result = MessageBox.Show($"Would you like to buy this property for ${property.Price}?", "Landed on a private property.", MessageBoxButton.YesNo);
-
-                    //If the player wants to buy the property, pass the function to balance to perform the calculation
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Price);
-                        property.Owner = PlayerViewModel.CurrentPlayer;
-
-                        // Create a label for the property
-                        Label propertyLabel = new Label();
-                        propertyLabel.Content = property.Owner.Name;
-                        propertyLabel.FontSize = 12;
-                        propertyLabel.FontWeight = FontWeights.Bold;
-
-                        // Set the Grid row and column
-                        //Top
-                        if(property.Row >= 0 && property.Row <= 3 && property.Column >= 0 && property.Column <= 21)
-                        {
-                            propertyLabel.SetValue(Grid.RowProperty, property.Row + 3);
-                            propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
-                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                        }
-                        //Right
-                        if (property.Row >= 4 && property.Row <= 21 && property.Column >= 22 && property.Column <= 24)
-                        {
-                            propertyLabel.SetValue(Grid.RowProperty, property.Row);
-                            propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
-                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                        }
-                        //Bottom
-                        if (property.Row >= 22 && property.Row <= 24 && property.Column >= 0 && property.Column <= 21)
-                        {
-                            propertyLabel.SetValue(Grid.RowProperty, property.Row - 1);
-                            propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
-                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                        }
-                        //Left
-                        if (property.Row >= 0 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
-                        {
-                            propertyLabel.SetValue(Grid.RowProperty, property.Row);
-                            propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                        }
-                        //Left-top corner
-                        if (property.Row >= 4 && property.Row <= 5 && property.Column >= 0 && property.Column <= 3)
-                        {
-                            propertyLabel.SetValue(Grid.RowProperty, 5);
-                            propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                        }
-                        //Left-bottom corner
-                        if (property.Row >= 20 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
-                        {
-                            propertyLabel.SetValue(Grid.RowProperty, 20);
-                            propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                        }
-                        //Right-top corner
-                        if (property.Row >= 4 && property.Row <= 5 && property.Column >= 22 && property.Column <= 24)
-                        {
-                            propertyLabel.SetValue(Grid.RowProperty, 5);
-                            propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
-                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                        }
-
-                        // Label with the same color of the player
-                        propertyLabel.Foreground = GetPlayerColor(PlayerViewModel.CurrentPlayer.instanceNumber);
-                        Console.WriteLine(playerColorBrush.Color.ToString());
-
-                        // Add the label to the Grid
-                        BoardGrid.Children.Add(propertyLabel);
-
-                        // Add a house to the board (Check if the property is a Railroad or Utility, and if so, do not add a house)
-                        if (property.Group != "Railroad" && property.Group != "Utility")
-                        {
-                            AddLodgingToBoard(property);
-                        }
-
-                        //Update balance on panel
-                        foreach (Label lbl in LblPlayersBalance)
-                        {
-                            if (lbl.Name == currentPlayer.Name)
-                            {
-                                lbl.Content = $"{currentPlayer.Name} balance: " + currentPlayer.Balance;
-                            }
-                        }
-                    }
-                    else //Otherwise, do nothing
-                    {
-                        return;
-                    }
-                }
-                else
-                {
-                    //If the player is the owner, do nothing OR add houses/hotel
-                    if (property.Owner == PlayerViewModel.CurrentPlayer) return;
-
-                    //If the player is not the owner, pass the functions to debit from current player and pay rent to the owner
-                    currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Rent[0]);
-                    property.Owner.ChangeBalance(value => property.Owner.Balance += value, property.Rent[0]);
-
-                    //Update their balance on the screen
-                    foreach (Label lbl in LblPlayersBalance)
-                    {
-                        if (lbl.Name == currentPlayer.Name)
-                        {
-                            lbl.Content = $"{currentPlayer.Name} balance: " + currentPlayer.Balance;
-                        }
-                        if (lbl.Name == property.Owner.Name)
-                        {
-                            lbl.Content = $"{property.Owner.Name} balance: " + property.Owner.Balance;
-                        }
-                    }
-
-                    //TODO - check 
-                }
-            }
         }
 
         //Call the next player to roll the dice
@@ -363,25 +212,7 @@ namespace Monopoly
             }
         }
 
-        public void GoToJail()
-        {
-            //Get both current player and current property
-            PlayerViewModel currentPlayer = PlayerViewModel.CurrentPlayer;
-
-            //If the player is behind position 10 (prison)
-            if(currentPlayer.Position < 10)
-            {
-                int move = 10 - currentPlayer.Position;
-                currentPlayer.MovePlayer(move);
-            }
-            else //If the player is ahead of position 10
-            {
-                int move = 10 - currentPlayer.Position + 40;
-                currentPlayer.MovePlayer(move);
-            }
-        }
-
-        private void AddLodgingToBoard(PropertyModel property)
+        public void AddLodgingToBoard(PropertyModel property)
         {
             // Check if the property already has a hotel, if so, do nothing
             if (property.HousesBuilt >= 5)
