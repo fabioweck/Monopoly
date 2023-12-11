@@ -229,15 +229,16 @@ namespace Monopoly
             int offSetRow = 0;
             int offSetColSecondary = 0;
             int offSetRowSecondary = 0;
+
+            // Set the Grid row and column offset
+            SetGridOffsets(property, out offSetCol, out offSetRow, out offSetColSecondary, out offSetRowSecondary);
+
             LodgingModel houseModel = new LodgingModel("house", property.Row + offSetRow + offSetRowSecondary, property.Column + offSetCol + offSetColSecondary, 1, 1);
             LodgingModel doubleHouseModel = new LodgingModel("house_double", property.Row + offSetRow + offSetRowSecondary, property.Column + offSetCol + offSetColSecondary, 1, 1);
             LodgingModel hotelModel = new LodgingModel("hotel", property.Row + offSetRow + offSetRowSecondary, property.Column + offSetCol + offSetColSecondary, 1, 2);
 
             // Set the data model:
             LodgingModel lodgingModel = null;
-
-            // Set the Grid row and column offset
-            SetGridOffsets(property, out offSetCol, out offSetRow, out offSetColSecondary, out offSetRowSecondary);
 
             // Check if the property can have a house/hotel 
             if (property.HousesBuilt == 0)
@@ -303,7 +304,6 @@ namespace Monopoly
         //    {
         //        BoardGrid.Children.Remove(imageToRemove);
         //    }
-
         //}
 
         private void SetGridOffsets(PropertyModel property, out int offSetCol, out int offSetRow, out int offSetColSecondary, out int offSetRowSecondary)
@@ -339,7 +339,7 @@ namespace Monopoly
             //Bottom
             else if (property.Row >= 22 && property.Row <= 24 && property.Column >= 0 && property.Column <= 21)
             {
-                offSetCol = -1;
+                offSetCol = 1;
                 offSetRow = 0;
                 if (property.HousesBuilt == 1 || property.HousesBuilt == 3)
                 {
@@ -351,11 +351,11 @@ namespace Monopoly
             else if (property.Row >= 0 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
             {
                 offSetCol = 2;
-                offSetRow = 0;
+                offSetRow = 1;
                 if (property.HousesBuilt == 1 || property.HousesBuilt == 3)
                 {
                     offSetColSecondary = 0;
-                    offSetRowSecondary = 1;
+                    offSetRowSecondary = 0;
                 }
             }
         }
