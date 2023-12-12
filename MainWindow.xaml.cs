@@ -28,7 +28,7 @@ namespace Monopoly
 
         public static int NumberOfPlayers = 0;
         public List<Label> LblPlayers = new List<Label>();
-        public List<Label> LblPlayersBalance;
+        public List<TextBox> txtBoxPanelPlayers;
 
         LodgingViewModel lodgingViewModel = new LodgingViewModel();
 
@@ -36,9 +36,8 @@ namespace Monopoly
         {
             InitializeComponent();
             SpaceViewModel.PopulateBoard();
-            //LodgingViewModel.PopulateBoard();
 
-            LblPlayersBalance = new List<Label>() { P1, P2, P3, P4 };
+            txtBoxPanelPlayers = new List<TextBox>() { P1, P2, P3, P4 };
 
             //CardView = new CardViewModel();
             //Card1.DataContext = CardView;
@@ -140,7 +139,8 @@ namespace Monopoly
 
                 // TODO - Set Panel.Zindex on boardGrid (each player should have the ZIndex set to 1 or higher)
 
-                LblPlayersBalance[i].Visibility = Visibility.Visible;
+                txtBoxPanelPlayers[i].Visibility = Visibility.Visible;
+                //System.Diagnostics.Debug.WriteLine(txtBoxPanelPlayers[i]);
             }
 
             foreach (var space in SpaceViewModel.spaceModels)
@@ -172,7 +172,18 @@ namespace Monopoly
                 image.SetBinding(Grid.ColumnSpanProperty, bindColSpan);
                 image.SetBinding(Image.SourceProperty, bindImg);
                 BoardGrid.Children.Add(image);
+            }
 
+            // UpdatePlayerPanel for each player
+            foreach (TextBox textBox in txtBoxPanelPlayers)
+            {
+                foreach (PlayerViewModel player in PlayerViewModel.Players)
+                {
+                    if (textBox.Name == player.Name)
+                    {
+                        SpaceViewModel.UpdatePlayerPanel(textBox, player);
+                    }
+                }
             }
         }
 
@@ -180,7 +191,7 @@ namespace Monopoly
         public void ResolveLogic()
         {
 
-            SpaceViewModel.Resolve(BoardGrid, LblPlayersBalance, lodgingViewModel.AddLodgingToBoard);
+            SpaceViewModel.Resolve(BoardGrid, txtBoxPanelPlayers, lodgingViewModel.AddLodgingToBoard);
 
 
             ChangePlayer();

@@ -55,8 +55,7 @@ namespace Monopoly.ViewModel
 
 
         // Resolves what happens when the player lands on a space.
-        //public static void Resolve(Grid boardGrid, List<Label> lblPlayersBalance, AddLodgingToBoard addLodging)
-        public static void Resolve(Grid boardGrid, List<Label> lblPlayersBalance, Action<Grid, PropertyModel> addLodgingToBoard)
+        public static void Resolve(Grid boardGrid, List<TextBox> txtBoxPanelPlayers, Action<Grid, PropertyModel> addLodgingToBoard)
         {
 
             //Get both current player and current property
@@ -164,12 +163,12 @@ namespace Monopoly.ViewModel
                             addLodgingToBoard(boardGrid, property);
                         }
 
-                        //Update balance on panel
-                        foreach (Label lbl in lblPlayersBalance)
+                        //Update Players Panel
+                        foreach (TextBox textBox in txtBoxPanelPlayers)
                         {
-                            if (lbl.Name == currentPlayer.Name)
+                            if (textBox.Name == currentPlayer.Name)
                             {
-                                lbl.Content = $"{currentPlayer.Name} balance: " + currentPlayer.Balance;
+                                UpdatePlayerPanel(textBox, currentPlayer);
                             }
                         }
                     }
@@ -187,16 +186,16 @@ namespace Monopoly.ViewModel
                     currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Rent[0]);
                     property.Owner.ChangeBalance(value => property.Owner.Balance += value, property.Rent[0]);
 
-                    //Update their balance on the screen
-                    foreach (Label lbl in lblPlayersBalance)
+                    //Update Players Panel
+                    foreach (TextBox textBox in txtBoxPanelPlayers)
                     {
-                        if (lbl.Name == currentPlayer.Name)
+                        if (textBox.Name == currentPlayer.Name)
                         {
-                            lbl.Content = $"{currentPlayer.Name} balance: " + currentPlayer.Balance;
+                            UpdatePlayerPanel(textBox, currentPlayer);
                         }
-                        if (lbl.Name == property.Owner.Name)
+                        if (textBox.Name == property.Owner.Name)
                         {
-                            lbl.Content = $"{property.Owner.Name} balance: " + property.Owner.Balance;
+                            UpdatePlayerPanel(textBox, property.Owner);
                         }
                     }
 
@@ -205,6 +204,27 @@ namespace Monopoly.ViewModel
             }
 
         }
+
+
+        public static void UpdatePlayerPanel(TextBox textBox, PlayerViewModel player)
+        {
+            textBox.Text = $"Panel: {player.Name}" +
+                           $"\nBalance: {player.Balance}" +
+                           $"\nTotal Of Properties: {player.PlayerTotalOfProperties()}" +
+                           $"\nLine 4" +
+                           $"\nLine 5" +
+                           $"\nLine 6" +
+                           $"\nLine 7" +
+                           $"\nLine 8" +
+                           $"\nLine 9" +
+                           $"\nLine 10" +
+                           $"\nLine 11" +
+                           $"\nLine 12" +
+                           $"\nLine 13" +
+                           $"\nLine 14" +
+                           $"\nLine 15";
+        }
+
 
         public void PositionSpaces()
         {

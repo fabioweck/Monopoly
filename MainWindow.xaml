@@ -111,42 +111,53 @@
                 <ImageBrush />
             </Image.OpacityMask>
         </Image>
-        <Label
+        <TextBox
             x:Name="P1"
             Grid.Row="1"
+            Grid.RowSpan="10"
             Grid.Column="27"
             Grid.ColumnSpan="5"
-            Content="P1 balance: 1500"
+            IsReadOnly="True"
+            TextWrapping="Wrap"
+            Text="Panel P1"
             FontSize="16"
             FontWeight="Bold"
             Visibility="Hidden" />
-        <Label
+        <TextBox
             x:Name="P2"
             Grid.Row="1"
+            Grid.RowSpan="10"
             Grid.Column="33"
             Grid.ColumnSpan="5"
-            Content="P2 balance: 1500"
+            IsReadOnly="True"
+            TextWrapping="Wrap"
+            Text="Panel P2"
             FontSize="16"
             FontWeight="Bold"
             Visibility="Hidden" />
-        <Label
+        <TextBox
             x:Name="P3"
             Grid.Row="12"
+            Grid.RowSpan="10"
             Grid.Column="27"
             Grid.ColumnSpan="5"
-            Content="P3 balance: 1500"
+            IsReadOnly="True"
+            TextWrapping="Wrap"
+            Text="Panel P3"
             FontSize="16"
             FontWeight="Bold"
             Visibility="Hidden" />
-        <Label
+        <TextBox
             x:Name="P4"
             Grid.Row="12"
+            Grid.RowSpan="10"
             Grid.Column="33"
             Grid.ColumnSpan="5"
-            Content="P4 balance: 1500"
+            IsReadOnly="True"
+            TextWrapping="Wrap"
+            Text="Panel P4"
             FontSize="16"
             FontWeight="Bold"
             Visibility="Hidden" />
-
     </Grid>
 </Window>

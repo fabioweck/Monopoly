@@ -131,5 +131,20 @@ namespace Monopoly.ViewModel
                 PlayerViewModel.CurrentPlayer.MovePlayer(move);
             }
         }
+
+        public int PlayerTotalOfProperties()
+        {
+            int totalOfProperties = 0;
+
+            foreach (var spaceModel in SpaceViewModel.spaceModels.Values)
+            {
+                if (spaceModel is PropertyModel property && property.Owner == this)
+                {
+                    totalOfProperties++;
+                }
+            }
+
+            return totalOfProperties;
+        }
     }
 }
