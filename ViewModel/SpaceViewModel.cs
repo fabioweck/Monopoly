@@ -206,11 +206,11 @@ namespace Monopoly.ViewModel
         }
 
 
-        private static void UpdatePlayerPanel(TextBox textBox, PlayerViewModel player)
+        public static void UpdatePlayerPanel(TextBox textBox, PlayerViewModel player)
         {
             textBox.Text = $"Panel: {player.Name}" +
                            $"\nBalance: {player.Balance}" +
-                           $"\nLine 3" +
+                           $"\nTotal Of Properties: {player.PlayerTotalOfProperties()}" +
                            $"\nLine 4" +
                            $"\nLine 5" +
                            $"\nLine 6" +

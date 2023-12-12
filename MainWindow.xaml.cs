@@ -172,7 +172,18 @@ namespace Monopoly
                 image.SetBinding(Grid.ColumnSpanProperty, bindColSpan);
                 image.SetBinding(Image.SourceProperty, bindImg);
                 BoardGrid.Children.Add(image);
+            }
 
+            // UpdatePlayerPanel for each player
+            foreach (TextBox textBox in txtBoxPanelPlayers)
+            {
+                foreach (PlayerViewModel player in PlayerViewModel.Players)
+                {
+                    if (textBox.Name == player.Name)
+                    {
+                        SpaceViewModel.UpdatePlayerPanel(textBox, player);
+                    }
+                }
             }
         }
 
