@@ -34,7 +34,7 @@ namespace Monopoly.Model
         public PlayerViewModel Owner
         {
             get { return _owner; }
-            set { _owner = value; /* Add any additional logic if needed */ }
+            set { _owner = value;}
         }
 
 

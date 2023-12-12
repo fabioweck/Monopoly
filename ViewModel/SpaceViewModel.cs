@@ -53,8 +53,10 @@ namespace Monopoly.ViewModel
 
         public delegate void AddLodgingToBoard(PropertyModel property);
 
+
         // Resolves what happens when the player lands on a space.
-        public static void Resolve(Grid boardGrid, List<Label> lblPlayersBalance, AddLodgingToBoard addLodging)
+        //public static void Resolve(Grid boardGrid, List<Label> lblPlayersBalance, AddLodgingToBoard addLodging)
+        public static void Resolve(Grid boardGrid, List<Label> lblPlayersBalance, Action<Grid, PropertyModel> addLodgingToBoard)
         {
 
             //Get both current player and current property
@@ -152,7 +154,6 @@ namespace Monopoly.ViewModel
 
                         // Label with the same color of the player
                         propertyLabel.Foreground = MainWindow.GetPlayerColor(PlayerViewModel.CurrentPlayer.instanceNumber);
-                        Console.WriteLine(playerColorBrush.Color.ToString());
 
                         // Add the label to the Grid
                         boardGrid.Children.Add(propertyLabel);
@@ -160,7 +161,7 @@ namespace Monopoly.ViewModel
                         // Add a house to the board (Check if the property is a Railroad or Utility, and if so, do not add a house)
                         if (property.Group != "Railroad" && property.Group != "Utility")
                         {
-                            addLodging(property);
+                            addLodgingToBoard(boardGrid, property);
                         }
 
                         //Update balance on panel
