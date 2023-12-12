@@ -18,15 +18,6 @@ namespace Monopoly.Model
         public string Description { get; set; }
         public string Type { get; set; } = "Neutral";
         public string Image = null;
-        private string v1;
-        private string v2;
-        private string v3;
-        private string v4;
-        private int v5;
-        private int v6;
-        private int v7;
-        private int v8;
-        private string img;
 
         public ImageSource ImgSrc
         {
@@ -74,7 +65,7 @@ namespace Monopoly.Model
         {
             Name = name;
             Description = description;
-            this.img = img;
+            Image = img;
             Row = row;
             Column = column;
             RowSpan = rowSpan;
