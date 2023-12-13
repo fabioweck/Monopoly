@@ -186,7 +186,7 @@ namespace Monopoly.ViewModel
                         }
                         // Check if the player is the owner and ask if he want to upgrade lodging
                         if (property.Owner == PlayerViewModel.CurrentPlayer)                      
-                            {
+                        {
                             MessageBoxResult upgradeResult = MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, do you want to upgrade lodging on this property?", "Upgrade Lodging", MessageBoxButton.YesNo);
 
                             if (upgradeResult == MessageBoxResult.Yes)
@@ -202,11 +202,22 @@ namespace Monopoly.ViewModel
                         //Message box for testing purposes
                         MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, pay rent to {property.OwnerName}\n${property.Rent[property.HousesBuilt]}");
 
+                        // Check if the player owns all properties of the color/group
+                        bool ownsAllProperties = PlayerOwnsAllPropertiesOfGroup(PlayerViewModel.CurrentPlayer, property.Group);
+
                         //property.Rent[property.HousesBuilt] is used to count the number of houses in a property
                         //and access the correct Rent[] index
                         //Pass the operation to each player (one debit and one payment)
-                        currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Rent[property.HousesBuilt]);
-                        property.Owner.ChangeBalance(value => property.Owner.Balance += value, property.Rent[property.HousesBuilt]);
+                        if (ownsAllProperties && property.HousesBuilt == 0)
+                        {
+                            currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Rent[0] * 2);
+                            property.Owner.ChangeBalance(value => property.Owner.Balance += value, property.Rent[0] * 2);
+                        } 
+                        else
+                        {
+                            currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Rent[property.HousesBuilt]);
+                            property.Owner.ChangeBalance(value => property.Owner.Balance += value, property.Rent[property.HousesBuilt]);
+                        }
 
                         //Update their balance on the screen
                         //Update Players Panel
@@ -373,6 +384,13 @@ namespace Monopoly.ViewModel
                            $"\nLine 13" +
                            $"\nLine 14" +
                            $"\nLine 15";
+        }
+
+        public static bool PlayerOwnsAllPropertiesOfGroup(PlayerViewModel player, string group)
+        {
+            return spaceModels.Values
+                .Where(space => space is PropertyModel && ((PropertyModel)space).Group == group)
+                .All(property => ((PropertyModel)property).Owner == player);
         }
 
 
