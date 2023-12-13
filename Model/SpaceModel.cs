@@ -77,7 +77,7 @@ namespace Monopoly.Model
         {
             if (sm.Type == "Card")
             {
-                MessageBox.Show($"{PlayerViewModel.CurrentPlayer}, obtained a card");
+                MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, obtained a card");
             }
         }
 
