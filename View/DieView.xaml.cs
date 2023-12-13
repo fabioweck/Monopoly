@@ -32,7 +32,6 @@ namespace Monopoly.View
             InitializeComponent();
             PlayerName = name;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            GetNumbers();
 
         }
 
@@ -83,6 +82,27 @@ namespace Monopoly.View
                 await Task.Delay(1000);
             }
 
+            this.Close();
+        }
+
+        private void btnAuto_Click(object sender, RoutedEventArgs e)
+        {
+            GetNumbers();
+        }
+
+        private void btnManual_Click(object sender, RoutedEventArgs e)
+        {
+            lblPlayer.Content = $"Type in the number of places {PlayerName} will move.";
+            btnAuto.Visibility = Visibility.Hidden;
+            btnManual.Visibility = Visibility.Hidden;
+            btnMove.Visibility = Visibility.Visible;
+            btnMove.Content = $"Move {PlayerName}";
+            txtNumberOfPlaces.Visibility = Visibility.Visible;
+        }
+
+        private void btnMove_Click(object sender, RoutedEventArgs e)
+        {
+            Roll = Convert.ToInt32(txtNumberOfPlaces.Text);
             this.Close();
         }
     }
