@@ -179,11 +179,6 @@ namespace Monopoly.ViewModel
                     }
                     else
                     {
-                        // Check if the property is a Railroad or Utility
-                        if (property.Group == "Railroad" && property.Group == "Utility")
-                        {
-                            return;
-                        }
                         // Check the amount of houses
                         if (property.HousesBuilt >= 5)
                         {
@@ -229,27 +224,108 @@ namespace Monopoly.ViewModel
                     //If the player is not the owner, pass the functions to debit from current player and pay rent to the owner
                     if (property.Owner == PlayerViewModel.CurrentPlayer) return;
 
-                    //*********************** FABIO **********************
-                    //FIX - OFFER TO BUY RAILROAD
-                    if(property.Owner == null)
+                    //Once the property has no owner, offer to buy it to the current player
+                    if (property.Owner == null)
                     {
-                        //Message box for testing purposes
-                        MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, railroad.\nPay ${property.Rent[0]}");
 
+                        MessageBoxResult result = MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, would you like to buy this railroad for ${property.Price}?", "Landed on a railroad.", MessageBoxButton.YesNo);
 
-                        //Pass the operation to each player (one way debit)
-                        currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Rent[0]);
-
-                        foreach (TextBox textBox in txtBoxPanelPlayers)
+                        //If the player wants to buy the property, pass the function to balance to perform the calculation
+                        if (result == MessageBoxResult.Yes)
                         {
-                            if (textBox.Name == currentPlayer.Name)
+                            currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Price);
+                            property.Owner = PlayerViewModel.CurrentPlayer;
+
+                            // Create a label for the property
+                            Label propertyLabel = new Label();
+                            propertyLabel.Content = property.Owner.Name;
+                            propertyLabel.FontSize = 12;
+                            propertyLabel.FontWeight = FontWeights.Bold;
+
+                            // Set the Grid row and column
+                            //Top
+                            if (property.Row >= 0 && property.Row <= 3 && property.Column >= 0 && property.Column <= 21)
                             {
-                                UpdatePlayerPanel(textBox, currentPlayer);
+                                propertyLabel.SetValue(Grid.RowProperty, property.Row + 3);
+                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
+                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             }
+                            //Right
+                            if (property.Row >= 4 && property.Row <= 21 && property.Column >= 22 && property.Column <= 24)
+                            {
+                                propertyLabel.SetValue(Grid.RowProperty, property.Row);
+                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
+                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+                            }
+                            //Bottom
+                            if (property.Row >= 22 && property.Row <= 24 && property.Column >= 0 && property.Column <= 21)
+                            {
+                                propertyLabel.SetValue(Grid.RowProperty, property.Row - 1);
+                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
+                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+                            }
+                            //Left
+                            if (property.Row >= 0 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
+                            {
+                                propertyLabel.SetValue(Grid.RowProperty, property.Row);
+                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
+                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+                            }
+                            //Left-top corner
+                            if (property.Row >= 4 && property.Row <= 5 && property.Column >= 0 && property.Column <= 3)
+                            {
+                                propertyLabel.SetValue(Grid.RowProperty, 5);
+                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
+                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+                            }
+                            //Left-bottom corner
+                            if (property.Row >= 20 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
+                            {
+                                propertyLabel.SetValue(Grid.RowProperty, 20);
+                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
+                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+                            }
+                            //Right-top corner
+                            if (property.Row >= 4 && property.Row <= 5 && property.Column >= 22 && property.Column <= 24)
+                            {
+                                propertyLabel.SetValue(Grid.RowProperty, 5);
+                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
+                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+                            }
+
+                            // Label with the same color of the player
+                            propertyLabel.Foreground = MainWindow.GetPlayerColor(PlayerViewModel.CurrentPlayer.instanceNumber);
+
+                            // Add the label to the Grid
+                            boardGrid.Children.Add(propertyLabel);
+
+
+
+                            //Update Players Panel
+                            foreach (TextBox textBox in txtBoxPanelPlayers)
+                            {
+                                if (textBox.Name == currentPlayer.Name)
+                                {
+                                    UpdatePlayerPanel(textBox, currentPlayer);
+                                }
+                            }
+                        }
+                        else //Otherwise, do nothing
+                        {
+                            return;
                         }
                     }
                     else
                     {
+                        //If the player is not the owner, pass the functions to debit from current player and pay rent to the owner
+
                         //Helper variable to count the number of "Railroad" properties an onwer has
                         int numberOfProperties = 0;
 
@@ -274,13 +350,6 @@ namespace Monopoly.ViewModel
                         currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Rent[numberOfProperties - 1]);
                         property.Owner.ChangeBalance(value => property.Owner.Balance += value, property.Rent[numberOfProperties - 1]);
 
-                        foreach (TextBox textBox in txtBoxPanelPlayers)
-                        {
-                            if (textBox.Name == currentPlayer.Name)
-                            {
-                                UpdatePlayerPanel(textBox, currentPlayer);
-                            }
-                        }
                     }   
                 }
             }

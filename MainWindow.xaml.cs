@@ -196,6 +196,7 @@ namespace Monopoly
 
             SpaceViewModel.Resolve(BoardGrid, txtBoxPanelPlayers, lodgingViewModel.AddLodgingToBoard);
 
+            UpdateAllPlayersPanel();
 
             ChangePlayer();
 
@@ -216,6 +217,20 @@ namespace Monopoly
             }
         }
 
+        public void UpdateAllPlayersPanel()
+        {
+            foreach (TextBox textBox in txtBoxPanelPlayers)
+            {
+                foreach (PlayerViewModel player in PlayerViewModel.Players)
+                {
+                    if (textBox.Name == player.Name)
+                    {
+                        SpaceViewModel.UpdatePlayerPanel(textBox, player);
+                    }
+                }
+            }          
+        }
+
         //Check if any of the players if bankrupt after game logic
         public void CheckBankruptcy()
         {
@@ -227,10 +242,7 @@ namespace Monopoly
                     //TODO - remove player and update status on screen (game over?)
                 }
             }
-        }
-
-        
-
+        }   
     }
 }
 
