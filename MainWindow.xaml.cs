@@ -50,10 +50,13 @@ namespace Monopoly
         {
             //Open dice window to roll dice
             DieView dieView = new DieView(PlayerViewModel.CurrentPlayer.Name);
+
+            dieView.lblPlayer.Content = $"Player {PlayerViewModel.CurrentPlayer.Name}, select how to roll dice";
             dieView.ShowDialog();
 
             //Get the result
             int move = dieView.Roll;
+
 
             //If move is zero, it means that the player rolled dice and got 3 doubles
             //Send the player to the jail
