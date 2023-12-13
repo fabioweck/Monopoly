@@ -24,11 +24,14 @@ namespace Monopoly.View
     {
         public DieViewModel Dice {  get; set; } = new DieViewModel();
         public int Roll { get; set; }
+        public string PlayerName;
 
-        public DieView()
+        public DieView(string name)
         {
             
             InitializeComponent();
+            PlayerName = name;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             GetNumbers();
 
         }
@@ -36,7 +39,7 @@ namespace Monopoly.View
         private async void GetNumbers()
         {
             int countDouble = 0;
-            while(true)
+            while (true)
             {
                 int[] face = Dice.RollDice();
 
@@ -51,24 +54,35 @@ namespace Monopoly.View
                         break;
                     }
 
+                    lblPlayer.Content = $"Player {PlayerName} rolled dice.";
                     lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Double! Roll dice again...";
-                    await Task.Delay(2000);
+                    for (int i = 0; i < 3; i++)
+                    {
+                        lblTimer.Content = $"Counter: {3 - i}s";
+                        await Task.Delay(1000);
+                    }
                     continue;
                 }
                 else
                 {
                     Roll = face[0] + face[1];
+                    lblPlayer.Content = $"Player {PlayerName} rolled dice.";
                     lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Move {Roll} places!";
                     MovePlayerAndClose();
                     break;
-                } 
+                }
             }
-            
+
         }
 
         private async void MovePlayerAndClose()
         {
-            await Task.Delay(2000);
+            for (int i = 0; i < 3; i++)
+            {
+                lblTimer.Content = $"Counter: {3 - i}s";
+                await Task.Delay(1000);
+            }
+
             this.Close();
         }
     }

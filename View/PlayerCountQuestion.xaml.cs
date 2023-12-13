@@ -22,6 +22,7 @@ namespace Monopoly.View
         public PlayerCountQuestion()
         {
             InitializeComponent();
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         private void NumberOfPlayers(object sender, RoutedEventArgs e)

@@ -29,14 +29,27 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label
-            x:Name="lblDiceResult"
-            Grid.Row="1"
-            Grid.ColumnSpan="7"
-            Height="29"
-            Margin="42,0,0,0"
-            VerticalAlignment="Center"/>
-
+        <Label x:Name="lblPlayer"
+               Grid.Column="0"
+               Grid.Row="1"
+               Grid.ColumnSpan="7"
+               Height="29"
+               Margin="42,0,0,0"
+               VerticalAlignment="Center" />
+        <Label x:Name="lblDiceResult"
+               Grid.Column="0"
+               Grid.Row="2"
+               Grid.ColumnSpan="7"
+               Height="29"
+               Margin="42,0,0,0"
+               VerticalAlignment="Center" />
+        <Label x:Name="lblTimer"
+               Grid.Column="0"
+               Grid.Row="3"
+               Grid.ColumnSpan="7"
+               Height="29"
+               Margin="42,0,0,0"
+               VerticalAlignment="Center" />
     </Grid>
 
 
