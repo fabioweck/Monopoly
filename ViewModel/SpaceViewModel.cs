@@ -67,7 +67,7 @@ namespace Monopoly.ViewModel
 
             if (currentPlayer.Position == 30)
             {
-                MessageBox.Show("Go to the jail...", ":(", MessageBoxButton.OK);
+                MessageBox.Show($"{PlayerViewModel.CurrentPlayer}, go to the jail...", ":(", MessageBoxButton.OK);
                 PlayerViewModel.GoToJail();
                 return;
             }
@@ -83,7 +83,7 @@ namespace Monopoly.ViewModel
                     if (property.Owner == null)
                     {
 
-                        MessageBoxResult result = MessageBox.Show($"Would you like to buy this property for ${property.Price}?", "Landed on a private property.", MessageBoxButton.YesNo);
+                        MessageBoxResult result = MessageBox.Show($"{PlayerViewModel.CurrentPlayer}, would you like to buy this property for ${property.Price}?", "Landed on a private property.", MessageBoxButton.YesNo);
 
                         //If the player wants to buy the property, pass the function to balance to perform the calculation
                         if (result == MessageBoxResult.Yes)
@@ -161,11 +161,7 @@ namespace Monopoly.ViewModel
                             // Add the label to the Grid
                             boardGrid.Children.Add(propertyLabel);
 
-                            // Add a house to the board (Check if the property is a Railroad or Utility, and if so, do not add a house)
-                            if (property.Group != "Railroad" && property.Group != "Utility")
-                            {
-                                addLodgingToBoard(boardGrid, property);
-                            }
+
 
                             //Update Players Panel
                             foreach (TextBox textBox in txtBoxPanelPlayers)
@@ -183,14 +179,33 @@ namespace Monopoly.ViewModel
                     }
                     else
                     {
-                        //If the player is the owner, do nothing OR add houses/hotel
-                        if (property.Owner == PlayerViewModel.CurrentPlayer) return;
+                        // Check if the property is a Railroad or Utility
+                        if (property.Group == "Railroad" && property.Group == "Utility")
+                        {
+                            return;
+                        }
+                        // Check the amount of houses
+                        if (property.HousesBuilt >= 5)
+                        {
+                            return;
+                        }
+                        // Check if the player is the owner and ask if he want to upgrade lodging
+                        if (property.Owner == PlayerViewModel.CurrentPlayer)                      
+                            {
+                            MessageBoxResult upgradeResult = MessageBox.Show($"{PlayerViewModel.CurrentPlayer}, do you want to upgrade lodging on this property?", "Upgrade Lodging", MessageBoxButton.YesNo);
+
+                            if (upgradeResult == MessageBoxResult.Yes)
+                            {
+                                addLodgingToBoard?.Invoke(boardGrid, property);
+                            }
+                            return;
+                        }
 
                         //If the player is not the owner, pass the functions to debit from current player and pay rent to the owner
 
 
                         //Message box for testing purposes
-                        MessageBox.Show($"Pay rent to {property.OwnerName}\n${property.Rent[property.HousesBuilt]}");
+                        MessageBox.Show($"{PlayerViewModel.CurrentPlayer}, pay rent to {property.OwnerName}\n${property.Rent[property.HousesBuilt]}");
 
                         //property.Rent[property.HousesBuilt] is used to count the number of houses in a property
                         //and access the correct Rent[] index
@@ -219,7 +234,7 @@ namespace Monopoly.ViewModel
                     if(property.Owner == null)
                     {
                         //Message box for testing purposes
-                        MessageBox.Show($"Railroad.\nPay ${property.Rent[0]}");
+                        MessageBox.Show($"{PlayerViewModel.CurrentPlayer}, railroad.\nPay ${property.Rent[0]}");
 
 
                         //Pass the operation to each player (one way debit)
@@ -252,7 +267,7 @@ namespace Monopoly.ViewModel
                         }
 
                         //Message box for testing purposes
-                        MessageBox.Show($"Railroad.\nPay rent to {property.OwnerName}\n${property.Rent[numberOfProperties - 1]}");
+                        MessageBox.Show($"{PlayerViewModel.CurrentPlayer}, railroad.\nPay rent to {property.OwnerName}\n${property.Rent[numberOfProperties - 1]}");
 
 
                         //Pass the operation to each player (one debit and one payment)
