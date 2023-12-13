@@ -104,6 +104,26 @@ namespace Monopoly.ViewModel
                 Column = targetSpace.Column;
                 Row = targetSpace.Row;
                 Position = newPosition;
+
+            if ((newPosition > 10 && newPosition < 20))
+                Column++;
+
+            if ((newPosition > 20 && newPosition < 30))
+                Row++;
+
+            if (CurrentPlayer.Name ==  Players[1].Name)
+                Column++;
+
+            if (Players.Count > 2)
+                if (CurrentPlayer.Name == Players[2].Name)
+                    Row++;
+
+            if (Players.Count>3)
+                if (CurrentPlayer.Name == Players[3].Name)
+                {
+                    Row++;
+                    Column++;
+                }
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
