@@ -59,7 +59,7 @@ namespace Monopoly.View
                     for (int i = 0; i < 3; i++)
                     {
                         lblTimer.Content = $"Counter: {3 - i}s";
-                        await Task.Delay(1000);
+                        await Task.Delay(100);
                     }
                     continue;
                 }

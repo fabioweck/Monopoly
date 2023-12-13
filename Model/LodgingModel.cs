@@ -23,21 +23,23 @@ namespace Monopoly.Model
                 return new BitmapImage(new Uri($"pack://application:,,,/Images/{Image}.png"));
             }
         }
-
-            
+        
         public int Row { get; set; }
         public int Column { get; set; }
         public int RowSpan { get; set; } = 2;
         public int ColumnSpan { get; set; } = 2;
+        public int SerialNumber { get; set; }
 
 
-        public LodgingModel(string img, int row, int column, int rowSpan, int columnSpan)
+
+        public LodgingModel(string img, int row, int column, int rowSpan, int columnSpan, int serialNumber)
         {
             Image = img;
             Row = row;
             Column = column;
             RowSpan = rowSpan;
             ColumnSpan = columnSpan;
+            SerialNumber = serialNumber;
         }
     }
 }

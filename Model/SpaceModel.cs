@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monopoly.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -76,7 +77,7 @@ namespace Monopoly.Model
         {
             if (sm.Type == "Card")
             {
-                MessageBox.Show("Obtained a card");
+                MessageBox.Show($"{PlayerViewModel.CurrentPlayer}, obtained a card");
             }
         }
 
