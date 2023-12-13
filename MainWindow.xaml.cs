@@ -39,6 +39,8 @@ namespace Monopoly
 
             txtBoxPanelPlayers = new List<TextBox>() { P1, P2, P3, P4 };
 
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             //CardView = new CardViewModel();
             //Card1.DataContext = CardView;
         }
@@ -46,7 +48,7 @@ namespace Monopoly
         private void RollDice_Click(object sender, RoutedEventArgs e)
         {
             //Open dice window to roll dice
-            DieView dieView = new DieView();
+            DieView dieView = new DieView(PlayerViewModel.CurrentPlayer.Name);
             dieView.ShowDialog();
 
             //Get the result

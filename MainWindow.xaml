@@ -15,7 +15,7 @@
         Width="1250"
         Height="850">
         <Grid.Background>
-            <ImageBrush ImageSource="/Properties/monopolyBoard.jpg" Stretch="Fill"/>
+            <ImageBrush ImageSource="/Properties/monopolyBoard.jpg" Stretch="Fill" />
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15*" />
@@ -44,7 +44,7 @@
             <ColumnDefinition Width="38*" />
             <ColumnDefinition Width="38*" />
             <ColumnDefinition Width="15*" />
-            
+
             <ColumnDefinition Width="15*" />
             <ColumnDefinition Width="33*" />
             <ColumnDefinition Width="38*" />
@@ -117,11 +117,11 @@
             Grid.RowSpan="10"
             Grid.Column="27"
             Grid.ColumnSpan="5"
-            IsReadOnly="True"
-            TextWrapping="Wrap"
-            Text="Panel P1"
             FontSize="16"
             FontWeight="Bold"
+            IsReadOnly="True"
+            Text="Panel P1"
+            TextWrapping="Wrap"
             Visibility="Hidden" />
         <TextBox
             x:Name="P2"
@@ -129,11 +129,11 @@
             Grid.RowSpan="10"
             Grid.Column="33"
             Grid.ColumnSpan="5"
-            IsReadOnly="True"
-            TextWrapping="Wrap"
-            Text="Panel P2"
             FontSize="16"
             FontWeight="Bold"
+            IsReadOnly="True"
+            Text="Panel P2"
+            TextWrapping="Wrap"
             Visibility="Hidden" />
         <TextBox
             x:Name="P3"
@@ -141,11 +141,11 @@
             Grid.RowSpan="10"
             Grid.Column="27"
             Grid.ColumnSpan="5"
-            IsReadOnly="True"
-            TextWrapping="Wrap"
-            Text="Panel P3"
             FontSize="16"
             FontWeight="Bold"
+            IsReadOnly="True"
+            Text="Panel P3"
+            TextWrapping="Wrap"
             Visibility="Hidden" />
         <TextBox
             x:Name="P4"
@@ -153,11 +153,11 @@
             Grid.RowSpan="10"
             Grid.Column="33"
             Grid.ColumnSpan="5"
-            IsReadOnly="True"
-            TextWrapping="Wrap"
-            Text="Panel P4"
             FontSize="16"
             FontWeight="Bold"
+            IsReadOnly="True"
+            Text="Panel P4"
+            TextWrapping="Wrap"
             Visibility="Hidden" />
     </Grid>
 </Window>
