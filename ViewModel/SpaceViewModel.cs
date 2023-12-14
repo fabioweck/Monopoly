@@ -557,6 +557,27 @@ namespace Monopoly.ViewModel
                     }
                 }
             }
+            //If it is a space model, it only can be taxes (properties that interacts with player)
+            else
+            {
+                //Define the variable rent
+                int rent = 0;
+                switch(currentSpace.Name)
+                {
+                    //In case of luxury tax, the player pays 100 dollars
+                    case "Luxury Tax":
+                        rent = 100;
+                        MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name} must pay {currentSpace.Name}.\nPay ${rent}");
+                        currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, rent);
+                        break;
+                    //In case of tax income, the player pays 200 dollars
+                    case "Tax Income":
+                        rent = 200;
+                        MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name} must pay {currentSpace.Name}.\nPay ${rent}");
+                        currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, rent);
+                        break;
+                }
+            }
         }
 
         public static bool CanUpgradeProperty(PropertyModel property, PlayerViewModel player)
