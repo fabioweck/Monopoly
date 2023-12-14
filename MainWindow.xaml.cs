@@ -51,11 +51,19 @@ namespace Monopoly
 
         private void RollDice_Click(object sender, RoutedEventArgs e)
         {
-            //Open dice window to roll dice
-            DieView dieView = new DieView(PlayerViewModel.CurrentPlayer.Name);
+            //If the user closes the window and does not choose any number of players
+            //opens the window again
 
-            dieView.lblPlayer.Content = $"Player {PlayerViewModel.CurrentPlayer.Name}, select how to roll dice";
-            dieView.ShowDialog();
+            while(DieView.Click != true)
+            {
+                DieView dieView = new DieView(PlayerViewModel.CurrentPlayer.Name);
+
+                //Open dice window to roll dice
+                dieView.lblPlayer.Content = $"Player {PlayerViewModel.CurrentPlayer.Name}, select how to roll dice";
+                dieView.ShowDialog();
+            }
+
+            DieView.Click = false;
 
             //Get the result
             int move = DieView.Roll;
