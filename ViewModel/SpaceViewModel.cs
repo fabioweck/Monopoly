@@ -66,12 +66,86 @@ namespace Monopoly.ViewModel
             var currentSpace = spaceModels[currentPlayer.Position];
             SolidColorBrush playerColorBrush = new SolidColorBrush();
 
+            //If player position is over place 30, it means go to prison
             if (currentPlayer.Position == 30)
             {
                 MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, go to the jail...", ":(", MessageBoxButton.OK);
                 PlayerViewModel.GoToJail();
                 return;
             }
+
+            //If player position is over place 2, 17 or 33, it means Community card
+            if(new int[] { 2, 17, 33 }.Contains(currentPlayer.Position))
+            {
+                CardViewModel.FlipACard("Community");
+
+                string description = CardViewModel.CurrentCard.Description;
+                CardView card = new CardView("Community Chest Card", description);
+                card.ShowDialog();
+
+                string effect = CardViewModel.CurrentCard.Effect;
+
+                switch(effect)
+                {
+                    case "Move":
+                        int move = CardViewModel.CurrentCard.Move;
+                        currentPlayer.MovePlayer(move);
+                        break;
+                    case "Value":
+                        int amount = CardViewModel.CurrentCard.Value;
+                        PlayerViewModel.CurrentPlayer.ChangeBalance(value => currentPlayer.Balance += value, amount);
+                        break;
+                    case "JailFree":
+                        currentPlayer.Card = "Jail Free Card";
+                        break;
+                    case "Go":
+                        PlayerViewModel.GotToFirstPlace();
+                        break;
+                    case "NextRail":
+                        PlayerViewModel.GoToNextRailroad();
+                        break;
+                    case "Jail":
+                        PlayerViewModel.GoToJail();
+                        break;
+                }
+            }
+
+            //If player position is over place 7, 17 or 33, it means Community card
+            if (new int[] { 7, 22, 36 }.Contains(currentPlayer.Position))
+            {
+                CardViewModel.FlipACard("Chance");
+
+                string description = CardViewModel.CurrentCard.Description;
+                CardView card = new CardView("Chance Card", description);
+                card.ShowDialog();
+
+                string effect = CardViewModel.CurrentCard.Effect;
+
+                switch (effect)
+                {
+                    case "Move":
+                        int move = CardViewModel.CurrentCard.Move;
+                        currentPlayer.MovePlayer(move);
+                        break;
+                    case "Value":
+                        int amount = CardViewModel.CurrentCard.Value;
+                        PlayerViewModel.CurrentPlayer.ChangeBalance(value => currentPlayer.Balance += value, amount);
+                        break;
+                    case "JailFree":
+                        currentPlayer.Card = "Jail Free Card";
+                        break;
+                    case "Go":
+                        PlayerViewModel.GotToFirstPlace();
+                        break;
+                    case "NextRail":
+                        PlayerViewModel.GoToNextRailroad();
+                        break;
+                    case "Jail":
+                        PlayerViewModel.GoToJail();
+                        break;
+                }
+            }
+
             //Check if the space is a property
             if (currentSpace.GetType() == typeof(PropertyModel))
             {
@@ -497,7 +571,7 @@ namespace Monopoly.ViewModel
             textBox.Text = $"Panel: {player.Name}" +
                            $"\nBalance: {player.Balance}" +
                            $"\nTotal Of Properties: {player.PlayerTotalOfProperties()}" +
-                           $"\nLine 4" +
+                           $"\n{player.Card}" +
                            $"\nLine 5" +
                            $"\nLine 6" +
                            $"\nLine 7" +
