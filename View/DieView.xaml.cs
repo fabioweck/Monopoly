@@ -22,14 +22,14 @@ namespace Monopoly.View
     /// </summary>
     public partial class DieView : Window
     {
-        public DieViewModel Dice {  get; set; } = new DieViewModel();
+        public DieViewModel Dice { get; set; } = new DieViewModel();
         public static int Roll { get; set; }
         public static int Double { get; set; } = 0;
         public string PlayerName;
 
         public DieView(string name)
         {
-            
+
             InitializeComponent();
             PlayerName = name;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -41,7 +41,7 @@ namespace Monopoly.View
 
             while (true)
             {
-                if(isDouble == 0)
+                if (isDouble == 0)
                 {
                     int[] face = Dice.RollDice();
 
@@ -97,9 +97,7 @@ namespace Monopoly.View
                     break;
                 }
             }
-
         }
-
         private async void MovePlayerAndClose()
         {
             for (int i = 0; i < 3; i++)
@@ -107,10 +105,8 @@ namespace Monopoly.View
                 lblTimer.Content = $"Counter: {3 - i}s";
                 await Task.Delay(1000);
             }
-
             this.Close();
         }
-
         private void btnAuto_Click(object sender, RoutedEventArgs e)
         {
             btnAuto.Visibility = Visibility.Hidden;
@@ -126,24 +122,24 @@ namespace Monopoly.View
             lblPlayer.Content = $"Type in the number of places {PlayerName} will move.";
             btnAuto.Visibility = Visibility.Hidden;
             btnManual.Visibility = Visibility.Hidden;
-            btnDouble.Visibility= Visibility.Hidden;
+            btnDouble.Visibility = Visibility.Hidden;
             btnMove.Visibility = Visibility.Visible;
             btnMove.Content = $"Move {PlayerName}";
             txtNumberOfPlaces.Visibility = Visibility.Visible;
             txtNumberOfPlaces.Focus();
         }
-
         private void btnMove_Click(object sender, RoutedEventArgs e)
         {
-            if(txtNumberOfPlaces.Text.Length > 0)
-            {
-                Roll = Convert.ToInt32(txtNumberOfPlaces.Text);
-            }
-            else
-            {
-                Roll = 0;
-            }
-                this.Close();
+            Roll = Convert.ToInt32(txtNumberOfPlaces.Text);
+            this.Close();
+        }
+
+        private void btnDouble_Click(object sender, RoutedEventArgs e)
+        {
+            btnAuto.Visibility = Visibility.Hidden;
+            btnManual.Visibility = Visibility.Hidden;
+            btnMove.Visibility = Visibility.Hidden;
+            GetNumbers(1); //Add any number to the method to get double
         }
 
         private void btnDouble_Click(object sender, RoutedEventArgs e)
