@@ -68,6 +68,13 @@ namespace Monopoly.ViewModel
             set { PlayerModels[instanceNumber].Balance = value; OnPropertyChanged(nameof(Balance));}
         }
 
+        public string Card
+        {
+            get { return PlayerModels[instanceNumber].Card; }
+
+            set { PlayerModels[instanceNumber].Card = value; OnPropertyChanged(nameof(Card)); }
+        }
+
         public PlayerViewModel()
         {
             instanceNumber = PVMcount;
@@ -142,14 +149,54 @@ namespace Monopoly.ViewModel
             //If the player is behind position 10 (prison)
             if (PlayerViewModel.CurrentPlayer.Position < 10)
             {
-                int move = 10 - PlayerViewModel.CurrentPlayer.Position;
-                PlayerViewModel.CurrentPlayer.MovePlayer(move);
+                int move = 10 - CurrentPlayer.Position;
+                CurrentPlayer.MovePlayer(move);
             }
             else //If the player is ahead of position 10
             {
-                int move = 10 - PlayerViewModel.CurrentPlayer.Position + 40;
-                PlayerViewModel.CurrentPlayer.MovePlayer(move);
+                int move = 10 - CurrentPlayer.Position + 40;
+                CurrentPlayer.MovePlayer(move);
             }
+        }
+
+        public static void GoToNextRailroad()
+        {
+
+            //If the player is behind position 10 (prison)
+            if (PlayerViewModel.CurrentPlayer.Position < 5)
+            {
+                int move = 5 - CurrentPlayer.Position;
+                CurrentPlayer.MovePlayer(move);
+            }
+
+            else if(PlayerViewModel.CurrentPlayer.Position > 5 && PlayerViewModel.CurrentPlayer.Position < 15) 
+            {
+                int move = 15 - CurrentPlayer.Position;
+                CurrentPlayer.MovePlayer(move);
+            }
+
+            else if (PlayerViewModel.CurrentPlayer.Position > 15 && PlayerViewModel.CurrentPlayer.Position < 25)
+            {
+                int move = 25 - CurrentPlayer.Position;
+                CurrentPlayer.MovePlayer(move);
+            }
+
+            else if (PlayerViewModel.CurrentPlayer.Position > 25 && PlayerViewModel.CurrentPlayer.Position < 35)
+            {
+                int move = 35 - CurrentPlayer.Position;
+                CurrentPlayer.MovePlayer(move);
+            }
+            else
+            {
+                int move = 5 - CurrentPlayer.Position + 40;
+                CurrentPlayer.MovePlayer(move);
+            }
+        }
+
+        public static void GotToFirstPlace()
+        {
+            int move = 40 - CurrentPlayer.Position;
+            CurrentPlayer.MovePlayer(move);
         }
 
         public int PlayerTotalOfProperties()

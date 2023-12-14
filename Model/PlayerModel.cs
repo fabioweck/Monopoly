@@ -15,11 +15,13 @@ namespace Monopoly.Model
         public string Name { get; set; }
         public Point Position { get; set; }
         public int Balance { get; set; } = 150000;
+        public string Card { get; set; } = "No cards";
 
         public PlayerModel(string name, Point position)
         { 
             Name = name;
             Position = position;
+
         }
 
         public override string ToString()
