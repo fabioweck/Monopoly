@@ -95,7 +95,8 @@
             Grid.ColumnSpan="3"
             Margin="0,0,33,0"
             Click="RollDice_Click"
-            Content="Roll dice" />
+            Content="Roll dice"
+            Panel.ZIndex="2"/>
         <Image Grid.ColumnSpan="2" Margin="0,0,38,0" />
         <Image
             Grid.Row="14"

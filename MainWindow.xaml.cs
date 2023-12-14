@@ -194,6 +194,7 @@ namespace Monopoly
             if (DieView.Double != 0) return;
 
             ChangePlayer();
+
         }
 
         //Call the next player to roll the dice
