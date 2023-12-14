@@ -80,13 +80,9 @@ namespace Monopoly.ViewModel
 
                 if (property.Group != "Railroad" && property.Group != "Utility")
                 {
-                    //If the player is the owner, do nothing
-                    if (property.Owner == PlayerViewModel.CurrentPlayer) return;
-
                     //Once the property has no owner, offer to buy it to the current player
                     if (property.Owner == null)
                     {
-
                         MessageBoxResult result = MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, would you like to buy this property for ${property.Price}?", "Landed on a private property.", MessageBoxButton.YesNo);
 
                         //If the player wants to buy the property, pass the function to balance to perform the calculation
@@ -183,13 +179,10 @@ namespace Monopoly.ViewModel
                     }
                     else
                     {
-                        // Check the amount of houses
-                        if (property.HousesBuilt >= 5)
-                        {
-                            return;
-                        }
-                        // Check if the player is the owner and ask if he want to upgrade lodging
-                        if (property.Owner == PlayerViewModel.CurrentPlayer)                      
+                        // Check if is possible upgrade and ask if the owner want to upgrade lodging
+                        bool canUpgradeProperty = CanUpgradeProperty(property, PlayerViewModel.CurrentPlayer);
+
+                        if (canUpgradeProperty)
                         {
                             MessageBoxResult upgradeResult = MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, do you want to upgrade lodging on this property?", "Upgrade Lodging", MessageBoxButton.YesNo);
 
@@ -200,9 +193,10 @@ namespace Monopoly.ViewModel
                             return;
                         }
 
+                        //If the player is the owner, do nothing
+                        if (property.Owner == PlayerViewModel.CurrentPlayer) return;
+
                         //If the player is not the owner, pass the functions to debit from current player and pay rent to the owner
-
-
                         //Message box for testing purposes
                         MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, pay rent to {property.OwnerName}\n${property.Rent[property.HousesBuilt]}");
 
@@ -502,6 +496,60 @@ namespace Monopoly.ViewModel
                 }
             }
         }
+
+        public static bool CanUpgradeProperty(PropertyModel property, PlayerViewModel player)
+        {
+            // Check if the player is the owner
+            if (property.Owner != PlayerViewModel.CurrentPlayer)
+            {
+                return false;
+            }
+
+            // Check if the player owns all properties of the group
+            if (!PlayerOwnsAllPropertiesOfGroup(player, property.Group))
+            {
+                ShowMessageBox($"{player.Name}, you must own all properties of the group to upgrade this property.", "Cannot Upgrade Property");
+                return false;
+            }
+
+            // Check if the player has enough balance to upgrade the property
+            if (player.Balance < property.HousePrice)
+            {
+                ShowMessageBox($"{player.Name}, you don't have enough balance to upgrade this property.", "Cannot Upgrade Property");
+                return false;
+            }
+
+            // Check if the property can have more upgrades (max 5 upgrades)
+            if (property.HousesBuilt >= 5)
+            {
+                ShowMessageBox($"{player.Name}, the maximum number of upgrades has already been reached on this property.", "Cannot Upgrade Property");
+                return false;
+            }
+
+            // Check for homogeneous house building
+            foreach (var space in spaceModels.Values.Where(s => s is PropertyModel propertyInGroup && propertyInGroup.Group == property.Group))
+            {
+                if (property.HousesBuilt > 0)
+                {
+                    // Check that if the current property has houses, all others in the group also have at least the same number
+                    int minHousesInGroup = ((PropertyModel)space).HousesBuilt;
+                    if (minHousesInGroup < property.HousesBuilt)
+                    {
+                        ShowMessageBox($"{player.Name}, you must upgrade properties homogeneously within the group with a maximum difference of 1 house.", "Cannot Upgrade Property");
+                        return false;
+                    }
+                }
+            }
+
+
+            return true;
+        }
+
+        private static void ShowMessageBox(string message, string title)
+        {
+            MessageBox.Show(message, title, MessageBoxButton.OK);
+        }
+
 
 
         public static void UpdatePlayerPanel(TextBox textBox, PlayerViewModel player)
