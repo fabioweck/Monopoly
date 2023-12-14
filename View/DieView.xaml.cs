@@ -135,8 +135,15 @@ namespace Monopoly.View
 
         private void btnMove_Click(object sender, RoutedEventArgs e)
         {
-            Roll = Convert.ToInt32(txtNumberOfPlaces.Text);
-            this.Close();
+            if(txtNumberOfPlaces.Text.Length > 0)
+            {
+                Roll = Convert.ToInt32(txtNumberOfPlaces.Text);
+            }
+            else
+            {
+                Roll = 0;
+            }
+                this.Close();
         }
 
         private void btnDouble_Click(object sender, RoutedEventArgs e)
