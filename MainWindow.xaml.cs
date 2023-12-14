@@ -60,7 +60,6 @@ namespace Monopoly
             //Get the result
             int move = DieView.Roll;
 
-
             //If move is zero, it means that the player rolled dice and got 3 doubles
             //Send the player to the jail
             if (move != 0) PlayerViewModel.CurrentPlayer.MovePlayer(move);
@@ -94,8 +93,11 @@ namespace Monopoly
 
         private void HowManyPlayers(object sender, EventArgs e)
         {
-            PlayerCountQuestion playerCount = new PlayerCountQuestion();
-            playerCount.ShowDialog();
+            while(NumberOfPlayers == 0)
+            {
+                PlayerCountQuestion playerCount = new PlayerCountQuestion();
+                playerCount.ShowDialog();
+            }
 
             for (int i = 0; i < NumberOfPlayers; i++)
             {
@@ -204,9 +206,12 @@ namespace Monopoly
 
             UpdateAllPlayersPanel();
 
+            CheckBankruptcy();
+
+            if(DieView.Double != 0) return;
+            
             ChangePlayer();
 
-            CheckBankruptcy();
         }
 
         //Call the next player to roll the dice
@@ -221,6 +226,8 @@ namespace Monopoly
                 int _ind = PlayerViewModel.Players.IndexOf(PlayerViewModel.CurrentPlayer) + 1;
                 PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[_ind];
             }
+
+            DieView.Double = 0;
         }
 
         public void UpdateAllPlayersPanel()
