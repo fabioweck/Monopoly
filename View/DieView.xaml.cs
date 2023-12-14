@@ -22,30 +22,67 @@ namespace Monopoly.View
     /// </summary>
     public partial class DieView : Window
     {
-        public DieViewModel Dice {  get; set; } = new DieViewModel();
+        public DieViewModel Dice { get; set; } = new DieViewModel();
         public static int Roll { get; set; }
+        public static int Double { get; set; } = 0;
         public string PlayerName;
 
         public DieView(string name)
         {
-            
+
             InitializeComponent();
             PlayerName = name;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
         }
 
-        private async void GetNumbers()
+        private async void GetNumbers(int isDouble = 0)
         {
-            int countDouble = 0;
+
             while (true)
             {
-                int[] face = Dice.RollDice();
-
-                if (face[0] == face[1])
+                if (isDouble == 0)
                 {
-                    countDouble++;
-                    if (countDouble == 3)
+                    int[] face = Dice.RollDice();
+
+                    if (face[0] == face[1])
+                    {
+
+                        Double++;
+
+                        if (Double == 3)
+                        {
+                            lblDiceResult.Content = $"You got 3 doubles. Go to the prison...";
+                            MovePlayerAndClose();
+                            Roll = 0;
+                            break;
+                        }
+
+                        Roll = face[0] + face[1];
+                        lblPlayer.Content = $"Player {PlayerName} rolled dice.";
+                        lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Double!";
+                        MovePlayerAndClose();
+                        break;
+
+                    }
+                    else
+                    {
+                        Double = 0;
+                        Roll = face[0] + face[1];
+                        lblPlayer.Content = $"Player {PlayerName} rolled dice.";
+                        lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Move {Roll} places!";
+                        MovePlayerAndClose();
+                        break;
+                    }
+                }
+
+                else
+                {
+                    int[] face = { 2, 2 }; //Alter the number from 1 to 6
+
+                    Double++;
+
+                    if (Double == 3)
                     {
                         lblDiceResult.Content = $"You got 3 doubles. Go to the prison...";
                         MovePlayerAndClose();
@@ -53,27 +90,14 @@ namespace Monopoly.View
                         break;
                     }
 
-                    lblPlayer.Content = $"Player {PlayerName} rolled dice.";
-                    lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Double! Roll dice again...";
-                    for (int i = 0; i < 3; i++)
-                    {
-                        lblTimer.Content = $"Counter: {3 - i}s";
-                        await Task.Delay(100);
-                    }
-                    continue;
-                }
-                else
-                {
                     Roll = face[0] + face[1];
                     lblPlayer.Content = $"Player {PlayerName} rolled dice.";
-                    lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Move {Roll} places!";
+                    lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Double!";
                     MovePlayerAndClose();
                     break;
                 }
             }
-
         }
-
         private async void MovePlayerAndClose()
         {
             for (int i = 0; i < 3; i++)
@@ -81,40 +105,41 @@ namespace Monopoly.View
                 lblTimer.Content = $"Counter: {3 - i}s";
                 await Task.Delay(1000);
             }
-
             this.Close();
         }
-
         private void btnAuto_Click(object sender, RoutedEventArgs e)
         {
             btnAuto.Visibility = Visibility.Hidden;
             btnManual.Visibility = Visibility.Hidden;
             btnMove.Visibility = Visibility.Hidden;
+            btnDouble.Visibility = Visibility.Hidden;
             GetNumbers();
         }
 
         private void btnManual_Click(object sender, RoutedEventArgs e)
         {
+            Double = 0;
             lblPlayer.Content = $"Type in the number of places {PlayerName} will move.";
             btnAuto.Visibility = Visibility.Hidden;
             btnManual.Visibility = Visibility.Hidden;
+            btnDouble.Visibility = Visibility.Hidden;
             btnMove.Visibility = Visibility.Visible;
             btnMove.Content = $"Move {PlayerName}";
             txtNumberOfPlaces.Visibility = Visibility.Visible;
             txtNumberOfPlaces.Focus();
         }
-
         private void btnMove_Click(object sender, RoutedEventArgs e)
         {
-            if(txtNumberOfPlaces.Text.Length > 0)
-            {
-                Roll = Convert.ToInt32(txtNumberOfPlaces.Text);
-            }
-            else
-            {
-                Roll = 0;
-            }
-                this.Close();
+            Roll = Convert.ToInt32(txtNumberOfPlaces.Text);
+            this.Close();
+        }
+
+        private void btnDouble_Click(object sender, RoutedEventArgs e)
+        {
+            btnAuto.Visibility = Visibility.Hidden;
+            btnManual.Visibility = Visibility.Hidden;
+            btnMove.Visibility = Visibility.Hidden;
+            GetNumbers(1); //Add any number to the method to get double
         }
     }
 }

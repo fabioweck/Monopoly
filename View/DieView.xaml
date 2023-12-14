@@ -70,14 +70,23 @@
             Grid.Column="1"
             Grid.ColumnSpan="2"
             Click="btnAuto_Click"
-            Content="Auto" />
+                Content="Auto"
+                Width="45" />
+        <Button x:Name="btnDouble"
+                Grid.Row="5"
+                Grid.Column="3"
+                Grid.ColumnSpan="2"
+                Click="btnDouble_Click"
+                Content="Double"
+                Width="45" />
         <Button
             x:Name="btnManual"
             Grid.Row="5"
             Grid.Column="5"
             Grid.ColumnSpan="2"
             Click="btnManual_Click"
-            Content="Manual" />
+            Content="Manual"
+            Width="45" />
         <Button
             x:Name="btnMove"
             Grid.Row="5"

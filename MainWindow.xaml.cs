@@ -76,8 +76,11 @@ namespace Monopoly
 
         private void HowManyPlayers(object sender, EventArgs e)
         {
-            PlayerCountQuestion playerCount = new PlayerCountQuestion();
-            playerCount.ShowDialog();
+            while (NumberOfPlayers == 0)
+            {
+                PlayerCountQuestion playerCount = new PlayerCountQuestion();
+                playerCount.ShowDialog();
+            }
 
             for (int i = 0; i < NumberOfPlayers; i++)
             {
@@ -188,6 +191,8 @@ namespace Monopoly
 
             UpdateAllPlayersPanel();
 
+            if (DieView.Double != 0) return;
+
             ChangePlayer();
         }
 
@@ -204,6 +209,8 @@ namespace Monopoly
                 int _ind = PlayerViewModel.Players.IndexOf(PlayerViewModel.CurrentPlayer) + 1;
                 PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[_ind];
             }
+
+            DieView.Double = 0;
 
         }
 
