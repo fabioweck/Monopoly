@@ -35,7 +35,6 @@ namespace Monopoly.ViewModel
         public static List<PlayerViewModel> Players = new List<PlayerViewModel>();
 
         // Member Fields
-        //public System.Windows.Controls.Label playerLabel = new System.Windows.Controls.Label();
         public int instanceNumber = 0;
         public PlayerModel Player { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -106,6 +105,7 @@ namespace Monopoly.ViewModel
             transaction(amount);
         }
 
+        // Moves the player, adjusting their token according to the segment of the board. Player tokens never overlap each other.
         public void MovePlayer(int spaces)
         {
             int newPosition = Position + spaces;
@@ -158,40 +158,43 @@ namespace Monopoly.ViewModel
                 int move = 10 - CurrentPlayer.Position;
                 CurrentPlayer.MovePlayer(move);
             }
-            else //If the player is ahead of position 10
+            else //If the player is ahead of position 10, move back to prison
             {
-                int move = 10 - CurrentPlayer.Position + 40;
+                int move = 10 - CurrentPlayer.Position;
                 CurrentPlayer.MovePlayer(move);
             }
         }
 
         public static void GoToNextRailroad()
         {
-
-            //If the player is behind position 10 (prison)
-            if (PlayerViewModel.CurrentPlayer.Position < 5)
+            // Move to Railroad at space #5
+            if (CurrentPlayer.Position < 5)
             {
                 int move = 5 - CurrentPlayer.Position;
                 CurrentPlayer.MovePlayer(move);
             }
 
-            else if(PlayerViewModel.CurrentPlayer.Position > 5 && PlayerViewModel.CurrentPlayer.Position < 15) 
+            // Move to Railroad at space #15
+            else if (CurrentPlayer.Position > 5 && CurrentPlayer.Position < 15) 
             {
                 int move = 15 - CurrentPlayer.Position;
                 CurrentPlayer.MovePlayer(move);
             }
 
-            else if (PlayerViewModel.CurrentPlayer.Position > 15 && PlayerViewModel.CurrentPlayer.Position < 25)
+            // Move to Railroad at space #25
+            else if (CurrentPlayer.Position > 15 && CurrentPlayer.Position < 25)
             {
                 int move = 25 - CurrentPlayer.Position;
                 CurrentPlayer.MovePlayer(move);
             }
 
-            else if (PlayerViewModel.CurrentPlayer.Position > 25 && PlayerViewModel.CurrentPlayer.Position < 35)
+            // Move to Railroad at space #35
+            else if (CurrentPlayer.Position > 25 && CurrentPlayer.Position < 35)
             {
                 int move = 35 - CurrentPlayer.Position;
                 CurrentPlayer.MovePlayer(move);
             }
+            // Move to Railroad at space #5
             else
             {
                 int move = 5 - CurrentPlayer.Position + 40;
@@ -199,12 +202,14 @@ namespace Monopoly.ViewModel
             }
         }
 
+        // Move to the starting position, completing a lap.
         public static void GotToFirstPlace()
         {
             int move = 40 - CurrentPlayer.Position;
             CurrentPlayer.MovePlayer(move);
         }
 
+        // Calcuclates the amount of properties owned by the player:
         public int PlayerTotalOfProperties()
         {
             int totalOfProperties = 0;
@@ -220,25 +225,24 @@ namespace Monopoly.ViewModel
             return totalOfProperties;
         }
 
-        // If a player cannot afford something (goes negative $) they lose the game and are removed from the board:
+        // If a player cannot afford something (their balance would become negative) they lose the game and are removed from the board:
         public void FileBankruptcy(Grid boardGrid, MainWindow board)
         {
-            // adjust each pvm's instance number
+            // Adjust each pvm's instance number
             foreach (PlayerViewModel _pvm in Players)
-            {
                 if (_pvm.instanceNumber > CurrentPlayer.instanceNumber)
                     _pvm.instanceNumber--;
-            }
 
-            // remove label from the board and remove pvm and pm instance from lists
+            // Remove label from the board and remove pvm and pm instance from lists
             boardGrid.Children.Remove(board.LblPlayers[CurrentPlayer.instanceNumber]);
             Players.Remove(this);
             PlayerModels.RemoveAt(instanceNumber);
 
+            // Display bankruptcy screen for that player
             PlayerWentBankrupt bankrupt = new PlayerWentBankrupt(CurrentPlayer);
-
             bankrupt.Show();
 
+            // If there is only one player left, show victory screen.
             if (Players.Count == 1)
             {
                 Victory _v = new Victory(board);

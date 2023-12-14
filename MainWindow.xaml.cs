@@ -214,6 +214,7 @@ namespace Monopoly
 
         }
 
+        // Updates the players panel with current information
         public void UpdateAllPlayersPanel()
         {
             foreach (TextBox textBox in txtBoxPanelPlayers)
@@ -228,7 +229,7 @@ namespace Monopoly
             }          
         }
 
-        //Check if any of the players if bankrupt after game logic
+        // Check if current player goes bankrupt after game logic is resolved
         public void CheckBankruptcy(Grid boardGrid)
         {
             if(PlayerViewModel.CurrentPlayer.Balance < 0)
