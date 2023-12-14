@@ -141,5 +141,13 @@ namespace Monopoly.View
             btnMove.Visibility = Visibility.Hidden;
             GetNumbers(1); //Add any number to the method to get double
         }
+
+        private void btnDouble_Click(object sender, RoutedEventArgs e)
+        {
+            btnAuto.Visibility = Visibility.Hidden;
+            btnManual.Visibility = Visibility.Hidden;
+            btnMove.Visibility = Visibility.Hidden;
+            GetNumbers(1); //Add any number to the method to get double
+        }
     }
 }

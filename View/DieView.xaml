@@ -70,8 +70,8 @@
             Grid.Column="1"
             Grid.ColumnSpan="2"
             Click="btnAuto_Click"
-                Content="Auto"
-                Width="45" />
+            Content="Auto"
+            Width="45"/>
         <Button x:Name="btnDouble"
                 Grid.Row="5"
                 Grid.Column="3"
