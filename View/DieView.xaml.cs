@@ -26,6 +26,7 @@ namespace Monopoly.View
         public static int Roll { get; set; }
         public static int Double { get; set; } = 0;
         public string PlayerName;
+        public static bool Click = false;
 
         public DieView(string name)
         {
@@ -109,6 +110,7 @@ namespace Monopoly.View
         }
         private void btnAuto_Click(object sender, RoutedEventArgs e)
         {
+            Click = true;
             btnAuto.Visibility = Visibility.Hidden;
             btnManual.Visibility = Visibility.Hidden;
             btnMove.Visibility = Visibility.Hidden;
@@ -118,6 +120,7 @@ namespace Monopoly.View
 
         private void btnManual_Click(object sender, RoutedEventArgs e)
         {
+            Click = true;
             Double = 0;
             lblPlayer.Content = $"Type in the number of places {PlayerName} will move.";
             btnAuto.Visibility = Visibility.Hidden;
@@ -130,12 +133,14 @@ namespace Monopoly.View
         }
         private void btnMove_Click(object sender, RoutedEventArgs e)
         {
+            Click = true;
             Roll = Convert.ToInt32(txtNumberOfPlaces.Text);
             this.Close();
         }
 
         private void btnDouble_Click(object sender, RoutedEventArgs e)
         {
+            Click = true;
             btnAuto.Visibility = Visibility.Hidden;
             btnManual.Visibility = Visibility.Hidden;
             btnMove.Visibility = Visibility.Hidden;
