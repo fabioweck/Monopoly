@@ -30,12 +30,15 @@ namespace Monopoly
         public static int NumberOfPlayers = 0;
         public List<Label> LblPlayers = new List<Label>();
         public List<TextBox> txtBoxPanelPlayers;
+        public CardViewModel Cards;
 
         LodgingViewModel lodgingViewModel = new LodgingViewModel();
 
         public MainWindow()
         {
             InitializeComponent();
+
+            Cards = new CardViewModel();
             SpaceViewModel.PopulateBoard();
 
             txtBoxPanelPlayers = new List<TextBox>() { P1, P2, P3, P4 };
@@ -71,24 +74,6 @@ namespace Monopoly
             ResolveLogic();
         }
 
-        public static SolidColorBrush GetPlayerColor(int instanceNumber)
-        {
-            switch (instanceNumber)
-            {
-                case 0: // Player 1
-                    return new SolidColorBrush(Color.FromRgb(0, 102, 204));
-                case 1: // Player 2
-                    return new SolidColorBrush(Color.FromRgb(255, 140, 0));
-                case 2: // Player 3
-                    return new SolidColorBrush(Color.FromRgb(255, 69, 0)); 
-                case 3: // Player 4
-                    return new SolidColorBrush(Color.FromRgb(34, 139, 34)); 
-                default:
-                    return new SolidColorBrush(Colors.Gray);
-            }
-        }
-
-
         private void HowManyPlayers(object sender, EventArgs e)
         {
             PlayerCountQuestion playerCount = new PlayerCountQuestion();
@@ -101,29 +86,29 @@ namespace Monopoly
                 //-----------------------------------------------------
                 Label myLabel = new Label();
 
-                // Create a source object (in this case, a simple class with a property)
+                // Create a source object
                 PlayerViewModel myData = PlayerViewModel.Players[i];
 
-                // Create a Binding object and set the path to the property you want to bind
+                // Create a Binding object
                 Binding bindingRow = new Binding("Row");
                 Binding bindingColumn = new Binding("Column");
                 Binding bindingName = new Binding("Name");
 
-                // Set the source of the binding to your data object
+                // Set the source of the binding to the data object
                 bindingRow.Source = myData;
                 bindingColumn.Source = myData;
                 bindingName.Source = myData;
 
                 // Apply the binding to the Label's Content property
-                myLabel.SetBinding(Label.ContentProperty, bindingName);
+                myLabel.SetBinding(ContentProperty, bindingName);
                 myLabel.SetBinding(Grid.RowProperty, bindingRow);
                 myLabel.SetBinding(Grid.ColumnProperty, bindingColumn);
 
-                SolidColorBrush playerColorBrush = GetPlayerColor(myData.instanceNumber);
+                SolidColorBrush playerColorBrush = myData.Color;
                 myLabel.Background = new SolidColorBrush(playerColorBrush.Color); 
 
-
                 myLabel.Name = $"Player{i}";
+                //PlayerViewModel.Players[i].playerLabel = myLabel;
 
                 Panel.SetZIndex(myLabel, 2);
 
@@ -199,16 +184,17 @@ namespace Monopoly
 
             SpaceViewModel.Resolve(BoardGrid, txtBoxPanelPlayers, lodgingViewModel.AddLodgingToBoard);
 
+            CheckBankruptcy(BoardGrid);
+
             UpdateAllPlayersPanel();
 
             ChangePlayer();
-
-            CheckBankruptcy();
         }
 
         //Call the next player to roll the dice
-        private static void ChangePlayer()
+        private void ChangePlayer()
         {
+ 
             //If the player is the last in the list, call the first one
             if (PlayerViewModel.Players.IndexOf(PlayerViewModel.CurrentPlayer) >= PlayerViewModel.Players.Count - 1)
                 PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[0];
@@ -218,6 +204,7 @@ namespace Monopoly
                 int _ind = PlayerViewModel.Players.IndexOf(PlayerViewModel.CurrentPlayer) + 1;
                 PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[_ind];
             }
+
         }
 
         public void UpdateAllPlayersPanel()
@@ -235,15 +222,11 @@ namespace Monopoly
         }
 
         //Check if any of the players if bankrupt after game logic
-        public void CheckBankruptcy()
+        public void CheckBankruptcy(Grid boardGrid)
         {
-            foreach(PlayerViewModel player in PlayerViewModel.Players)
+            if(PlayerViewModel.CurrentPlayer.Balance < 0)
             {
-                if(player.Balance <= 0)
-                {
-                    MessageBox.Show($"{player.Name} has gone bankrupt...");
-                    //TODO - remove player and update status on screen (game over?)
-                }
+                PlayerViewModel.CurrentPlayer.FileBankruptcy(boardGrid, this);
             }
         }   
     }

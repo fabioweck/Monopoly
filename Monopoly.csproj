@@ -72,11 +72,20 @@
     <Compile Include="ViewModel\PlayerViewModel.cs" />
     <Compile Include="ViewModel\LodgingViewModel.cs" />
     <Compile Include="ViewModel\SpaceViewModel.cs" />
+    <Compile Include="View\CardView.xaml.cs">
+      <DependentUpon>CardView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DieView.xaml.cs">
       <DependentUpon>DieView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PlayerCountQuestion.xaml.cs">
       <DependentUpon>PlayerCountQuestion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PlayerWentBankrupt.xaml.cs">
+      <DependentUpon>PlayerWentBankrupt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Victory.xaml.cs">
+      <DependentUpon>Victory.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -90,11 +99,23 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\CardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\DieView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PlayerCountQuestion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PlayerWentBankrupt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Victory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

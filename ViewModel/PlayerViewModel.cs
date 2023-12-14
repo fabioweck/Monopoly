@@ -1,11 +1,15 @@
 ﻿using Monopoly.Model;
+using Monopoly.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Monopoly.ViewModel
 {
@@ -31,12 +35,14 @@ namespace Monopoly.ViewModel
         public static List<PlayerViewModel> Players = new List<PlayerViewModel>();
 
         // Member Fields
+        //public System.Windows.Controls.Label playerLabel = new System.Windows.Controls.Label();
         public int instanceNumber = 0;
         public PlayerModel Player { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Member Properties
         public string Name { get { return Player.Name; } }
+        public SolidColorBrush Color { get { return Player.Color; } }
         public int Position { get; set; } = 0;
         public int Column 
         { 
@@ -66,6 +72,13 @@ namespace Monopoly.ViewModel
             get { return PlayerModels[instanceNumber].Balance; }
 
             set { PlayerModels[instanceNumber].Balance = value; OnPropertyChanged(nameof(Balance));}
+        }
+
+        public string Card
+        {
+            get { return PlayerModels[instanceNumber].Card; }
+
+            set { PlayerModels[instanceNumber].Card = value; OnPropertyChanged(nameof(Card)); }
         }
 
         public PlayerViewModel()
@@ -111,8 +124,9 @@ namespace Monopoly.ViewModel
             if ((newPosition > 20 && newPosition < 30))
                 Row++;
 
-            if (CurrentPlayer.Name ==  Players[1].Name)
-                Column++;
+            if(Players.Count > 1) 
+                if (CurrentPlayer.Name ==  Players[1].Name)
+                    Column++;
 
             if (Players.Count > 2)
                 if (CurrentPlayer.Name == Players[2].Name)
@@ -138,18 +152,57 @@ namespace Monopoly.ViewModel
 
         public static void GoToJail()
         {
-
             //If the player is behind position 10 (prison)
-            if (PlayerViewModel.CurrentPlayer.Position < 10)
+            if (CurrentPlayer.Position < 10)
             {
-                int move = 10 - PlayerViewModel.CurrentPlayer.Position;
-                PlayerViewModel.CurrentPlayer.MovePlayer(move);
+                int move = 10 - CurrentPlayer.Position;
+                CurrentPlayer.MovePlayer(move);
             }
             else //If the player is ahead of position 10
             {
-                int move = 10 - PlayerViewModel.CurrentPlayer.Position + 40;
-                PlayerViewModel.CurrentPlayer.MovePlayer(move);
+                int move = 10 - CurrentPlayer.Position + 40;
+                CurrentPlayer.MovePlayer(move);
             }
+        }
+
+        public static void GoToNextRailroad()
+        {
+
+            //If the player is behind position 10 (prison)
+            if (PlayerViewModel.CurrentPlayer.Position < 5)
+            {
+                int move = 5 - CurrentPlayer.Position;
+                CurrentPlayer.MovePlayer(move);
+            }
+
+            else if(PlayerViewModel.CurrentPlayer.Position > 5 && PlayerViewModel.CurrentPlayer.Position < 15) 
+            {
+                int move = 15 - CurrentPlayer.Position;
+                CurrentPlayer.MovePlayer(move);
+            }
+
+            else if (PlayerViewModel.CurrentPlayer.Position > 15 && PlayerViewModel.CurrentPlayer.Position < 25)
+            {
+                int move = 25 - CurrentPlayer.Position;
+                CurrentPlayer.MovePlayer(move);
+            }
+
+            else if (PlayerViewModel.CurrentPlayer.Position > 25 && PlayerViewModel.CurrentPlayer.Position < 35)
+            {
+                int move = 35 - CurrentPlayer.Position;
+                CurrentPlayer.MovePlayer(move);
+            }
+            else
+            {
+                int move = 5 - CurrentPlayer.Position + 40;
+                CurrentPlayer.MovePlayer(move);
+            }
+        }
+
+        public static void GotToFirstPlace()
+        {
+            int move = 40 - CurrentPlayer.Position;
+            CurrentPlayer.MovePlayer(move);
         }
 
         public int PlayerTotalOfProperties()
@@ -165,6 +218,32 @@ namespace Monopoly.ViewModel
             }
 
             return totalOfProperties;
+        }
+
+        // If a player cannot afford something (goes negative $) they lose the game and are removed from the board:
+        public void FileBankruptcy(Grid boardGrid, MainWindow board)
+        {
+            // adjust each pvm's instance number
+            foreach (PlayerViewModel _pvm in Players)
+            {
+                if (_pvm.instanceNumber > CurrentPlayer.instanceNumber)
+                    _pvm.instanceNumber--;
+            }
+
+            // remove label from the board and remove pvm and pm instance from lists
+            boardGrid.Children.Remove(board.LblPlayers[CurrentPlayer.instanceNumber]);
+            Players.Remove(this);
+            PlayerModels.RemoveAt(instanceNumber);
+
+            PlayerWentBankrupt bankrupt = new PlayerWentBankrupt(CurrentPlayer);
+
+            bankrupt.Show();
+
+            if (Players.Count == 1)
+            {
+                Victory _v = new Victory(board);
+                _v.Show();
+            }
         }
     }
 }
