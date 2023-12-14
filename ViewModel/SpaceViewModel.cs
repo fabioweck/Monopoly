@@ -69,7 +69,7 @@ namespace Monopoly.ViewModel
             //If player position is over place 30, it means go to prison
             if (currentPlayer.Position == 30)
             {
-                MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, go to the jail...", ":(", MessageBoxButton.OK);
+                MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, go to jail...", ":(", MessageBoxButton.OK);
                 PlayerViewModel.GoToJail();
                 return;
             }
@@ -170,6 +170,8 @@ namespace Monopoly.ViewModel
                             propertyLabel.Content = property.Owner.Name;
                             propertyLabel.FontSize = 12;
                             propertyLabel.FontWeight = FontWeights.Bold;
+                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
 
                             // Set the Grid row and column
                             //Top
@@ -177,56 +179,42 @@ namespace Monopoly.ViewModel
                             {
                                 propertyLabel.SetValue(Grid.RowProperty, property.Row + 3);
                                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             }
                             //Right
                             if (property.Row >= 4 && property.Row <= 21 && property.Column >= 22 && property.Column <= 24)
                             {
                                 propertyLabel.SetValue(Grid.RowProperty, property.Row);
                                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             }
                             //Bottom
                             if (property.Row >= 22 && property.Row <= 24 && property.Column >= 0 && property.Column <= 21)
                             {
                                 propertyLabel.SetValue(Grid.RowProperty, property.Row - 1);
                                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             }
                             //Left
                             if (property.Row >= 0 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
                             {
                                 propertyLabel.SetValue(Grid.RowProperty, property.Row);
                                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             }
                             //Left-top corner
                             if (property.Row >= 4 && property.Row <= 5 && property.Column >= 0 && property.Column <= 3)
                             {
                                 propertyLabel.SetValue(Grid.RowProperty, 5);
                                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             }
                             //Left-bottom corner
                             if (property.Row >= 20 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
                             {
                                 propertyLabel.SetValue(Grid.RowProperty, 20);
                                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             }
                             //Right-top corner
                             if (property.Row >= 4 && property.Row <= 5 && property.Column >= 22 && property.Column <= 24)
                             {
                                 propertyLabel.SetValue(Grid.RowProperty, 5);
                                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             }
 
                             // Label with the same color of the player
@@ -234,8 +222,6 @@ namespace Monopoly.ViewModel
 
                             // Add the label to the Grid
                             boardGrid.Children.Add(propertyLabel);
-
-
 
                             //Update Players Panel
                             foreach (TextBox textBox in txtBoxPanelPlayers)
@@ -637,7 +623,7 @@ namespace Monopoly.ViewModel
         delegate void ResolveSpaceAction();
 
 
-
+        
         public static void PopulateBoard()
         {
             spaceModels.Add(0,
@@ -651,7 +637,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm1 = new PropertyModel(
                     "Meditarranean Avenue",                             // Name
                     "A property belonging to group 'Brown'. Space #1",  // Description
-                    "Tile01_Brown",                  // Image
+                    "Tile01_Brown",                                     // Image
                     "Brown",                                            // Group
                     60,                                                 // Price to buy
                     50,                                                 // Cost per house
@@ -670,7 +656,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm3 = new PropertyModel(
                    "Baltic Avenue",                                     // Name
                    "A property belonging to group 'Brown'. Space #3",   // Description
-                   "Tile03_Brown",                   // Image
+                   "Tile03_Brown",                                      // Image
                    "Brown",                                             // Group
                    60,                                                  // Price to buy
                    50,                                                  // Cost per house
@@ -689,7 +675,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm5 = new PropertyModel(
                     "Reading Railroad",                                 // Name
                     "Railroad Company. Space#5",                        // Description
-                    "Tile05_Rail",                   // Image
+                    "Tile05_Rail",                                      // Image
                     200,                                                // Price to buy
                     25, 50, 100, 200,                                   // Rent[]
                    1, 12, 3, 2);
@@ -698,7 +684,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm6 = new PropertyModel(
                     "Oriental Avenue",                                  // Name
                     "A property belonging to group 'Teal'. Space#6",    // Description
-                    "Tile06_Teal",                   // Image
+                    "Tile06_Teal",                                      // Image
                     "Teal",                                             // Group
                     100,                                                // Price to buy
                     50,                                                 // Cost per house
@@ -717,7 +703,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm8 = new PropertyModel(
                     "Vermont Avenue",                                   // Name
                     "A property belonging to group 'Teal'. Space#8",    // Description
-                    "Tile08_Teal",                   // Image
+                    "Tile08_Teal",                                      // Image
                     "Teal",                                             // Group
                     100,                                                // Price to buy
                     50,                                                 // Cost per house
@@ -728,7 +714,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm9 = new PropertyModel(
                     "Connecticut Avenue",                               // Name
                     "A property belonging to group 'Teal'. Space#9",    // Description
-                    "Tile09_Teal",                   // Image
+                    "Tile09_Teal",                                      // Image
                     "Teal",                                             // Group
                     120,                                                // Price to buy
                     50,                                                 // Cost per House
@@ -747,7 +733,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm11 = new PropertyModel(
                     "St. Charles Place",                                // Name
                     "A property belonging to group 'Pink'. Space#11",   // Description
-                    "Tile11_Pink",                   // Image
+                    "Tile11_Pink",                                      // Image
                     "Pink",                                             // Group
                     140,                                                // Price to buy
                     100,                                                // Cost per House
@@ -768,7 +754,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm13 = new PropertyModel(
                     "States Avenue",                                    // Name
                     "A property belonging to group 'Pink'. Space#13",   // Description
-                    "Tile13_Pink",                   // Image
+                    "Tile13_Pink",                                      // Image
                     "Pink",                                             // Group
                     140,                                                // Price to buy
                     100,                                                // Cost per House
@@ -779,7 +765,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm14 = new PropertyModel(
                     "Virginia Avenue",                                  // Name
                     "A property belonging to group 'Pink'. Space#14",   // Description
-                    "Tile14_Pink",                   // Image
+                    "Tile14_Pink",                                      // Image
                     "Pink",                                             // Group
                     160,                                                // Price to buy
                     100,                                                // Cost per House
@@ -790,7 +776,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm15 = new PropertyModel(
                     "Pennsylvania Railroad",                            // Name
                     "Railroad Company. Space#15",                       // Description
-                    "Tile15_Rail",                   // Image
+                    "Tile15_Rail",                                      // Image
                     200,                                                // Price to buy
                     25, 50, 100, 200,                                   // Rent[]
                     12, 22, 2, 3);
@@ -799,7 +785,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm16 = new PropertyModel(
                     "St. James Place",                                  // Name
                     "A property belonging to group 'Orange'. Space#16", // Description
-                    "Tile16_Orange",                 // Image
+                    "Tile16_Orange",                                    // Image
                     "Orange",                                           // Group
                     180,                                                // Price to buy
                     100,                                                // Cost per House
@@ -818,7 +804,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm18 = new PropertyModel(
                     "Tennessee Avenue",                                 // Name
                     "A property belonging to group 'Orange'. Space#18", // Description
-                    "Tile18_Orange",                 // Image
+                    "Tile18_Orange",                                    // Image
                     "Orange",                                           // Group
                     180,                                                // Price to buy
                     100,                                                // Cost per House
@@ -829,7 +815,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm19 = new PropertyModel(
                     "New York Avenue",                                  // Name
                     "A property belonging to group 'Orange'. Space#19", // Description
-                    "Tile19_Orange",                 // Image
+                    "Tile19_Orange",                                    // Image
                     "Orange",                                           // Group
                     200,                                                // Price to buy
                     100,                                                // Cost per House
@@ -848,7 +834,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm21 = new PropertyModel(
                     "Kentucky Avenue",                                  // Name
                     "A property belonging to group 'Red'. Space#21",    // Description
-                    "Tile21_Red",                    // Image
+                    "Tile21_Red",                                       // Image
                     "Red",                                              // Group
                     220,                                                // Price to buy
                     150,                                                // Cost per House
@@ -867,7 +853,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm23 = new PropertyModel(
                     "Indiana Avenue",                                   // Name
                     "A property belonging to group 'Red'. Space#23",    // Description
-                    "Tile23_Red",                    // Image
+                    "Tile23_Red",                                       // Image
                     "Red",                                              // Group
                     220,                                                // Price to buy
                     150,                                                // Cost per House
@@ -878,7 +864,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm24 = new PropertyModel(
                     "Illinois Avenue",                                  // Name
                     "A property belonging to group 'Red'. Space#24",    // Description
-                    "Tile24_Red",                    // Image
+                    "Tile24_Red",                                       // Image
                     "Red",                                              // Group
                     240,                                                // Price to buy
                     150,                                                // Cost per House
@@ -889,7 +875,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm25 = new PropertyModel(
                     "B.O. Railroad",                                    // Name
                     "Railroad Company. Space#25",                       // Description
-                    "Tile25_Rail",                   // Image
+                    "Tile25_Rail",                                      // Image
                     200,                                                // Price to buy
                     25, 50, 100, 200,                                   // Rent[]
                     22, 12, 3, 2);
@@ -898,7 +884,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm26 = new PropertyModel(
                     "Atlantic Avenue",                                  // Name
                     "A property belonging to group 'Yellow'. Space#26", // Description
-                    "Tile26_Yellow",                 // Image
+                    "Tile26_Yellow",                                    // Image
                     "Yellow",                                           // Group
                     260,                                                // Price to buy
                     150,                                                // Cost per House
@@ -909,7 +895,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm27 = new PropertyModel(
                     "Ventnor Avenue",                                   // Name
                     "A property belonging to group 'Yellow'. Space#27", // Description
-                    "Tile27_Yellow",                 // Image
+                    "Tile27_Yellow",                                    // Image
                     "Yellow",                                           // Group
                     260,                                                // Price to buy
                     150,                                                // Cost per House
@@ -929,7 +915,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm29 = new PropertyModel(
                     "Marvin Gardens",                                   // Name
                     "A property belonging to group 'Yellow'. Space#29", // Description
-                    "Tile29_Yellow",                 // Image
+                    "Tile29_Yellow",                                    // Image
                     "Yellow",                                           // Group
                     280,                                                // Price to buy
                     150,                                                // Cost per House
@@ -948,7 +934,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm31 = new PropertyModel(
                     "Pacific Avenue",                                   // Name
                     "A property belonging to group 'Green'. Space#31",  // Description
-                    "Tile31_Green",                  // Image
+                    "Tile31_Green",                                     // Image
                     "Green",                                            // Group
                     300,                                                // Price to buy
                     200,                                                // Cost per House
@@ -959,7 +945,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm32 = new PropertyModel(
                     "North Carolina Avenue",                            // Name
                     "A property belonging to group 'Green'. Space#32",  // Description
-                    "Tile32_Green",                  // Image
+                    "Tile32_Green",                                     // Image
                     "Green",                                            // Group
                     300,                                                // Price to buy
                     200,                                                // Cost per House
@@ -978,7 +964,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm34 = new PropertyModel(
                     "Pennsylvania Avenue",                              // Name
                     "A property belonging to group 'Green'. Space#34",  // Description
-                    "Tile34_Green",                  // Image
+                    "Tile34_Green",                                     // Image
                     "Green",                                            // Group
                     320,                                                // Price to buy
                     200,                                                // Cost per House
@@ -989,7 +975,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm35 = new PropertyModel(
                     "Short Line",                                       // Name
                     "Railroad Company. Space#35",                       // Description
-                    "Tile35_Rail",                   // Image
+                    "Tile35_Rail",                                      // Image
                     200,                                                // Price to buy
                     25, 50, 100, 200,                                   // Rent[]
                     12, 1, 2, 3);
@@ -1006,7 +992,7 @@ namespace Monopoly.ViewModel
             SpaceModel sm37 = new PropertyModel(
                     "Park Place",                                       // Name
                     "A property belonging to group 'Blue'. Space#37",   // Description
-                    "Tile37_Blue",                   // Image
+                    "Tile37_Blue",                                      // Image
                     "Blue",                                             // Group
                     350,                                                // Price to buy
                     200,                                                // Cost per House
@@ -1024,8 +1010,8 @@ namespace Monopoly.ViewModel
 
             SpaceModel sm39 = new PropertyModel(
                     "Boardwalk",                                        // Name
-                    "A property belonging to group 'Blue'. Space#37",   // Description
-                    "Tile39_Blue",                   // Image
+                    "A property belonging to group 'Blue'. Space#39",   // Description
+                    "Tile39_Blue",                                      // Image
                     "Blue",                                             // Group
                     400,                                                // Price to buy
                     200,                                                // Cost per House
