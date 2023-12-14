@@ -10,12 +10,16 @@ namespace Monopoly.Model
     public class CardModel
     {
         public string Description { get; set; }
-        public Point Position { get; set; }
+        public string Effect { get; set; }
+        public int Value { get; set; } = 0;
+        public int Move { get; set; } = 0;
 
-        public CardModel(string description, int column, int row)
+        public CardModel(string description, string effect, int value, int move = 0)
         {
             Description = description;
-            Position = new Point(column, row);
+            Effect = effect;
+            Value = value;
+            Move = move;
         }
     }
 }

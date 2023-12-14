@@ -30,12 +30,15 @@ namespace Monopoly
         public static int NumberOfPlayers = 0;
         public List<Label> LblPlayers = new List<Label>();
         public List<TextBox> txtBoxPanelPlayers;
+        public CardViewModel Cards;
 
         LodgingViewModel lodgingViewModel = new LodgingViewModel();
 
         public MainWindow()
         {
             InitializeComponent();
+
+            Cards = new CardViewModel();
             SpaceViewModel.PopulateBoard();
 
             txtBoxPanelPlayers = new List<TextBox>() { P1, P2, P3, P4 };
