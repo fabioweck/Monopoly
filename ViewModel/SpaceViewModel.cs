@@ -234,7 +234,7 @@ namespace Monopoly.ViewModel
                             }
 
                             // Label with the same color of the player
-                            propertyLabel.Foreground = MainWindow.GetPlayerColor(PlayerViewModel.CurrentPlayer.instanceNumber);
+                            propertyLabel.Foreground = PlayerViewModel.CurrentPlayer.Color;
 
                             // Add the label to the Grid
                             boardGrid.Children.Add(propertyLabel);
@@ -331,66 +331,54 @@ namespace Monopoly.ViewModel
                             propertyLabel.FontSize = 12;
                             propertyLabel.FontWeight = FontWeights.Bold;
 
+                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             // Set the Grid row and column
                             //Top
                             if (property.Row >= 0 && property.Row <= 3 && property.Column >= 0 && property.Column <= 21)
                             {
                                 propertyLabel.SetValue(Grid.RowProperty, property.Row + 3);
                                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             }
                             //Right
                             if (property.Row >= 4 && property.Row <= 21 && property.Column >= 22 && property.Column <= 24)
                             {
                                 propertyLabel.SetValue(Grid.RowProperty, property.Row);
                                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             }
                             //Bottom
                             if (property.Row >= 22 && property.Row <= 24 && property.Column >= 0 && property.Column <= 21)
                             {
                                 propertyLabel.SetValue(Grid.RowProperty, property.Row - 1);
                                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                            }
+                             }
                             //Left
                             if (property.Row >= 0 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
                             {
                                 propertyLabel.SetValue(Grid.RowProperty, property.Row);
                                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             }
                             //Left-top corner
                             if (property.Row >= 4 && property.Row <= 5 && property.Column >= 0 && property.Column <= 3)
                             {
                                 propertyLabel.SetValue(Grid.RowProperty, 5);
                                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             }
                             //Left-bottom corner
                             if (property.Row >= 20 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
                             {
                                 propertyLabel.SetValue(Grid.RowProperty, 20);
                                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             }
                             //Right-top corner
                             if (property.Row >= 4 && property.Row <= 5 && property.Column >= 22 && property.Column <= 24)
                             {
                                 propertyLabel.SetValue(Grid.RowProperty, 5);
                                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
                             }
 
                             // Label with the same color of the player
-                            propertyLabel.Foreground = MainWindow.GetPlayerColor(PlayerViewModel.CurrentPlayer.instanceNumber);
+                            propertyLabel.Foreground = PlayerViewModel.CurrentPlayer.Color;
 
                             // Add the label to the Grid
                             boardGrid.Children.Add(propertyLabel);
@@ -523,7 +511,7 @@ namespace Monopoly.ViewModel
                             }
 
                             // Label with the same color of the player
-                            propertyLabel.Foreground = MainWindow.GetPlayerColor(PlayerViewModel.CurrentPlayer.instanceNumber);
+                            propertyLabel.Foreground = PlayerViewModel.CurrentPlayer.Color;
 
                             // Add the label to the Grid
                             boardGrid.Children.Add(propertyLabel);

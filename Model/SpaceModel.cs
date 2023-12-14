@@ -28,7 +28,6 @@ namespace Monopoly.Model
             }
         }
 
-            
         public int Row { get; set; }
         public int Column { get; set; }
         public int RowSpan { get; set; } = 2;
@@ -87,6 +86,5 @@ namespace Monopoly.Model
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }
