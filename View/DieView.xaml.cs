@@ -87,6 +87,9 @@ namespace Monopoly.View
 
         private void btnAuto_Click(object sender, RoutedEventArgs e)
         {
+            btnAuto.Visibility = Visibility.Hidden;
+            btnManual.Visibility = Visibility.Hidden;
+            btnMove.Visibility = Visibility.Hidden;
             GetNumbers();
         }
 
@@ -98,6 +101,7 @@ namespace Monopoly.View
             btnMove.Visibility = Visibility.Visible;
             btnMove.Content = $"Move {PlayerName}";
             txtNumberOfPlaces.Visibility = Visibility.Visible;
+            txtNumberOfPlaces.Focus();
         }
 
         private void btnMove_Click(object sender, RoutedEventArgs e)
