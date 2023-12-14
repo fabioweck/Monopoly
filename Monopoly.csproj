@@ -78,6 +78,12 @@
     <Compile Include="View\PlayerCountQuestion.xaml.cs">
       <DependentUpon>PlayerCountQuestion.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\PlayerWentBankrupt.xaml.cs">
+      <DependentUpon>PlayerWentBankrupt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Victory.xaml.cs">
+      <DependentUpon>Victory.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -95,6 +101,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PlayerCountQuestion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PlayerWentBankrupt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Victory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

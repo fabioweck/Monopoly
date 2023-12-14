@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monopoly.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace Monopoly.View
         public PlayerCountQuestion()
         {
             InitializeComponent();
+            
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
