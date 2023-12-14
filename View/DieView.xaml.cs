@@ -23,7 +23,7 @@ namespace Monopoly.View
     public partial class DieView : Window
     {
         public DieViewModel Dice {  get; set; } = new DieViewModel();
-        public int Roll { get; set; }
+        public static int Roll { get; set; }
         public string PlayerName;
 
         public DieView(string name)

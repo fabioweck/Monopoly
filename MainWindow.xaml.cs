@@ -55,7 +55,7 @@ namespace Monopoly
             dieView.ShowDialog();
 
             //Get the result
-            int move = dieView.Roll;
+            int move = DieView.Roll;
 
 
             //If move is zero, it means that the player rolled dice and got 3 doubles
