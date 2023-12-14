@@ -14,7 +14,7 @@
             <Grid.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="White" Offset="0"/>
-                    <GradientStop Color="#FFCBD6FF" Offset="1"/>
+                    <GradientStop Color="#FFDFFFFD" Offset="1"/>
                 </RadialGradientBrush>
             </Grid.Background>
 
@@ -47,7 +47,7 @@
                 FontSize="24"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Center"
-                Content="Bye!" Width="100" Height="46" Background="#FFE0E0E0" Click="Button_Click"/>
+                Content="Close" Width="100" Height="46" Background="#FFE0E0E0" Click="Button_Click"/>
         </Grid>
     </Border>
 </Window>
