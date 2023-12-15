@@ -184,6 +184,7 @@ namespace Monopoly.ViewModel
                         break;
                     case "JailFree":
                         currentPlayer.CommunityCard = "Jail Free Card";
+                        CardViewModel.RemoveCommunityCard(CardViewModel.CurrentCard);
                         break;
                     case "Go":
                         PlayerViewModel.GotToFirstPlace();
@@ -221,6 +222,7 @@ namespace Monopoly.ViewModel
                         break;
                     case "JailFree":
                         currentPlayer.ChanceCard = "Jail Free Card";
+                        CardViewModel.RemoveCommunityCard(CardViewModel.CurrentCard);
                         break;
                     case "Go":
                         PlayerViewModel.GotToFirstPlace();
