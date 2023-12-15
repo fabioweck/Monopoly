@@ -27,6 +27,8 @@ namespace Monopoly.View
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             txtTitle.Text = title;
             txtDefinition.Text = definition;
+
+            btnClose.Focus();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

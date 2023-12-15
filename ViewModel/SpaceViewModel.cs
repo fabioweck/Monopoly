@@ -458,7 +458,8 @@ namespace Monopoly.ViewModel
         {
             textBox.Text = $"Panel: {player.Name}" +
                            $"\nBalance: {player.Balance}" +
-                           $"\nTotal Of Properties: {player.PlayerTotalOfProperties()}";
+                           $"\nTotal Of Properties: {player.PlayerTotalOfProperties()}" +
+                           $"\n{player.Card}";
         }
 
         public static bool PlayerOwnsAllPropertiesOfGroup(PlayerViewModel player, string group)
