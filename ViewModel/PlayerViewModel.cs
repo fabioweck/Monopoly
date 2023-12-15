@@ -158,81 +158,6 @@ namespace Monopoly.ViewModel
             return $"{Name} :: R{Row} | C{Column} :: B{Balance}";
         }
 
-        //public static void GoToJail()
-        //{
-        //    // If the player is behind position 10 (prison)
-        //    if (CurrentPlayer.Position < 10)
-        //    {
-        //        int move = 10 - CurrentPlayer.Position;
-
-        //        if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard) || HasGetOutOfJailCard(CurrentPlayer.CommunityCard))
-        //        {
-        //            // Ask the player if they want to use the card only if they have it
-        //            MessageBoxResult result = MessageBox.Show("Do you want to use the 'Get Out of Jail Free' card?", "Jail", MessageBoxButton.YesNo);
-
-        //            if (result == MessageBoxResult.Yes)
-        //            {
-        //                // Player wants to use the card, so move them out of jail
-        //                if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard))
-        //                {
-        //                    CurrentPlayer.ChanceCard = "No chance card";
-        //                }
-        //                else
-        //                {
-        //                    CurrentPlayer.CommunityCard = "No community card";
-        //                }
-        //            }
-        //            else // Move them to the jail
-        //            {
-        //                CurrentPlayer.MovePlayer(move);
-        //            }
-        //        }
-        //        else // Move them to the jail
-        //        {
-        //            CurrentPlayer.MovePlayer(move);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // If the player is ahead of position 10, ask if they want to use the "Get Out of Jail Free" card
-        //        int move = 10 - CurrentPlayer.Position;
-
-        //        if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard) || HasGetOutOfJailCard(CurrentPlayer.CommunityCard))
-        //        {
-        //            // Ask the player if they want to use the card only if they have it
-        //            MessageBoxResult result = MessageBox.Show("Do you want to use the 'Get Out of Jail Free' card?", "Jail", MessageBoxButton.YesNo);
-
-        //            if (result == MessageBoxResult.Yes)
-        //            {
-        //                // Player wants to use the card, so move them out of jail
-        //                if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard))
-        //                {
-        //                    CurrentPlayer.ChanceCard = "No chance card";
-        //                }
-        //                else // Move them to the jail
-        //                {
-        //                    CurrentPlayer.CommunityCard = "No community card";
-        //                }
-        //            }
-        //            else // Move them to the jail
-        //            {
-        //                CurrentPlayer.MovePlayer(move);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            // Player does not want to use the card or doesn't have it, move them back to prison
-        //            CurrentPlayer.MovePlayer(move);
-        //        }
-        //    }
-        //}
-
-        //private static bool HasGetOutOfJailCard(string card)
-        //{
-        //    // Check if the player has the "Jail Free Card" card
-        //    return card == "Jail Free Card";
-        //}
-
         public static void GoToJail()
         {
             //Jail position on the board
@@ -287,10 +212,12 @@ namespace Monopoly.ViewModel
             if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard))
             {
                 CurrentPlayer.ChanceCard = "No chance card";
+                CardViewModel.AddChanceCard("Get Out of Jail Free", "JailFree", 0);
             }
             else
             {
                 CurrentPlayer.CommunityCard = "No community card";
+                CardViewModel.AddCommunityCard("Get Out of Jail Free", "JailFree", 0);
             }
         }
 
