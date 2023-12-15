@@ -84,6 +84,9 @@
     <Compile Include="View\PlayerWentBankrupt.xaml.cs">
       <DependentUpon>PlayerWentBankrupt.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\SellAssets.xaml.cs">
+      <DependentUpon>SellAssets.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Victory.xaml.cs">
       <DependentUpon>Victory.xaml</DependentUpon>
     </Compile>
@@ -112,6 +115,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PlayerWentBankrupt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SellAssets.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
