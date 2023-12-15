@@ -157,85 +157,7 @@ namespace Monopoly.ViewModel
                     //Once the property has no owner, offer to buy it to the current player
                     if (property.Owner == null)
                     {
-                        MessageBoxResult result = MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, would you like to buy this property for ${property.Price}?", "Landed on a private property.", MessageBoxButton.YesNo);
-
-                        //If the player wants to buy the property, pass the function to balance to perform the calculation
-                        if (result == MessageBoxResult.Yes)
-                        {
-                            currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Price);
-                            property.Owner = PlayerViewModel.CurrentPlayer;
-
-                            // Create a label for the property
-                            Label propertyLabel = new Label();
-                            propertyLabel.Content = property.Owner.Name;
-                            propertyLabel.FontSize = 12;
-                            propertyLabel.FontWeight = FontWeights.Bold;
-                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-
-                            // Set the Grid row and column
-                            //Top
-                            if (property.Row >= 0 && property.Row <= 3 && property.Column >= 0 && property.Column <= 21)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, property.Row + 3);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
-                            }
-                            //Right
-                            if (property.Row >= 4 && property.Row <= 21 && property.Column >= 22 && property.Column <= 24)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, property.Row);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
-                            }
-                            //Bottom
-                            if (property.Row >= 22 && property.Row <= 24 && property.Column >= 0 && property.Column <= 21)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, property.Row - 1);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
-                            }
-                            //Left
-                            if (property.Row >= 0 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, property.Row);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                            }
-                            //Left-top corner
-                            if (property.Row >= 4 && property.Row <= 5 && property.Column >= 0 && property.Column <= 3)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, 5);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                            }
-                            //Left-bottom corner
-                            if (property.Row >= 20 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, 20);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                            }
-                            //Right-top corner
-                            if (property.Row >= 4 && property.Row <= 5 && property.Column >= 22 && property.Column <= 24)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, 5);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
-                            }
-
-                            // Label with the same color of the player
-                            propertyLabel.Foreground = PlayerViewModel.CurrentPlayer.Color;
-
-                            // Add the label to the Grid
-                            boardGrid.Children.Add(propertyLabel);
-
-                            //Update Players Panel
-                            foreach (TextBox textBox in txtBoxPanelPlayers)
-                            {
-                                if (textBox.Name == currentPlayer.Name)
-                                {
-                                    UpdatePlayerPanel(textBox, currentPlayer);
-                                }
-                            }
-                        }
-                        else //Otherwise, do nothing
-                        {
-                            return;
-                        }
+                       HandlePropertyPurchase(currentPlayer, property, boardGrid, txtBoxPanelPlayers);
                     }
                     else
                     {
@@ -296,88 +218,7 @@ namespace Monopoly.ViewModel
                     //Once the property has no owner, offer to buy it to the current player
                     if (property.Owner == null)
                     {
-
-                        MessageBoxResult result = MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, would you like to buy this railroad for ${property.Price}?", "Landed on a railroad.", MessageBoxButton.YesNo);
-
-                        //If the player wants to buy the property, pass the function to balance to perform the calculation
-                        if (result == MessageBoxResult.Yes)
-                        {
-                            currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Price);
-                            property.Owner = PlayerViewModel.CurrentPlayer;
-
-                            // Create a label for the property
-                            Label propertyLabel = new Label();
-                            propertyLabel.Content = property.Owner.Name;
-                            propertyLabel.FontSize = 12;
-                            propertyLabel.FontWeight = FontWeights.Bold;
-
-                            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                            // Set the Grid row and column
-                            //Top
-                            if (property.Row >= 0 && property.Row <= 3 && property.Column >= 0 && property.Column <= 21)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, property.Row + 3);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
-                            }
-                            //Right
-                            if (property.Row >= 4 && property.Row <= 21 && property.Column >= 22 && property.Column <= 24)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, property.Row);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
-                            }
-                            //Bottom
-                            if (property.Row >= 22 && property.Row <= 24 && property.Column >= 0 && property.Column <= 21)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, property.Row - 1);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
-                             }
-                            //Left
-                            if (property.Row >= 0 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, property.Row);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                            }
-                            //Left-top corner
-                            if (property.Row >= 4 && property.Row <= 5 && property.Column >= 0 && property.Column <= 3)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, 5);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                            }
-                            //Left-bottom corner
-                            if (property.Row >= 20 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, 20);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                            }
-                            //Right-top corner
-                            if (property.Row >= 4 && property.Row <= 5 && property.Column >= 22 && property.Column <= 24)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, 5);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
-                            }
-
-                            // Label with the same color of the player
-                            propertyLabel.Foreground = PlayerViewModel.CurrentPlayer.Color;
-
-                            // Add the label to the Grid
-                            boardGrid.Children.Add(propertyLabel);
-
-
-
-                            //Update Players Panel
-                            foreach (TextBox textBox in txtBoxPanelPlayers)
-                            {
-                                if (textBox.Name == currentPlayer.Name)
-                                {
-                                    UpdatePlayerPanel(textBox, currentPlayer);
-                                }
-                            }
-                        }
-                        else //Otherwise, do nothing
-                        {
-                            return;
-                        }
+                        HandlePropertyPurchase(currentPlayer, property, boardGrid, txtBoxPanelPlayers);
                     }
                     else
                     {
@@ -417,100 +258,7 @@ namespace Monopoly.ViewModel
                     //Once the property has no owner, offer to buy it to the current player
                     if (property.Owner == null)
                     {
-
-                        MessageBoxResult result = MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, would you like to buy {property.Name} for ${property.Price}?", "Landed on a utility.", MessageBoxButton.YesNo);
-
-                        //If the player wants to buy the property, pass the function to balance to perform the calculation
-                        if (result == MessageBoxResult.Yes)
-                        {
-                            currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Price);
-                            property.Owner = PlayerViewModel.CurrentPlayer;
-
-                            // Create a label for the property
-                            Label propertyLabel = new Label();
-                            propertyLabel.Content = property.Owner.Name;
-                            propertyLabel.FontSize = 12;
-                            propertyLabel.FontWeight = FontWeights.Bold;
-
-                            // Set the Grid row and column
-                            //Top
-                            if (property.Row >= 0 && property.Row <= 3 && property.Column >= 0 && property.Column <= 21)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, property.Row + 3);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                            }
-                            //Right
-                            if (property.Row >= 4 && property.Row <= 21 && property.Column >= 22 && property.Column <= 24)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, property.Row);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                            }
-                            //Bottom
-                            if (property.Row >= 22 && property.Row <= 24 && property.Column >= 0 && property.Column <= 21)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, property.Row - 1);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                            }
-                            //Left
-                            if (property.Row >= 0 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, property.Row);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                            }
-                            //Left-top corner
-                            if (property.Row >= 4 && property.Row <= 5 && property.Column >= 0 && property.Column <= 3)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, 5);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                            }
-                            //Left-bottom corner
-                            if (property.Row >= 20 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, 20);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                            }
-                            //Right-top corner
-                            if (property.Row >= 4 && property.Row <= 5 && property.Column >= 22 && property.Column <= 24)
-                            {
-                                propertyLabel.SetValue(Grid.RowProperty, 5);
-                                propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
-                                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-                            }
-
-                            // Label with the same color of the player
-                            propertyLabel.Foreground = PlayerViewModel.CurrentPlayer.Color;
-
-                            // Add the label to the Grid
-                            boardGrid.Children.Add(propertyLabel);
-
-
-
-                            //Update Players Panel
-                            foreach (TextBox textBox in txtBoxPanelPlayers)
-                            {
-                                if (textBox.Name == currentPlayer.Name)
-                                {
-                                    UpdatePlayerPanel(textBox, currentPlayer);
-                                }
-                            }
-                        }
-                        else //Otherwise, do nothing
-                        {
-                            return;
-                        }
+                        HandlePropertyPurchase(currentPlayer, property, boardGrid, txtBoxPanelPlayers);
                     }
                     else
                     {
@@ -612,6 +360,91 @@ namespace Monopoly.ViewModel
 
 
             return true;
+        }
+
+
+        public static void HandlePropertyPurchase(PlayerViewModel currentPlayer, PropertyModel property, Grid boardGrid, List<TextBox> txtBoxPanelPlayers)
+        {
+            string _t = $"{property.Name} ({property.Group})";
+            MessageBoxResult result = MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, would you like to buy {_t} for ${property.Price}?", "Landed on a property.", MessageBoxButton.YesNo);
+
+            //If the player wants to buy the property, pass the function to balance to perform the calculation
+            if (result == MessageBoxResult.Yes)
+            {
+                currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Price);
+                property.Owner = PlayerViewModel.CurrentPlayer;
+
+                // Create a label for the property
+                Label propertyLabel = new Label();
+                propertyLabel.Content = property.Owner.Name;
+                propertyLabel.FontSize = 12;
+                propertyLabel.FontWeight = FontWeights.Bold;
+                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+
+                // Set the Grid row and column
+                //Top
+                if (property.Row >= 0 && property.Row <= 3 && property.Column >= 0 && property.Column <= 21)
+                {
+                    propertyLabel.SetValue(Grid.RowProperty, property.Row + 3);
+                    propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
+                }
+                //Right
+                if (property.Row >= 4 && property.Row <= 21 && property.Column >= 22 && property.Column <= 24)
+                {
+                    propertyLabel.SetValue(Grid.RowProperty, property.Row);
+                    propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
+                }
+                //Bottom
+                if (property.Row >= 22 && property.Row <= 24 && property.Column >= 0 && property.Column <= 21)
+                {
+                    propertyLabel.SetValue(Grid.RowProperty, property.Row - 1);
+                    propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
+                }
+                //Left
+                if (property.Row >= 0 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
+                {
+                    propertyLabel.SetValue(Grid.RowProperty, property.Row);
+                    propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
+                }
+                //Left-top corner
+                if (property.Row >= 4 && property.Row <= 5 && property.Column >= 0 && property.Column <= 3)
+                {
+                    propertyLabel.SetValue(Grid.RowProperty, 5);
+                    propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
+                }
+                //Left-bottom corner
+                if (property.Row >= 20 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
+                {
+                    propertyLabel.SetValue(Grid.RowProperty, 20);
+                    propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
+                }
+                //Right-top corner
+                if (property.Row >= 4 && property.Row <= 5 && property.Column >= 22 && property.Column <= 24)
+                {
+                    propertyLabel.SetValue(Grid.RowProperty, 5);
+                    propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
+                }
+
+                // Label with the same color of the player
+                propertyLabel.Foreground = PlayerViewModel.CurrentPlayer.Color;
+
+                // Add the label to the Grid
+                boardGrid.Children.Add(propertyLabel);
+
+                //Update Players Panel
+                foreach (TextBox textBox in txtBoxPanelPlayers)
+                {
+                    if (textBox.Name == currentPlayer.Name)
+                    {
+                        UpdatePlayerPanel(textBox, currentPlayer);
+                    }
+                }
+            }
+            else //Otherwise, do nothing
+            {
+                return;
+            }
         }
 
         private static void ShowMessageBox(string message, string title)
