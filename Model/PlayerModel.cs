@@ -20,8 +20,8 @@ namespace Monopoly.Model
         public int Balance { get; set; } = 150;
         public string CommunityCard { get; set; } = "No community card";
         public string ChanceCard { get; set; } = "No chance card";
-        public SolidColorBrush Color { get; set; }
 
+        public SolidColorBrush Color { get; set; }
         public PlayerModel(string name, System.Windows.Point position)
         { 
             Name = name;

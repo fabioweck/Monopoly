@@ -100,6 +100,7 @@ namespace Monopoly.ViewModel
             PlayerModels.Add(Player);
             Players.Add(this);
             CurrentPlayer = Players[0];
+            SpaceViewModel.propertyOwners.Add(this, new List<PropertyModel>());
         }
 
         public void LapCompleted(int amount)
@@ -371,6 +372,7 @@ namespace Monopoly.ViewModel
         // If a player cannot afford something (their balance would become negative) they lose the game and are removed from the board:
         public void FileBankruptcy(Grid boardGrid, MainWindow board)
         {
+            MainWindow.isBankrupt = true;
             // Adjust each pvm's instance number
             foreach (PlayerViewModel _pvm in Players)
                 if (_pvm.instanceNumber > CurrentPlayer.instanceNumber)
