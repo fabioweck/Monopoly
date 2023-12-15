@@ -239,8 +239,11 @@ namespace Monopoly.ViewModel
             PlayerModels.RemoveAt(instanceNumber);
 
             // Display bankruptcy screen for that player
-            PlayerWentBankrupt bankrupt = new PlayerWentBankrupt(CurrentPlayer);
-            bankrupt.Show();
+            if(Players.Count > 1)
+            {
+                PlayerWentBankrupt bankrupt = new PlayerWentBankrupt(CurrentPlayer);
+                bankrupt.Show();
+            }
 
             // If there is only one player left, show victory screen.
             if (Players.Count == 1)

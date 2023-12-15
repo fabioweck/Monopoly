@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Common;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,6 +33,7 @@ namespace Monopoly
         public List<Label> LblPlayers = new List<Label>();
         public List<TextBox> txtBoxPanelPlayers;
         public CardViewModel Cards;
+        private static bool _isBankrupt = false;
 
         LodgingViewModel lodgingViewModel = new LodgingViewModel();
 
@@ -195,7 +198,8 @@ namespace Monopoly
 
             SpaceViewModel.Resolve(BoardGrid, txtBoxPanelPlayers, lodgingViewModel.AddLodgingToBoard);
 
-            CheckBankruptcy(BoardGrid);
+            if(CheckBankruptcy(BoardGrid))
+                _isBankrupt = true;
 
             UpdateAllPlayersPanel();
 
@@ -205,22 +209,28 @@ namespace Monopoly
 
         }
 
-        //Call the next player to roll the dice
+        // Call the next player to roll the dice
         private void ChangePlayer()
         {
- 
-            //If the player is the last in the list, call the first one
+            int _ind = PlayerViewModel.CurrentPlayer.instanceNumber;
+             // If the player is the last in the list, call the first one
             if (PlayerViewModel.Players.IndexOf(PlayerViewModel.CurrentPlayer) >= PlayerViewModel.Players.Count - 1)
                 PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[0];
-            else
+
+            // If not the last player
+            else if (!_isBankrupt)
             {
-                //If not the last, call the next player
-                int _ind = PlayerViewModel.Players.IndexOf(PlayerViewModel.CurrentPlayer) + 1;
+                // Call the next player
+                PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[_ind+1];
+            }
+            else if (_isBankrupt)
+            {
+                // Preserve current index to give the turn to the next player, unless there is only 1 player left.
+                if (PlayerViewModel.Players.Count > 1)
                 PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[_ind];
             }
-
             DieView.Double = 0;
-
+            _isBankrupt = false;
         }
 
         // Updates the players panel with current information
@@ -239,12 +249,14 @@ namespace Monopoly
         }
 
         // Check if current player goes bankrupt after game logic is resolved
-        public void CheckBankruptcy(Grid boardGrid)
+        public bool CheckBankruptcy(Grid boardGrid)
         {
-            if(PlayerViewModel.CurrentPlayer.Balance < 0)
+            if (PlayerViewModel.CurrentPlayer.Balance < 0)
             {
                 PlayerViewModel.CurrentPlayer.FileBankruptcy(boardGrid, this);
+                return true;
             }
+            else return false;
         }   
     }
 }
