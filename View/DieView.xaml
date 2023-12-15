@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="DieView1"
     Title="Rolling dice..."
-    Width="340"
+    Width="420"
     Height="198"
     mc:Ignorable="d">
 
@@ -62,7 +62,9 @@
                 x:Name="txtNumberOfPlaces"
                 Width="120"
                 TextWrapping="Wrap"
-                Visibility="Hidden" />
+                Visibility="Hidden" 
+                PreviewTextInput="txtNumberOfPlaces_PreviewTextInput"
+                KeyDown="txtNumberOfPlaces_KeyDown"/>
         </Label>
         <Button
             x:Name="btnAuto"

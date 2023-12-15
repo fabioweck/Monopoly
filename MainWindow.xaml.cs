@@ -48,6 +48,8 @@ namespace Monopoly
 
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
+            btnRollDice.Focus();
+
             //CardView = new CardViewModel();
             //Card1.DataContext = CardView;
         }
