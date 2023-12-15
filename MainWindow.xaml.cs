@@ -224,7 +224,9 @@ namespace Monopoly
             {
                 // Preserve current index to give the turn to the next player, unless there is only 1 player left.
                 if (PlayerViewModel.Players.Count > 1)
-                PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[_ind];
+                    if (_ind >= PlayerViewModel.Players.Count) 
+                        _ind = 0;
+                    PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[_ind];
             }
             DieView.Double = 0;
             isBankrupt = false;

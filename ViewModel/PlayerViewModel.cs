@@ -263,6 +263,7 @@ namespace Monopoly.ViewModel
             }
             else
             {
+                move = -CurrentPlayer.Position + 10;
                 CurrentPlayer.MovePlayer(move);
             }
         }
@@ -387,7 +388,7 @@ namespace Monopoly.ViewModel
             if(Players.Count > 1)
             {
                 PlayerWentBankrupt bankrupt = new PlayerWentBankrupt(CurrentPlayer);
-                bankrupt.Show();
+                bankrupt.ShowDialog();
             }
 
             // If there is only one player left, show victory screen.

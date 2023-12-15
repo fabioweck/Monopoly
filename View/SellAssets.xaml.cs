@@ -25,6 +25,7 @@ namespace Monopoly.View
         static int _ind = 0;
         public List<PropertyModel> properties;
         private ImageSource _imgSrc;
+        private static Grid _boardGrid;
         public ImageSource ImageSource
         {
             get => _imgSrc;
@@ -37,7 +38,7 @@ namespace Monopoly.View
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public SellAssets(PlayerViewModel currentPlayer, Dictionary<PlayerViewModel, List<PropertyModel>> propertyOwners)
+        public SellAssets(PlayerViewModel currentPlayer, Dictionary<PlayerViewModel, List<PropertyModel>> propertyOwners, Grid boardGrid)
         {
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -51,6 +52,7 @@ namespace Monopoly.View
             // set the image source of the displayed card
             ImageSource = properties[_ind].ImgSrc;
             CardPicture.Source = ImageSource;
+            _boardGrid = boardGrid;
         }
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -99,7 +101,7 @@ namespace Monopoly.View
         {
             if (properties[_ind].HousesBuilt == 0)
             {
-                SpaceViewModel.SellProperty(properties[_ind], PlayerViewModel.CurrentPlayer);
+                SpaceViewModel.SellProperty(properties[_ind], PlayerViewModel.CurrentPlayer, _boardGrid);
                 _ind = 0;
                 Update();
             }
