@@ -1,15 +1,14 @@
-﻿<Window
-    x:Class="Monopoly.View.DieView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:Monopoly.View"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    x:Name="DieView1"
-    Title="Rolling dice..."
-    Width="340"
-    Height="198"
-    mc:Ignorable="d">
+﻿<Window x:Class="Monopoly.View.DieView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Monopoly.View"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Name="DieView1"
+        Width="371"
+        Height="283"
+        mc:Ignorable="d"
+        WindowStyle="None">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -30,70 +29,85 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label
-            x:Name="lblPlayer"
-            Grid.Row="1"
-            Grid.Column="0"
-            Grid.ColumnSpan="7"
-            Height="29"
-            Margin="42,0,0,0"
-            VerticalAlignment="Center"
-            Content="Select how to roll dice" />
-        <Label
-            x:Name="lblDiceResult"
-            Grid.Row="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="7"
-            Height="29"
-            Margin="42,0,0,0"
-            VerticalAlignment="Center" />
-        <Label
-            x:Name="lblTimer"
-            Grid.Row="3"
-            Grid.Column="0"
-            Grid.ColumnSpan="8"
-            Width="256"
-            Height="29"
-            Margin="42,0,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center">
-            <TextBox
-                x:Name="txtNumberOfPlaces"
-                Width="120"
-                TextWrapping="Wrap"
-                Visibility="Hidden" />
-        </Label>
-        <Button
-            x:Name="btnAuto"
-            Grid.Row="5"
-            Grid.Column="1"
-            Grid.ColumnSpan="2"
-            Click="btnAuto_Click"
-            Content="Auto"
-            Width="45"/>
+        <Label x:Name="lblPlayer"
+               Grid.Row="1"
+               Grid.ColumnSpan="8"
+               VerticalAlignment="Center"
+               HorizontalContentAlignment="Center"
+               Content="Select how to roll dice"
+               FontSize="18"
+               Height="40"
+               Margin="10,0,10,0"
+               FontWeight="Medium" />
+        <Label x:Name="lblDiceResult"
+               Grid.Row="2"
+               Grid.Column="0"
+               Grid.ColumnSpan="8"
+               Height="44"
+               Margin="10,0,10,0"
+               VerticalAlignment="Center"
+               FontSize="15"
+               HorizontalContentAlignment="Center"
+               Grid.RowSpan="3" />
+        <Label x:Name="lblTimer"
+               Grid.Row="5"
+               Grid.Column="3"
+               Grid.ColumnSpan="2"
+               Grid.RowSpan="2"
+               FontSize="18"
+               Content="3s"
+               Margin="33,24,24,0"
+               Visibility="Hidden" />
+        <TextBox x:Name="txtNumberOfPlaces"
+                 TextWrapping="Wrap"
+                 Grid.Row="5"
+                 Grid.Column="3"
+                 Grid.ColumnSpan="2"
+                 Margin="16,2,16,2"
+                 HorizontalContentAlignment="Center"
+                 Visibility="Hidden" />
+        <Button x:Name="btnAuto"
+                Grid.Row="8"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Click="btnAuto_Click"
+                Content="Auto"
+                Width="45" />
         <Button x:Name="btnDouble"
-                Grid.Row="5"
+                Grid.Row="8"
                 Grid.Column="3"
                 Grid.ColumnSpan="2"
                 Click="btnDouble_Click"
                 Content="Double"
                 Width="45" />
-        <Button
-            x:Name="btnManual"
-            Grid.Row="5"
-            Grid.Column="5"
-            Grid.ColumnSpan="2"
-            Click="btnManual_Click"
-            Content="Manual"
-            Width="45" />
-        <Button
-            x:Name="btnMove"
-            Grid.Row="5"
-            Grid.Column="3"
-            Grid.ColumnSpan="2"
-            Click="btnMove_Click"
-            Visibility="Hidden" />
+        <Button x:Name="btnManual"
+                Grid.Row="8"
+                Grid.Column="5"
+                Grid.ColumnSpan="2"
+                Click="btnManual_Click"
+                Content="Manual"
+                Width="45" />
+        <Button x:Name="btnMove"
+                Grid.Row="8"
+                Grid.Column="3"
+                Grid.ColumnSpan="2"
+                Click="btnMove_Click"
+                Visibility="Hidden" />
+        <Image x:Name="timerImage"
+               Grid.Column="3"
+               HorizontalAlignment="Center"
+               Height="46"
+               Grid.Row="4"
+               Grid.RowSpan="3"
+               VerticalAlignment="Top"
+               Source="/View/timer.png"
+               Grid.ColumnSpan="2"
+               Margin="0,13,0,0"
+               Visibility="Hidden"/>
     </Grid>
 
 
