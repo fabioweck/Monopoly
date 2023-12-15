@@ -134,8 +134,16 @@ namespace Monopoly.View
         private void btnMove_Click(object sender, RoutedEventArgs e)
         {
             Click = true;
-            Roll = Convert.ToInt32(txtNumberOfPlaces.Text);
-            this.Close();
+
+            if(int.TryParse(txtNumberOfPlaces.Text, out int result) && result >= 0)
+            {
+                Roll = result;
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid number.");
+            }
         }
 
         private void btnDouble_Click(object sender, RoutedEventArgs e)
@@ -146,5 +154,6 @@ namespace Monopoly.View
             btnMove.Visibility = Visibility.Hidden;
             GetNumbers(1); //Add any number to the method to get double
         }
+
     }
 }
