@@ -104,7 +104,7 @@ namespace Monopoly.ViewModel
                         PlayerViewModel.CurrentPlayer.ChangeBalance(value => currentPlayer.Balance += value, amount);
                         break;
                     case "JailFree":
-                        currentPlayer.Card = "Jail Free Card";
+                        currentPlayer.CommunityCard = "Jail Free Card";
                         break;
                     case "Go":
                         PlayerViewModel.GotToFirstPlace();
@@ -118,7 +118,7 @@ namespace Monopoly.ViewModel
                 }
             }
 
-            //If player position is over place 7, 17 or 33, it means Community card
+            //If player position is over place 7, 17 or 33, it means Chance card
             if (new int[] { 7, 22, 36 }.Contains(currentPlayer.Position))
             {
                 CardViewModel.FlipACard("Chance");
@@ -140,7 +140,7 @@ namespace Monopoly.ViewModel
                         PlayerViewModel.CurrentPlayer.ChangeBalance(value => currentPlayer.Balance += value, amount);
                         break;
                     case "JailFree":
-                        currentPlayer.Card = "Jail Free Card";
+                        currentPlayer.ChanceCard = "Jail Free Card";
                         break;
                     case "Go":
                         PlayerViewModel.GotToFirstPlace();
@@ -573,7 +573,8 @@ namespace Monopoly.ViewModel
             textBox.Text = $"Panel: {player.Name}" +
                            $"\nBalance: {player.Balance}" +
                            $"\nTotal Of Properties: {player.PlayerTotalOfProperties()}" +
-                           $"\n{player.Card}";
+                           $"\n{player.CommunityCard}" +
+                           $"\n{player.ChanceCard}"; 
         }
 
         public static bool PlayerOwnsAllPropertiesOfGroup(PlayerViewModel player, string group)

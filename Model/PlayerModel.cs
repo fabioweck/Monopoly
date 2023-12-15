@@ -17,8 +17,10 @@ namespace Monopoly.Model
         public string Name { get; set; }
 
         public System.Windows.Point Position { get; set; }
-        public int Balance { get; set; } = 300;
-        public string Card { get; set; } = "No cards";
+        public int Balance { get; set; } = 150;
+        public string CommunityCard { get; set; } = "No community card";
+        public string ChanceCard { get; set; } = "No chance card";
+
         public SolidColorBrush Color { get; set; }
         public PlayerModel(string name, System.Windows.Point position)
         { 

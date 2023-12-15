@@ -73,11 +73,18 @@ namespace Monopoly.ViewModel
             set { PlayerModels[instanceNumber].Balance = value; OnPropertyChanged(nameof(Balance));}
         }
 
-        public string Card
+        public string CommunityCard
         {
-            get { return PlayerModels[instanceNumber].Card; }
+            get { return PlayerModels[instanceNumber].CommunityCard; }
 
-            set { PlayerModels[instanceNumber].Card = value; OnPropertyChanged(nameof(Card)); }
+            set { PlayerModels[instanceNumber].CommunityCard = value; OnPropertyChanged(nameof(CommunityCard)); }
+        }
+
+        public string ChanceCard
+        {
+            get { return PlayerModels[instanceNumber].ChanceCard; }
+
+            set { PlayerModels[instanceNumber].ChanceCard = value; OnPropertyChanged(nameof(ChanceCard)); }
         }
 
         public PlayerViewModel()
@@ -151,20 +158,156 @@ namespace Monopoly.ViewModel
             return $"{Name} :: R{Row} | C{Column} :: B{Balance}";
         }
 
+        //public static void GoToJail()
+        //{
+        //    // If the player is behind position 10 (prison)
+        //    if (CurrentPlayer.Position < 10)
+        //    {
+        //        int move = 10 - CurrentPlayer.Position;
+
+        //        if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard) || HasGetOutOfJailCard(CurrentPlayer.CommunityCard))
+        //        {
+        //            // Ask the player if they want to use the card only if they have it
+        //            MessageBoxResult result = MessageBox.Show("Do you want to use the 'Get Out of Jail Free' card?", "Jail", MessageBoxButton.YesNo);
+
+        //            if (result == MessageBoxResult.Yes)
+        //            {
+        //                // Player wants to use the card, so move them out of jail
+        //                if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard))
+        //                {
+        //                    CurrentPlayer.ChanceCard = "No chance card";
+        //                }
+        //                else
+        //                {
+        //                    CurrentPlayer.CommunityCard = "No community card";
+        //                }
+        //            }
+        //            else // Move them to the jail
+        //            {
+        //                CurrentPlayer.MovePlayer(move);
+        //            }
+        //        }
+        //        else // Move them to the jail
+        //        {
+        //            CurrentPlayer.MovePlayer(move);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // If the player is ahead of position 10, ask if they want to use the "Get Out of Jail Free" card
+        //        int move = 10 - CurrentPlayer.Position;
+
+        //        if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard) || HasGetOutOfJailCard(CurrentPlayer.CommunityCard))
+        //        {
+        //            // Ask the player if they want to use the card only if they have it
+        //            MessageBoxResult result = MessageBox.Show("Do you want to use the 'Get Out of Jail Free' card?", "Jail", MessageBoxButton.YesNo);
+
+        //            if (result == MessageBoxResult.Yes)
+        //            {
+        //                // Player wants to use the card, so move them out of jail
+        //                if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard))
+        //                {
+        //                    CurrentPlayer.ChanceCard = "No chance card";
+        //                }
+        //                else // Move them to the jail
+        //                {
+        //                    CurrentPlayer.CommunityCard = "No community card";
+        //                }
+        //            }
+        //            else // Move them to the jail
+        //            {
+        //                CurrentPlayer.MovePlayer(move);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            // Player does not want to use the card or doesn't have it, move them back to prison
+        //            CurrentPlayer.MovePlayer(move);
+        //        }
+        //    }
+        //}
+
+        //private static bool HasGetOutOfJailCard(string card)
+        //{
+        //    // Check if the player has the "Jail Free Card" card
+        //    return card == "Jail Free Card";
+        //}
+
         public static void GoToJail()
         {
-            //If the player is behind position 10 (prison)
-            if (CurrentPlayer.Position < 10)
+            //Jail position on the board
+            int jailPosition = 10;
+
+            //Number of positions to move to go to the jail
+            int move = jailPosition - CurrentPlayer.Position;
+
+            //Check if the player is already in jail or needs to move to jail
+            if (move != 0)
             {
-                int move = 10 - CurrentPlayer.Position;
-                CurrentPlayer.MovePlayer(move);
+                //Player needs to move to jail
+                HandleMoveToJail(move);
             }
-            else //If the player is ahead of position 10, move back to prison
+            else
             {
-                int move = 10 - CurrentPlayer.Position;
+                //Player is already in jail, ask if they want to use a 'Get Out of Jail Free' card
+                AskToUseJailCard();
+            }
+        }
+
+        private static void HandleMoveToJail(int move)
+        {
+            //Check if the player has a 'Get Out of Jail Free' card
+            if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard) || HasGetOutOfJailCard(CurrentPlayer.CommunityCard))
+            {
+                AskToUseJailCard();
+            }
+            else
+            {
                 CurrentPlayer.MovePlayer(move);
             }
         }
+
+        private static void AskToUseJailCard()
+        {
+            MessageBoxResult result = MessageBox.Show("Do you want to use the 'Get Out of Jail Free' card?", "Jail", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                UseJailCard();
+            }
+            else
+            {
+                MovePlayerToJail();
+            }
+        }
+
+        private static void UseJailCard()
+        {
+            if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard))
+            {
+                CurrentPlayer.ChanceCard = "No chance card";
+            }
+            else
+            {
+                CurrentPlayer.CommunityCard = "No community card";
+            }
+        }
+
+        private static void MovePlayerToJail()
+        {
+            //Number of positions to move the player to go to the jail
+            int jailPosition = 10;
+            int move = jailPosition - CurrentPlayer.Position;
+
+            CurrentPlayer.MovePlayer(move);
+        }
+
+        private static bool HasGetOutOfJailCard(string card)
+        {
+            return card == "Jail Free Card";
+        }
+
+
 
         public static void GoToNextRailroad()
         {
