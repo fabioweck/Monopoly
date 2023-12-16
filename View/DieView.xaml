@@ -9,8 +9,9 @@
         Height="283"
         mc:Ignorable="d"
         WindowStyle="None"
-        Background="#FFD8EEEB">
-
+        Background="#FFD8EEEB"
+        BorderBrush="Black"
+        BorderThickness="4">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />

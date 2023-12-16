@@ -10,13 +10,14 @@
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
-        Background="#FF155618">
+        Background="#FFD8EEEB"
+        BorderBrush="Black"
+        BorderThickness="4">
     <StackPanel VerticalAlignment="Center"
                 Orientation="Vertical">
         <Label HorizontalAlignment="Center"
                Content="Select the number of players:"
-               FontSize="20"
-               Foreground="#FFE9FFE5"
+               FontSize="24"
                Height="60"
                RenderTransformOrigin="0.5,0.5" />
         <StackPanel HorizontalAlignment="Center"
