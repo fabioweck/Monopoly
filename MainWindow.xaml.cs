@@ -64,7 +64,7 @@ namespace Monopoly
                 DieView dieView = new DieView(PlayerViewModel.CurrentPlayer.Name);
 
                 //Open dice window to roll dice
-                dieView.lblPlayer.Content = $"Player {PlayerViewModel.CurrentPlayer.Name}, select how to roll dice";
+                dieView.lblPlayer.Content = $"Player {PlayerViewModel.CurrentPlayer.Name}, how would you like to move?";
                 dieView.ShowDialog();
             }
 
