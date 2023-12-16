@@ -54,7 +54,7 @@ namespace Monopoly
             //Card1.DataContext = CardView;
         }
 
-        private void RollDice_Click(object sender, RoutedEventArgs e)
+        private void btnRollDice_Click(object sender, RoutedEventArgs e)
         {
             //If the user closes the window and does not choose any number of players
             //opens the window again

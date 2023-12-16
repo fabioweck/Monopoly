@@ -9,6 +9,11 @@
         Width="300"
         Background="DarkOrange"
         WindowStyle="None">
+    <Window.Effect>
+        <DropShadowEffect ShadowDepth="3"
+                          Color="Black"
+                          Opacity="0.9" />
+    </Window.Effect>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30" />
@@ -37,13 +42,13 @@
                Grid.RowSpan="4"
                FontSize="20"
                TextWrapping="Wrap"/>
-        <Button x:Name="btnClose"
-                Content="Close card"
-                Grid.Column="1"
-                Grid.Row="5"
-                Height="40"
-                Width="120"
-                FontSize="20"
-                Click="btnClose_Click"/>
+        <Image x:Name="btnClose"
+               Grid.Column="1"
+               Grid.Row="5"
+               Height="80"
+               Width="120"
+               Source="/View/ok.png"
+               MouseLeftButtonDown="btnClose_MouseLeftButtonDown"
+               Cursor="Hand" />
     </Grid>
 </Window>

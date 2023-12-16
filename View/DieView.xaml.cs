@@ -102,9 +102,11 @@ namespace Monopoly.View
         }
         private async void MovePlayerAndClose()
         {
+            timerImage.Visibility = Visibility.Visible;
+            lblTimer.Visibility = Visibility.Visible;
             for (int i = 0; i < 3; i++)
             {
-                lblTimer.Content = $"Counter: {3 - i}s";
+                lblTimer.Content = $"{3 - i}s";
                 await Task.Delay(1000);
             }
             this.Close();
@@ -154,6 +156,7 @@ namespace Monopoly.View
             btnAuto.Visibility = Visibility.Hidden;
             btnManual.Visibility = Visibility.Hidden;
             btnMove.Visibility = Visibility.Hidden;
+            btnDouble.Visibility = Visibility.Hidden;
             GetNumbers(1); //Add any number to the method to get double
         }
 

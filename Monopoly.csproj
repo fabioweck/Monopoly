@@ -277,5 +277,23 @@
     <Resource Include="Images\house.png" />
     <Resource Include="Images\house_double.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\dice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="dice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\timer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\timer.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

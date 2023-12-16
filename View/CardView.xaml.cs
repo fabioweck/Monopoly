@@ -31,7 +31,7 @@ namespace Monopoly.View
             btnClose.Focus();
         }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e)
+        private void btnClose_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.Close();
         }
