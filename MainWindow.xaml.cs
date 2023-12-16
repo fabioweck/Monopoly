@@ -200,7 +200,8 @@ namespace Monopoly
 
             UpdateAllPlayersPanel();
 
-            if (DieView.Double != 0) return;
+            //If the player got double in the turn and did not go bankrupt, then continue playing
+            if (DieView.Double != 0 && PlayerViewModel.Players.Contains(PlayerViewModel.CurrentPlayer)) return;
 
             ChangePlayer();
 
