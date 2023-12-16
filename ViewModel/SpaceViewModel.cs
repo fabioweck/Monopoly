@@ -584,6 +584,73 @@ namespace Monopoly.ViewModel
             }
         }
 
+        //Execute the prison logic whenever a player is in jail
+        public static string JailLogic(PlayerViewModel currentPlayer, Grid boardGrid, MainWindow board)
+        {
+            string prisonLogic = string.Empty;
+            //Check if the player has the option to get out of jail
+            PlayerViewModel.GoToJail();
+
+            //If player is still in jail, then start jail logic
+            while (currentPlayer.IsInJail)
+            {
+                //While the player doesn't roll the dice, keep asking
+                while (DieView.Click != true)
+                {
+                    DieView dieView = new DieView(currentPlayer.Name);
+
+                    //Open dice window to roll dice
+                    dieView.txtPlayer.Text = $"Player {currentPlayer.Name}, how would you like to move?";
+                    dieView.ShowDialog();
+                }
+
+                //After rolling dice, if the player got out of jail,
+                //then set prisonLogic to true to skip rolling dice again
+                if (!currentPlayer.IsInJail)
+                {
+                    prisonLogic = "true";
+                    break;
+                }
+                else
+                {
+                    //Give the player the option to pay to get out of jail
+                    SpaceViewModel.HandlePlayerInJail(currentPlayer, boardGrid, board);
+
+                    //If player got out of jail,
+                    //then set prisonLogic to true to skip rolling dice again
+                    if (!currentPlayer.IsInJail)
+                    {
+
+                        //Before resolving logic in spaces, check if the player went bankrupt after jail
+
+                        if (!PlayerViewModel.Players.Contains(currentPlayer))
+                        {
+                            //reset dieview
+                            DieView.Click = false;
+                            //Call next player
+                            board.ChangePlayer();
+                            prisonLogic = "return";
+                            break;
+                        }
+
+                        prisonLogic = "true";
+                        break;
+                    }
+                    //If not, it means the player didn't pay,
+                    //set Click to false and call next player turn
+                    else
+                    {
+                        DieView.Click = false;
+                        board.ChangePlayer();
+                        prisonLogic = "return";
+                        break;
+                    }
+                }
+            }
+
+            return prisonLogic;
+        }
+
         public static void HandlePlayerInJail(PlayerViewModel currentPlayer, Grid boardGrid, MainWindow board)
         {
             int fee = 50;
