@@ -300,6 +300,17 @@ namespace Monopoly.ViewModel
         // If a player cannot afford something (their balance would become negative) they lose the game and are removed from the board:
         public void FileBankruptcy(Grid boardGrid, MainWindow board)
         {
+            // UpdatePlayerPanel for each player
+            foreach (TextBox textBox in MainWindow.txtBoxPanelPlayers)
+            {
+                foreach (PlayerViewModel player in Players)
+                {
+                    if (textBox.Name == player.Name)
+                    {
+                        SpaceViewModel.UpdatePlayerPanel(textBox, player);
+                    }
+                }
+            }
             MainWindow.isBankrupt = true;
             // Adjust each pvm's instance number
             foreach (PlayerViewModel _pvm in Players)
