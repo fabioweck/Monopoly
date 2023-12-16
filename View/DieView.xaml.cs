@@ -38,56 +38,94 @@ namespace Monopoly.View
             btnAuto.Focus();
         }
 
-        private async void GetNumbers(int isDouble = 0)
+        private async void GetNumbers(bool isDouble = false)
         {
             
+            //Repeat rolling dice until getting a result to exit the loop
             while (true)
             {
-                if (isDouble == 0)
+                //Check if the button was "debugging double" or not
+                if (!isDouble)
                 {
+                    //Auto roll dice
                     int[] face = Dice.RollDice();
 
+                    //If gets a double
                     if (face[0] == face[1])
                     {
-
+                        //Count +1 double
                         Double++;
 
+                        //If the player is in jail, they get out of jail
+                        if (PlayerViewModel.CurrentPlayer.IsInJail)
+                        {
+                            Roll = face[0] + face[1];
+                            txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
+                            lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble! You are free! Move {Roll} places!";
+                            PlayerViewModel.CurrentPlayer.AttemptsToGetOutOfJail = 0;
+                            PlayerViewModel.CurrentPlayer.IsInJail = false;
+                            CountTimeAndClose();
+                            break;
+                        }
+
+                        //If is not in jail and gets 3 double, go to jail
                         if (Double == 3)
                         {
                             lblDiceResult.Content = $"You got 3 doubles. Go to prison...";
-                            MovePlayerAndClose();
+                            CountTimeAndClose();
                             Roll = 0;
                             break;
                         }
 
+                        //Else, move
                         Roll = face[0] + face[1];
                         txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
                         lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble! Move {Roll} places!";
-                        MovePlayerAndClose();
+                        CountTimeAndClose();
                         break;
 
                     }
                     else
                     {
+                        if (PlayerViewModel.CurrentPlayer.IsInJail)
+                        {
+                            Roll = face[0] + face[1];
+                            txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
+                            lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nIt's not a double!";
+                            PlayerViewModel.CurrentPlayer.AttemptsToGetOutOfJail++;
+                            CountTimeAndClose();
+                            return;
+                        }
+
                         Double = 0;
                         Roll = face[0] + face[1];
                         txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
                         lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nMove {Roll} places!";
-                        MovePlayerAndClose();
+                        CountTimeAndClose();
                         break;
                     }
                 }
-
                 else
                 {
                     int[] face = { 2, 2 }; //Alter the number from 1 to 6
 
                     Double++;
 
+                    if (PlayerViewModel.CurrentPlayer.IsInJail)
+                    {
+                        Roll = face[0] + face[1];
+                        txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
+                        lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble! You are free! Move {Roll} places!";
+                        PlayerViewModel.CurrentPlayer.IsInJail = false;
+                        PlayerViewModel.CurrentPlayer.AttemptsToGetOutOfJail = 0;
+                        CountTimeAndClose();
+                        break;
+                    }
+
                     if (Double == 3)
                     {
                         lblDiceResult.Content = $"You got 3 doubles. Go to prison...";
-                        MovePlayerAndClose();
+                        CountTimeAndClose();
                         Roll = 0;
                         break;
                     }
@@ -96,12 +134,13 @@ namespace Monopoly.View
                     txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
                     lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble! Move {Roll} places!";
 ;
-                    MovePlayerAndClose();
+                    CountTimeAndClose();
                     break;
                 }
             }
         }
-        private async void MovePlayerAndClose()
+
+        private async void CountTimeAndClose()
         {
             timerImage.Visibility = Visibility.Visible;
             lblTimer.Visibility = Visibility.Visible;
@@ -112,6 +151,7 @@ namespace Monopoly.View
             }
             this.Close();
         }
+
         private void btnAuto_Click(object sender, RoutedEventArgs e)
         {
             Click = true;
@@ -137,6 +177,7 @@ namespace Monopoly.View
             txtNumberOfPlaces.Visibility = Visibility.Visible;
             txtNumberOfPlaces.Focus();
         }
+
         private void btnMove_Click(object sender, RoutedEventArgs e)
         {
             Click = true;
@@ -145,7 +186,21 @@ namespace Monopoly.View
             if(int.TryParse(txtNumberOfPlaces.Text, out int result) && result >= 0 && result <= 40)
             {
                 Roll = result;
-                this.Close();
+
+                //Debug mode - simulate that the player couldn't get a double
+                if (PlayerViewModel.CurrentPlayer.IsInJail)
+                {
+                    txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
+                    lblDiceResult.Content = $"It's not a double!";
+                    btnMove.Visibility = Visibility.Hidden;
+                    txtNumberOfPlaces.Visibility = Visibility.Hidden;
+                    PlayerViewModel.CurrentPlayer.AttemptsToGetOutOfJail++;
+                    CountTimeAndClose();
+                }
+                else
+                {
+                    this.Close();
+                }     
             }
             else
             {
@@ -161,7 +216,7 @@ namespace Monopoly.View
             btnManual.Visibility = Visibility.Hidden;
             btnMove.Visibility = Visibility.Hidden;
             btnDouble.Visibility = Visibility.Hidden;
-            GetNumbers(1); //Add any number to the method to get double
+            GetNumbers(true); //Add any number to the method to get double
         }
 
         private void txtNumberOfPlaces_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -180,7 +235,9 @@ namespace Monopoly.View
             {
                 btnMove_Click(sender, e);
             }
-        } 
+        }
+        
+
 
     }
 }

@@ -87,6 +87,20 @@ namespace Monopoly.ViewModel
             set { PlayerModels[instanceNumber].ChanceCard = value; OnPropertyChanged(nameof(ChanceCard)); }
         }
 
+        public bool IsInJail
+        {
+            get { return PlayerModels[instanceNumber].isInJail; }
+
+            set { PlayerModels[instanceNumber].isInJail = value; }
+        }
+
+        public int AttemptsToGetOutOfJail
+        {
+            get { return PlayerModels[instanceNumber].attemptsToGetOutOfJail; }
+
+            set { PlayerModels[instanceNumber].attemptsToGetOutOfJail = value; }
+        }
+
         public PlayerViewModel()
         {
             instanceNumber = PVMcount;
@@ -174,8 +188,11 @@ namespace Monopoly.ViewModel
             }
             else
             {
-                //Player is already in jail, ask if they want to use a 'Get Out of Jail Free' card
-                AskToUseJailCard();
+                //Player is already in jail and if they have 'Get Out of Jail Free' card free card, ask if they want to use it
+                if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard) || HasGetOutOfJailCard(CurrentPlayer.CommunityCard))
+                {
+                    AskToUseJailCard();
+                }
             }
         }
 
@@ -188,22 +205,37 @@ namespace Monopoly.ViewModel
             }
             else
             {
+                CurrentPlayer.IsInJail = true;
                 move = -CurrentPlayer.Position + 10;
                 CurrentPlayer.MovePlayer(move);
             }
         }
 
-        private static void AskToUseJailCard()
+        public static void AskToUseJailCard()
         {
             MessageBoxResult result = MessageBox.Show("Do you want to use the 'Get Out of Jail Free' card?", "Jail", MessageBoxButton.YesNo);
 
-            if (result == MessageBoxResult.Yes)
+            if(!CurrentPlayer.IsInJail)
             {
-                UseJailCard();
+                if (result == MessageBoxResult.Yes)
+                {
+                    UseJailCard();
+                }
+                else
+                {
+                    MovePlayerToJail();
+                }
             }
             else
             {
-                MovePlayerToJail();
+                if (result == MessageBoxResult.Yes)
+                {
+                    UseJailCard();
+                }
+                else
+                {
+                    return;
+                }
             }
         }
 
@@ -213,11 +245,13 @@ namespace Monopoly.ViewModel
             {
                 CurrentPlayer.ChanceCard = "No chance card";
                 CardViewModel.AddChanceCard("Get Out of Jail Free", "JailFree", 0);
+                CurrentPlayer.IsInJail = false;
             }
             else
             {
                 CurrentPlayer.CommunityCard = "No community card";
                 CardViewModel.AddCommunityCard("Get Out of Jail Free", "JailFree", 0);
+                CurrentPlayer.IsInJail = false;
             }
         }
 
@@ -226,16 +260,15 @@ namespace Monopoly.ViewModel
             //Number of positions to move the player to go to the jail
             int jailPosition = 10;
             int move = jailPosition - CurrentPlayer.Position;
+            CurrentPlayer.IsInJail = true;
 
             CurrentPlayer.MovePlayer(move);
         }
 
-        private static bool HasGetOutOfJailCard(string card)
+        public static bool HasGetOutOfJailCard(string card)
         {
             return card == "Jail Free Card";
         }
-
-
 
         public static void GoToNextRailroad()
         {
