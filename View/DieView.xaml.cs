@@ -40,7 +40,7 @@ namespace Monopoly.View
 
         private async void GetNumbers(int isDouble = 0)
         {
-
+            
             while (true)
             {
                 if (isDouble == 0)
@@ -114,6 +114,7 @@ namespace Monopoly.View
         private void btnAuto_Click(object sender, RoutedEventArgs e)
         {
             Click = true;
+            gpBoxDebug.Visibility = Visibility.Hidden;
             btnAuto.Visibility = Visibility.Hidden;
             btnManual.Visibility = Visibility.Hidden;
             btnMove.Visibility = Visibility.Hidden;
@@ -126,6 +127,7 @@ namespace Monopoly.View
             Click = true;
             Double = 0;
             lblPlayer.Content = $"Enter the number of places {PlayerName} will move. (Range: 0 - 79)";
+            gpBoxDebug.Visibility = Visibility.Hidden;
             btnAuto.Visibility = Visibility.Hidden;
             btnManual.Visibility = Visibility.Hidden;
             btnDouble.Visibility = Visibility.Hidden;
@@ -153,6 +155,7 @@ namespace Monopoly.View
         private void btnDouble_Click(object sender, RoutedEventArgs e)
         {
             Click = true;
+            gpBoxDebug.Visibility = Visibility.Hidden;
             btnAuto.Visibility = Visibility.Hidden;
             btnManual.Visibility = Visibility.Hidden;
             btnMove.Visibility = Visibility.Hidden;
