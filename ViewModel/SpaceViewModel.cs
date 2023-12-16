@@ -579,6 +579,32 @@ namespace Monopoly.ViewModel
             }
         }
 
+        public static void HandlePlayerInJail(PlayerViewModel currentPlayer, Grid boardGrid, MainWindow board)
+        {
+            int fee = 50;
+            int attempts = currentPlayer.AttemptsToGetOutOfJail;
+
+            if(attempts < 3)
+            {
+                MessageBoxResult result = MessageBox.Show($"{currentPlayer.Name}, would you like to pay {fee} to get out of jail?", "You are imprisoned.", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    PayTaxesOrFees(fee, currentPlayer, boardGrid, board);
+                    currentPlayer.IsInJail = false;
+                }
+                else
+                {
+                    MessageBox.Show($"{currentPlayer.Name}, you remain imprisoned.", "Stay in the jail :(", MessageBoxButton.OK);
+                }
+            }
+            else
+            {
+                MessageBox.Show($"{currentPlayer.Name}, you tried to get a double 3 times and we are tired of you. You're leaving but you must pay $50!", "Get out of here.", MessageBoxButton.OK);
+                PayTaxesOrFees(fee, currentPlayer, boardGrid, board);
+                currentPlayer.IsInJail = false;
+            }    
+        }
+
         private static void ShowMessageBox(string message, string title)
         {
             MessageBox.Show(message, title, MessageBoxButton.OK);

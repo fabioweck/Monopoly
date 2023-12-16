@@ -16,31 +16,6 @@ namespace Monopoly.ViewModel
         public static Queue<CardModel> CommunityCards { get; set; }
         public static CardModel CurrentCard { get; set; }
 
-        //public string Description
-        //{
-        //    get { return CurrentCard.Description; }
-        //}
-
-        //public string Effect
-        //{
-        //    get { return CurrentCard.Effect; }
-        //}
-
-        //public int Value
-        //{
-        //    get { return CurrentCard.Value; }
-        //}
-
-        //public int Move
-        //{
-        //    get { return CurrentCard.Move; }
-        //}
-
-        //public int Place
-        //{
-        //    get { return CurrentCard.Place; }
-        //}
-
         public CardViewModel()
         {
             ChanceCards = new Queue<CardModel>();
@@ -51,7 +26,6 @@ namespace Monopoly.ViewModel
         private void PopulateStackOfCards()
         {
             // == Populate Chance cards ==
-
 
             ChanceCards.Enqueue(new CardModel(
                 "Bank pays you dividend of $50",    //Description

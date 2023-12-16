@@ -50,22 +50,76 @@ namespace Monopoly
 
             btnRollDice.Focus();
 
-            //CardView = new CardViewModel();
-            //Card1.DataContext = CardView;
         }
 
+        //Method to roll dice
         private void btnRollDice_Click(object sender, RoutedEventArgs e)
         {
-            //If the user closes the window and does not choose any number of players
-            //opens the window again
 
-            while(DieView.Click != true)
+            bool prisonLogic = false;
+            //First check if user is in prison
+            if(PlayerViewModel.CurrentPlayer.IsInJail)
             {
-                DieView dieView = new DieView(PlayerViewModel.CurrentPlayer.Name);
+                //Check if the player has the option to get out of jail
+                PlayerViewModel.GoToJail();
+                PlayerViewModel currentPlayer = PlayerViewModel.CurrentPlayer;
 
-                //Open dice window to roll dice
-                dieView.txtPlayer.Text = $"Player {PlayerViewModel.CurrentPlayer.Name}, how would you like to move?";
-                dieView.ShowDialog();
+                //If player is still in jail, then start jail logic
+                while (currentPlayer.IsInJail)
+                {
+                    //While the player doesn't roll the dice, keep asking
+                    while (DieView.Click != true)
+                    {
+                        DieView dieView = new DieView(currentPlayer.Name);
+
+                        //Open dice window to roll dice
+                        dieView.txtPlayer.Text = $"Player {currentPlayer.Name}, how would you like to move?";
+                        dieView.ShowDialog();
+                    }
+                                     
+                    //After rolling dice, if the player got out of jail,
+                    //then set prisonLogic to true to skip rolling dice again
+                    if (!currentPlayer.IsInJail)
+                    {
+                        prisonLogic = true;
+                        break;
+                    }
+                    else
+                    {
+                        //Give the player the option to pay to get out of jail
+                        SpaceViewModel.HandlePlayerInJail(currentPlayer, BoardGrid, this);
+
+                        //If player got out of jail,
+                        //then set prisonLogic to true to skip rolling dice again
+                        if (!currentPlayer.IsInJail)
+                        {
+                            prisonLogic = true;
+                            break;
+                        }
+                        //If not, it means the player didn't pay,
+                        //set Click to false and call next player turn
+                        else
+                        {
+                            DieView.Click = false;
+                            ChangePlayer();
+                            return;
+                        }
+                    }  
+                }
+            }
+
+            if (!prisonLogic)
+            {
+                //If the user closes the window and does not choose any option to roll dice,
+                //then open the window again
+                while (DieView.Click != true)
+                {
+                    DieView dieView = new DieView(PlayerViewModel.CurrentPlayer.Name);
+
+                    //Open dice window to roll dice
+                    dieView.txtPlayer.Text = $"Player {PlayerViewModel.CurrentPlayer.Name}, how would you like to move?";
+                    dieView.ShowDialog();
+                }
             }
 
             DieView.Click = false;
@@ -84,9 +138,11 @@ namespace Monopoly
                 return;
             }
 
+            prisonLogic = false;
             ResolveLogic();
         }
 
+        //Method to ask number of players
         private void HowManyPlayers(object sender, EventArgs e)
         {
             while (NumberOfPlayers == 0)
@@ -248,8 +304,10 @@ namespace Monopoly
             }          
         }
 
+        //Method to allow users to press enter when on the main screen and roll dice
         private void DiceKeyDown(object sender, KeyEventArgs e)
         {
+            //If key down was enter, then roll dice
             if(e.Key == Key.Enter)
             {
                 btnRollDice_Click(this, new RoutedEventArgs());
