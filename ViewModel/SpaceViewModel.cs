@@ -246,7 +246,7 @@ namespace Monopoly.ViewModel
 
                 if (property.Group != "Railroad" && property.Group != "Utility")
                 {
-                    //Once the property has no owner, offer it
+                    //If the property has no owner, offer it
                     if (property.Owner == null)
                     {
                        HandlePropertyPurchase(currentPlayer, property, boardGrid, txtBoxPanelPlayers);
@@ -262,6 +262,7 @@ namespace Monopoly.ViewModel
 
                             if (upgradeResult == MessageBoxResult.Yes)
                             {
+                                currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.HousePrice);
                                 addLodgingToBoard?.Invoke(boardGrid, property);
                             }
                             return;
@@ -270,6 +271,7 @@ namespace Monopoly.ViewModel
                         //If the player is the owner, do nothing
                         if (property.Owner == PlayerViewModel.CurrentPlayer) return;
 
+                        // if not the owner,
                         PayPropertyRent(currentPlayer, property, boardGrid, board);
 
                         //Update their balance on the screen
@@ -444,8 +446,9 @@ namespace Monopoly.ViewModel
             // If still doesn't have enough money, pay what they have left and go bankrupt:
             if (currentPlayer.Balance < rent)
             {
-                currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, currentPlayer.Balance);
-                property.Owner.ChangeBalance(value => property.Owner.Balance += value, currentPlayer.Balance);
+                int _pay = currentPlayer.Balance;
+                currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, _pay);
+                property.Owner.ChangeBalance(value => property.Owner.Balance += value, _pay);
 
                 currentPlayer.FileBankruptcy(boardGrid, board);
             }
@@ -543,7 +546,9 @@ namespace Monopoly.ViewModel
             // If still doesn't have enough money, pay what they have left and go bankrupt:
             if (currentPlayer.Balance < rent)
             {
-                currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, currentPlayer.Balance);
+                int _pay = currentPlayer.Balance;
+
+                currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, _pay);
                 currentPlayer.FileBankruptcy(boardGrid, board);
             }
 
@@ -577,6 +582,32 @@ namespace Monopoly.ViewModel
             {
                 MessageBox.Show($"Not enough balance to purchase {_t} [{property.Price}].", "Insufficient Balance.", MessageBoxButton.OK);
             }
+        }
+
+        public static void HandlePlayerInJail(PlayerViewModel currentPlayer, Grid boardGrid, MainWindow board)
+        {
+            int fee = 50;
+            int attempts = currentPlayer.AttemptsToGetOutOfJail;
+
+            if(attempts < 3)
+            {
+                MessageBoxResult result = MessageBox.Show($"{currentPlayer.Name}, would you like to pay {fee} to get out of jail?", "You are imprisoned.", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    PayTaxesOrFees(fee, currentPlayer, boardGrid, board);
+                    currentPlayer.IsInJail = false;
+                }
+                else
+                {
+                    MessageBox.Show($"{currentPlayer.Name}, you remain imprisoned.", "Stay in the jail :(", MessageBoxButton.OK);
+                }
+            }
+            else
+            {
+                MessageBox.Show($"{currentPlayer.Name}, you tried to get a double 3 times and we are tired of you. You're leaving but you must pay $50!", "Get out of here.", MessageBoxButton.OK);
+                PayTaxesOrFees(fee, currentPlayer, boardGrid, board);
+                currentPlayer.IsInJail = false;
+            }    
         }
 
         private static void ShowMessageBox(string message, string title)
