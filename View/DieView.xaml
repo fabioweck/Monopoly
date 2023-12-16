@@ -41,17 +41,18 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label x:Name="lblPlayer"
-               Grid.Row="1"
+        <TextBlock x:Name="txtPlayer"
+               Grid.RowSpan="4"
                Grid.ColumnSpan="8"
-               VerticalAlignment="Center"
-               HorizontalContentAlignment="Center"
-               Content="How would you like to move?"
+               Text="Enter the number of places P0 will move. (Range: 0 - 79)"
+               TextAlignment="Center"
                FontSize="18"
-               Height="40"
-               Margin="10,0,10,0"
+               Height="71"
+               Margin="10,28,10,0"
                FontWeight="Medium"
-               Foreground="White" />
+               Foreground="White"
+               VerticalAlignment="Top"
+                   TextWrapping="Wrap"/>
         <Label x:Name="lblDiceResult"
                Grid.Row="2"
                Grid.Column="0"
@@ -83,7 +84,9 @@
                  FontWeight="Bold"
                  FontSize="20"
                  Grid.RowSpan="2"
-                 Visibility="Hidden"/>
+                 Visibility="Hidden"
+                 PreviewTextInput="txtNumberOfPlaces_PreviewTextInput"
+                 KeyDown="txtNumberOfPlaces_KeyDown" />
         <Button x:Name="btnAuto"
                 Grid.Row="7"
                 Grid.Column="1"

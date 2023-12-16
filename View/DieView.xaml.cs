@@ -61,7 +61,7 @@ namespace Monopoly.View
                         }
 
                         Roll = face[0] + face[1];
-                        lblPlayer.Content = $"Player {PlayerName} rolled dice.";
+                        txtPlayer.Text = $"Player {PlayerName} rolled dice.";
                         lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Double!";
                         MovePlayerAndClose();
                         break;
@@ -71,7 +71,7 @@ namespace Monopoly.View
                     {
                         Double = 0;
                         Roll = face[0] + face[1];
-                        lblPlayer.Content = $"Player {PlayerName} rolled dice.";
+                        txtPlayer.Text = $"Player {PlayerName} rolled dice.";
                         lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Move {Roll} places!";
                         MovePlayerAndClose();
                         break;
@@ -93,7 +93,7 @@ namespace Monopoly.View
                     }
 
                     Roll = face[0] + face[1];
-                    lblPlayer.Content = $"Player {PlayerName} rolled dice.";
+                    txtPlayer.Text = $"Player {PlayerName} rolled dice.";
                     lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Double!";
                     MovePlayerAndClose();
                     break;
@@ -126,7 +126,7 @@ namespace Monopoly.View
         {
             Click = true;
             Double = 0;
-            lblPlayer.Content = $"Enter the number of places {PlayerName} will move. (Range: 0 - 79)";
+            txtPlayer.Text = $"Enter the number of places {PlayerName} will move. (Range: 0 - 40)";
             gpBoxDebug.Visibility = Visibility.Hidden;
             btnAuto.Visibility = Visibility.Hidden;
             btnManual.Visibility = Visibility.Hidden;
@@ -141,7 +141,7 @@ namespace Monopoly.View
             Click = true;
 
             // Check and paser the input to int number and check the valid range
-            if(int.TryParse(txtNumberOfPlaces.Text, out int result) && result >= 0 && result <= 79)
+            if(int.TryParse(txtNumberOfPlaces.Text, out int result) && result >= 0 && result <= 40)
             {
                 Roll = result;
                 this.Close();
