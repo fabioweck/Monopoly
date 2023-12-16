@@ -35,6 +35,7 @@ namespace Monopoly.View
             PlayerName = name;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
+            btnAuto.Focus();
         }
 
         private async void GetNumbers(int isDouble = 0)
@@ -124,7 +125,7 @@ namespace Monopoly.View
         {
             Click = true;
             Double = 0;
-            lblPlayer.Content = $"Type in the number of places {PlayerName} will move.";
+            lblPlayer.Content = $"Enter the number of places {PlayerName} will move. (Range: 0 - 79)";
             btnAuto.Visibility = Visibility.Hidden;
             btnManual.Visibility = Visibility.Hidden;
             btnDouble.Visibility = Visibility.Hidden;
@@ -136,8 +137,17 @@ namespace Monopoly.View
         private void btnMove_Click(object sender, RoutedEventArgs e)
         {
             Click = true;
-            Roll = Convert.ToInt32(txtNumberOfPlaces.Text);
-            this.Close();
+
+            // Check and paser the input to int number and check the valid range
+            if(int.TryParse(txtNumberOfPlaces.Text, out int result) && result >= 0 && result <= 79)
+            {
+                Roll = result;
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid number.");
+            }
         }
 
         private void btnDouble_Click(object sender, RoutedEventArgs e)
@@ -149,5 +159,24 @@ namespace Monopoly.View
             btnDouble.Visibility = Visibility.Hidden;
             GetNumbers(1); //Add any number to the method to get double
         }
+
+        private void txtNumberOfPlaces_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Allow only numeric input
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtNumberOfPlaces_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Invoke method pressing enter key
+            if (e.Key == Key.Enter)
+            {
+                btnMove_Click(sender, e);
+            }
+        } 
+
     }
 }

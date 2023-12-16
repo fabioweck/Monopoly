@@ -30,10 +30,10 @@ namespace Monopoly
     {
 
         public static int NumberOfPlayers = 0;
+        public static List<TextBox> txtBoxPanelPlayers;
+        public static bool isBankrupt = false;
         public List<Label> LblPlayers = new List<Label>();
-        public List<TextBox> txtBoxPanelPlayers;
         public CardViewModel Cards;
-        private static bool _isBankrupt = false;
 
         LodgingViewModel lodgingViewModel = new LodgingViewModel();
 
@@ -47,6 +47,8 @@ namespace Monopoly
             txtBoxPanelPlayers = new List<TextBox>() { P1, P2, P3, P4 };
 
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            btnRollDice.Focus();
 
             //CardView = new CardViewModel();
             //Card1.DataContext = CardView;
@@ -130,8 +132,6 @@ namespace Monopoly
 
                 // Iterate through our dictionary and create data binding to properly display on View:
 
-
-
                 //Label label = new Label();
 
                 //label.Content = Players[i].Name;
@@ -196,14 +196,12 @@ namespace Monopoly
         public void ResolveLogic()
         {
 
-            SpaceViewModel.Resolve(BoardGrid, txtBoxPanelPlayers, lodgingViewModel.AddLodgingToBoard);
-
-            if(CheckBankruptcy(BoardGrid))
-                _isBankrupt = true;
+            SpaceViewModel.Resolve(BoardGrid, txtBoxPanelPlayers, lodgingViewModel.AddLodgingToBoard, this);
 
             UpdateAllPlayersPanel();
 
-            if (DieView.Double != 0) return;
+            //If the player got double in the turn and did not go bankrupt, then continue playing
+            if (DieView.Double != 0 && PlayerViewModel.Players.Contains(PlayerViewModel.CurrentPlayer)) return;
 
             ChangePlayer();
 
@@ -218,19 +216,21 @@ namespace Monopoly
                 PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[0];
 
             // If not the last player
-            else if (!_isBankrupt)
+            else if (!isBankrupt)
             {
                 // Call the next player
                 PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[_ind+1];
             }
-            else if (_isBankrupt)
+            else if (isBankrupt)
             {
                 // Preserve current index to give the turn to the next player, unless there is only 1 player left.
                 if (PlayerViewModel.Players.Count > 1)
-                PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[_ind];
+                    if (_ind >= PlayerViewModel.Players.Count) 
+                        _ind = 0;
+                    PlayerViewModel.CurrentPlayer = PlayerViewModel.Players[_ind];
             }
             DieView.Double = 0;
-            _isBankrupt = false;
+            isBankrupt = false;
         }
 
         // Updates the players panel with current information
@@ -246,17 +246,6 @@ namespace Monopoly
                     }
                 }
             }          
-        }
-
-        // Check if current player goes bankrupt after game logic is resolved
-        public bool CheckBankruptcy(Grid boardGrid)
-        {
-            if (PlayerViewModel.CurrentPlayer.Balance < 0)
-            {
-                PlayerViewModel.CurrentPlayer.FileBankruptcy(boardGrid, this);
-                return true;
-            }
-            else return false;
         }
     }
 }

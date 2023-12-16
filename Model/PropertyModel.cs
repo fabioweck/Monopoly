@@ -37,7 +37,9 @@ namespace Monopoly.Model
             set 
             { 
                 _owner = value;
-                ownerName = value.Name;
+                if (_owner != null)
+                    ownerName = value.Name;
+                else ownerName = null;
             }
         }
 

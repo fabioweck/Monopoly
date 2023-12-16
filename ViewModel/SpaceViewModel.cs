@@ -8,16 +8,20 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
 using Monopoly.View;
+using System.Windows.Documents;
 
 namespace Monopoly.ViewModel
 {
     public class SpaceViewModel
     {
+        delegate void AddLodgingToBoard(PropertyModel property);
+        delegate void ResolveSpaceAction();
+
         public static Dictionary<int, SpaceModel> spaceModels = new Dictionary<int, SpaceModel>();
-        public static Dictionary<int, PlayerViewModel> spaceOwners = new Dictionary<int, PlayerViewModel>();
+        // public static Dictionary<int, PlayerViewModel> propertyOwners = new Dictionary<int, PlayerViewModel>();
 
         //Suggestion for the dictionary
-        //public static Dictionary<PlayerViewModel, List<SpaceModel>> spaceOwners = new Dictionary<PlayerViewModel, List<SpaceModel>();
+        public static Dictionary<PlayerViewModel, List<PropertyModel>> propertyOwners = new Dictionary<PlayerViewModel, List<PropertyModel>>();
 
         public SpaceViewModel()
         {
@@ -25,40 +29,124 @@ namespace Monopoly.ViewModel
         }
 
         // Assign ownership of a property.
-        public void AddOwner(PropertyModel property, PlayerViewModel pvm)
+        public static void AddOwner(PropertyModel property, PlayerViewModel pvm)
         {
             property.Owner = pvm;
-            spaceOwners[property.SpaceNumber] = pvm;
+            propertyOwners[pvm].Add(property);
         }
 
-        public void BuyProperty(PropertyModel property, PlayerViewModel pvm)
+        // Purchases the property, changing player balance and adding the ownership label
+        public static void BuyProperty(PropertyModel property, PlayerViewModel pvm, Grid boardGrid)
         {
             AddOwner(property, pvm);
             property.OwnerName = pvm.Name;
             pvm.Player.Balance -= property.Price;
+
+            // Create a label for the property
+            Label propertyLabel = new Label();
+            propertyLabel.Content = property.Owner.Name;
+            string _n = property.Name.Replace(" ", "").Replace(".", "").Replace("&","");
+
+            propertyLabel.Name = _n;
+            propertyLabel.FontSize = 12;
+            propertyLabel.FontWeight = FontWeights.Bold;
+            propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
+            propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
+
+            // Set the Grid row and column
+            //Top
+            if (property.Row >= 0 && property.Row <= 3 && property.Column >= 0 && property.Column <= 21)
+            {
+                propertyLabel.SetValue(Grid.RowProperty, property.Row + 3);
+                propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
+            }
+            //Right
+            if (property.Row >= 4 && property.Row <= 21 && property.Column >= 22 && property.Column <= 24)
+            {
+                propertyLabel.SetValue(Grid.RowProperty, property.Row);
+                propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
+            }
+            //Bottom
+            if (property.Row >= 22 && property.Row <= 24 && property.Column >= 0 && property.Column <= 21)
+            {
+                propertyLabel.SetValue(Grid.RowProperty, property.Row - 1);
+                propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
+            }
+            //Left
+            if (property.Row >= 0 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
+            {
+                propertyLabel.SetValue(Grid.RowProperty, property.Row);
+                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
+            }
+            //Left-top corner
+            if (property.Row >= 4 && property.Row <= 5 && property.Column >= 0 && property.Column <= 3)
+            {
+                propertyLabel.SetValue(Grid.RowProperty, 5);
+                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
+            }
+            //Left-bottom corner
+            if (property.Row >= 20 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
+            {
+                propertyLabel.SetValue(Grid.RowProperty, 20);
+                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
+            }
+            //Right-top corner
+            if (property.Row >= 4 && property.Row <= 5 && property.Column >= 22 && property.Column <= 24)
+            {
+                propertyLabel.SetValue(Grid.RowProperty, 5);
+                propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
+            }
+
+            // Label with the same color of the player
+            propertyLabel.Foreground = PlayerViewModel.CurrentPlayer.Color;
+
+            // Add the label to the Grid
+            boardGrid.Children.Add(propertyLabel);
+
+            //Update Players Panel
+            foreach (TextBox textBox in MainWindow.txtBoxPanelPlayers)
+            {
+                if (textBox.Name == pvm.Name)
+                {
+                    UpdatePlayerPanel(textBox, pvm);
+                }
+            }
         }
 
-        public void RemoveOwner(PropertyModel property, PlayerViewModel pvm)
+        public static void SellProperty(PropertyModel property, PlayerViewModel pvm, Grid boardGrid)
+        {
+            RemoveOwner(property, pvm);
+            pvm.Player.Balance += (int)property.Price/ 2;
+            var childToRemove = boardGrid.Children.OfType<Label>()
+                        .FirstOrDefault(x => x.Name == property.Name.Replace(" ", "").Replace(".", "").Replace("&", ""));
+
+
+            if (childToRemove != null)
+            {
+                boardGrid.Children.Remove(childToRemove);
+            }
+        }
+
+        public static void RemoveOwner(PropertyModel property, PlayerViewModel pvm)
         {
             property.Owner = null;
-            spaceOwners.Remove(property.SpaceNumber);
+            propertyOwners[pvm].Remove(property);
         }
 
-
-        public PlayerViewModel GetOwner(int spaceNumber)
+        public static void SellHouse(PropertyModel property, PlayerViewModel pvm)
         {
-            if (spaceOwners.ContainsKey(spaceNumber))
+            if (property.HousesBuilt > 0)
             {
-                return spaceOwners[spaceNumber];
+                pvm.Player.Balance += (int)property.HousePrice / 2;
+                property.HousesBuilt--;
             }
-            return null;
-        }
+            else MessageBox.Show("No more houses!");
 
-        public delegate void AddLodgingToBoard(PropertyModel property);
+        }
 
 
         // Resolves what happens when the player lands on a space.
-        public static void Resolve(Grid boardGrid, List<TextBox> txtBoxPanelPlayers, Action<Grid, PropertyModel> addLodgingToBoard)
+        public static void Resolve(Grid boardGrid, List<TextBox> txtBoxPanelPlayers, Action<Grid, PropertyModel> addLodgingToBoard, MainWindow board)
         {
 
             //Get both current player and current property
@@ -93,10 +181,12 @@ namespace Monopoly.ViewModel
                         break;
                     case "Value":
                         int amount = CardViewModel.CurrentCard.Value;
-                        PlayerViewModel.CurrentPlayer.ChangeBalance(value => currentPlayer.Balance += value, amount);
+                        if (amount < 0) TryToSellAssets(-amount, currentPlayer, boardGrid);
+                        PayTaxesOrFees(-amount, currentPlayer, boardGrid, board);
                         break;
                     case "JailFree":
-                        currentPlayer.Card = "Jail Free Card";
+                        currentPlayer.CommunityCard = "Jail Free Card";
+                        CardViewModel.RemoveCommunityCard(CardViewModel.CurrentCard);
                         break;
                     case "Go":
                         PlayerViewModel.GotToFirstPlace();
@@ -110,7 +200,7 @@ namespace Monopoly.ViewModel
                 }
             }
 
-            //If player position is over place 7, 17 or 33, it means Community card
+            //If player position is over place 7, 17 or 33, it means Chance card
             if (new int[] { 7, 22, 36 }.Contains(currentPlayer.Position))
             {
                 CardViewModel.FlipACard("Chance");
@@ -129,10 +219,12 @@ namespace Monopoly.ViewModel
                         break;
                     case "Value":
                         int amount = CardViewModel.CurrentCard.Value;
-                        PlayerViewModel.CurrentPlayer.ChangeBalance(value => currentPlayer.Balance += value, amount);
+                        if (amount < 0) TryToSellAssets(-amount, currentPlayer, boardGrid);
+                        PayTaxesOrFees(-amount, currentPlayer, boardGrid, board);
                         break;
                     case "JailFree":
-                        currentPlayer.Card = "Jail Free Card";
+                        currentPlayer.ChanceCard = "Jail Free Card";
+                        CardViewModel.RemoveCommunityCard(CardViewModel.CurrentCard);
                         break;
                     case "Go":
                         PlayerViewModel.GotToFirstPlace();
@@ -154,7 +246,7 @@ namespace Monopoly.ViewModel
 
                 if (property.Group != "Railroad" && property.Group != "Utility")
                 {
-                    //Once the property has no owner, offer to buy it to the current player
+                    //Once the property has no owner, offer it
                     if (property.Owner == null)
                     {
                        HandlePropertyPurchase(currentPlayer, property, boardGrid, txtBoxPanelPlayers);
@@ -178,26 +270,7 @@ namespace Monopoly.ViewModel
                         //If the player is the owner, do nothing
                         if (property.Owner == PlayerViewModel.CurrentPlayer) return;
 
-                        //If the player is not the owner, pass the functions to debit from current player and pay rent to the owner
-                        //Message box for testing purposes
-                        MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, pay rent to {property.OwnerName}\n${property.Rent[property.HousesBuilt]}");
-
-                        // Check if the player owns all properties of the color/group
-                        bool ownsAllProperties = PlayerOwnsAllPropertiesOfGroup(PlayerViewModel.CurrentPlayer, property.Group);
-
-                        //property.Rent[property.HousesBuilt] is used to count the number of houses in a property
-                        //and access the correct Rent[] index
-                        //Pass the operation to each player (one debit and one payment)
-                        if (ownsAllProperties && property.HousesBuilt == 0)
-                        {
-                            currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Rent[0] * 2);
-                            property.Owner.ChangeBalance(value => property.Owner.Balance += value, property.Rent[0] * 2);
-                        } 
-                        else
-                        {
-                            currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Rent[property.HousesBuilt]);
-                            property.Owner.ChangeBalance(value => property.Owner.Balance += value, property.Rent[property.HousesBuilt]);
-                        }
+                        PayPropertyRent(currentPlayer, property, boardGrid, board);
 
                         //Update their balance on the screen
                         //Update Players Panel
@@ -210,6 +283,7 @@ namespace Monopoly.ViewModel
                         }
                     }
                 }
+
                 else if (property.Group == "Railroad")
                 {
                     //If the player is the owner, do nothing
@@ -223,33 +297,10 @@ namespace Monopoly.ViewModel
                     else
                     {
                         //If the player is not the owner, pass the functions to debit from current player and pay rent to the owner
-
-                        //Helper variable to count the number of "Railroad" properties an onwer has
-                        int numberOfProperties = 0;
-
-                        //Iterates over the spaceModels to find all "Railroad" belonging to owner
-                        foreach (var space in spaceModels)
-                        {
-                            if (space.Value.GetType() == typeof(PropertyModel))
-                            {
-                                PropertyModel prop = (PropertyModel)space.Value;
-                                if (prop.Group == "Railroad" && prop.OwnerName == property.OwnerName)
-                                {
-                                    numberOfProperties++;
-                                }
-                            }
-                        }
-
-                        //Message box for testing purposes
-                        MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, railroad.\nPay rent to {property.OwnerName}\n${property.Rent[numberOfProperties - 1]}");
-
-
-                        //Pass the operation to each player (one debit and one payment)
-                        currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Rent[numberOfProperties - 1]);
-                        property.Owner.ChangeBalance(value => property.Owner.Balance += value, property.Rent[numberOfProperties - 1]);
-
+                        PayRailroadRent(currentPlayer, property, boardGrid, board);
                     }   
                 }
+
                 else if (property.Group == "Utility")
                 {
                     //If the player is the owner, do nothing
@@ -262,36 +313,11 @@ namespace Monopoly.ViewModel
                     }
                     else
                     {
-                        
-                        //Helper variable to count the number of "Railroad" properties an onwer has
-                        int numberOfProperties = 0;
-
-                        //Iterates over the spaceModels to find all "Railroad" belonging to owner
-                        foreach (var space in spaceModels)
-                        {
-                            if (space.Value.GetType() == typeof(PropertyModel))
-                            {
-                                PropertyModel prop = (PropertyModel)space.Value;
-                                if (prop.Group == "Utility" && prop.OwnerName == property.OwnerName)
-                                {
-                                    numberOfProperties++;
-                                }
-                            }
-                        }
-
-                        int rent = property.Rent[numberOfProperties - 1] * DieView.Roll;
-                        //Message box for testing purposes
-                        MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name} landed on a utility.\nPay rent to {property.OwnerName}\n${rent}");
-
-
-                        //Pass the operation to each player (one debit and one payment)
-                        currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, rent);
-                        property.Owner.ChangeBalance(value => property.Owner.Balance += value, rent);
-
+                        PayUtilitiesRent(currentPlayer, property, boardGrid, board);
                     }
                 }
             }
-            //If it is a space model, it only can be taxes (properties that interacts with player)
+            //If it is a space model, it only can be taxes
             else
             {
                 //Define the variable rent
@@ -301,15 +327,21 @@ namespace Monopoly.ViewModel
                     //In case of luxury tax, the player pays 100 dollars
                     case "Luxury Tax":
                         rent = 100;
-                        MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name} must pay {currentSpace.Name}.\nPay ${rent}");
-                        currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, rent);
                         break;
                     //In case of tax income, the player pays 200 dollars
                     case "Tax Income":
                         rent = 200;
-                        MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name} must pay {currentSpace.Name}.\nPay ${rent}");
-                        currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, rent);
                         break;
+                }
+                if (rent > 0)
+                {
+                    MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, pay {rent}.");
+
+                    // If cannot pay rent, and has properties to sell:
+                    TryToSellAssets(rent, currentPlayer, boardGrid);
+
+                    // Handle tax payment
+                    PayTaxesOrFees(rent, currentPlayer, boardGrid, board);
                 }
             }
         }
@@ -357,93 +389,193 @@ namespace Monopoly.ViewModel
                     }
                 }
             }
-
-
             return true;
         }
 
+        /// <summary>
+        /// Overload for properties
+        /// </summary>
+        /// <param name="property"></param>
+        /// <param name="rent"></param>
+        /// <param name="currentPlayer"></param>
+        public static void TryToSellAssets(PropertyModel property, int rent, PlayerViewModel currentPlayer, Grid boardGrid)
+        {
+            // If cannot pay rent, and has properties to sell:
+            if (currentPlayer.Balance < rent && propertyOwners[currentPlayer].Count > 0)
+            {
+                int _control = 0;
+                while (_control == 0)
+                {
+                    SellAssets sell = new SellAssets(currentPlayer, propertyOwners, boardGrid);
+                    sell.ShowDialog();
+
+                    // If player has enough balance or player no longer has any properties to sell, move on
+                    if (currentPlayer.Balance >= rent || propertyOwners[currentPlayer].Count == 0)
+                        _control = 1;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Overload for Taxes and Cards
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="currentPlayer"></param>
+        public static void TryToSellAssets(int value, PlayerViewModel currentPlayer, Grid boardGrid)
+        {
+            // If cannot pay rent, and has properties to sell:
+            if (currentPlayer.Balance < value && propertyOwners[currentPlayer].Count > 0)
+            {
+                int _control = 0;
+                while (_control == 0)
+                {
+                    SellAssets sell = new SellAssets(currentPlayer, propertyOwners, boardGrid);
+                    sell.ShowDialog();
+
+                    // If player has enough balance or player no longer has any properties to sell, move on
+                    if (currentPlayer.Balance >= value || propertyOwners[currentPlayer].Count == 0)
+                        _control = 1;
+                }
+            }
+        }
+
+        public static void PayRent(PropertyModel property, int rent, PlayerViewModel currentPlayer, Grid boardGrid, MainWindow board)
+        { 
+            // If still doesn't have enough money, pay what they have left and go bankrupt:
+            if (currentPlayer.Balance < rent)
+            {
+                currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, currentPlayer.Balance);
+                property.Owner.ChangeBalance(value => property.Owner.Balance += value, currentPlayer.Balance);
+
+                currentPlayer.FileBankruptcy(boardGrid, board);
+            }
+
+            // Execute full payment transaction (one debit and one payment)
+            else
+            {
+                currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, rent);
+                property.Owner.ChangeBalance(value => property.Owner.Balance += value, rent);
+            }
+        }
+
+        public static void PayPropertyRent(PlayerViewModel currentPlayer, PropertyModel property, Grid boardGrid, MainWindow board)
+        {
+            // property.Rent[property.HousesBuilt] is used to count the number of houses in a property
+            int rent = property.Rent[property.HousesBuilt];
+
+            // Check if the player owns all properties of the color/group
+            bool ownsAllProperties = PlayerOwnsAllPropertiesOfGroup(PlayerViewModel.CurrentPlayer, property.Group);
+            if (ownsAllProperties && property.HousesBuilt == 0)
+            {
+                rent = property.Rent[0] * 2;
+            }
+            //If the player is not the owner, pass the functions to debit from current player and pay rent to the owner
+            MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, pay rent to {property.OwnerName}\n${rent}");
+
+            // If cannot pay rent, and has properties to sell:
+            TryToSellAssets(property, rent, currentPlayer, boardGrid);
+
+            // Try to pay rent
+            PayRent(property, rent, currentPlayer, boardGrid, board);
+        }
+
+        public static void PayRailroadRent(PlayerViewModel currentPlayer, PropertyModel property, Grid boardGrid, MainWindow board)
+        {
+            // Helper variable to count the number of "Railroad" properties an onwer has
+            int numberOfProperties = 0;
+
+            // Iterates over the spaceModels to find all "Railroad" belonging to owner
+            foreach (var space in spaceModels)
+            {
+                if (space.Value.GetType() == typeof(PropertyModel))
+                {
+                    PropertyModel prop = (PropertyModel)space.Value;
+                    if (prop.Group == "Railroad" && prop.OwnerName == property.OwnerName)
+                    {
+                        numberOfProperties++;
+                    }
+                }
+            }
+
+            int rent = property.Rent[numberOfProperties - 1];
+
+            // If the player is not the owner, pass the functions to debit from current player and pay rent to the owner
+            MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, pay rent to {property.OwnerName}\n${rent}");
+
+            // If cannot pay rent, and has properties to sell:
+            TryToSellAssets(property, rent, currentPlayer, boardGrid);
+
+            // Try to pay rent
+            PayRent(property, rent, currentPlayer, boardGrid, board);
+        }
+
+        public static void PayUtilitiesRent(PlayerViewModel currentPlayer, PropertyModel property, Grid boardGrid, MainWindow board)
+        {
+            //Helper variable to count the number of "Utilities" properties an onwer has
+            int numberOfProperties = 0;
+
+            //Iterates over the spaceModels to find all "Utilities" belonging to owner
+            foreach (var space in spaceModels)
+            {
+                if (space.Value.GetType() == typeof(PropertyModel))
+                {
+                    PropertyModel prop = (PropertyModel)space.Value;
+                    if (prop.Group == "Utility" && prop.OwnerName == property.OwnerName)
+                    {
+                        numberOfProperties++;
+                    }
+                }
+            }
+
+            int rent = property.Rent[numberOfProperties - 1] * DieView.Roll;
+
+            MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name} landed on a utility.\nPay rent to {property.OwnerName}\n${rent}");
+
+            // If cannot pay rent, and has properties to sell:
+            TryToSellAssets(property, rent, currentPlayer, boardGrid);
+
+            // Try to pay rent
+            PayRent(property, rent, currentPlayer, boardGrid, board);
+        }
+
+        public static void PayTaxesOrFees(int rent, PlayerViewModel currentPlayer, Grid boardGrid, MainWindow board)
+        {
+            // If still doesn't have enough money, pay what they have left and go bankrupt:
+            if (currentPlayer.Balance < rent)
+            {
+                currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, currentPlayer.Balance);
+                currentPlayer.FileBankruptcy(boardGrid, board);
+            }
+
+            // Execute full payment transaction (one debit)
+            else
+            {
+                currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, rent);
+            }
+        }
 
         public static void HandlePropertyPurchase(PlayerViewModel currentPlayer, PropertyModel property, Grid boardGrid, List<TextBox> txtBoxPanelPlayers)
         {
             string _t = $"{property.Name} ({property.Group})";
-            MessageBoxResult result = MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, would you like to buy {_t} for ${property.Price}?", "Landed on a property.", MessageBoxButton.YesNo);
 
-            //If the player wants to buy the property, pass the function to balance to perform the calculation
-            if (result == MessageBoxResult.Yes)
+            // If the player has enough balance to purchase, handle the question and purchase
+            if (currentPlayer.Balance >= property.Price)
             {
-                currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.Price);
-                property.Owner = PlayerViewModel.CurrentPlayer;
+                MessageBoxResult result = MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, would you like to buy {_t} for ${property.Price}?", "Landed on a property.", MessageBoxButton.YesNo);
 
-                // Create a label for the property
-                Label propertyLabel = new Label();
-                propertyLabel.Content = property.Owner.Name;
-                propertyLabel.FontSize = 12;
-                propertyLabel.FontWeight = FontWeights.Bold;
-                propertyLabel.SetValue(Grid.ColumnSpanProperty, property.ColumnSpan);
-                propertyLabel.SetValue(Grid.RowSpanProperty, property.RowSpan);
-
-                // Set the Grid row and column
-                //Top
-                if (property.Row >= 0 && property.Row <= 3 && property.Column >= 0 && property.Column <= 21)
+                //If the player wants to buy the property, pass the function to balance to perform the calculation
+                if (result == MessageBoxResult.Yes)
                 {
-                    propertyLabel.SetValue(Grid.RowProperty, property.Row + 3);
-                    propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
+                    BuyProperty(property, currentPlayer, boardGrid);
                 }
-                //Right
-                if (property.Row >= 4 && property.Row <= 21 && property.Column >= 22 && property.Column <= 24)
+                else //Otherwise, do nothing
                 {
-                    propertyLabel.SetValue(Grid.RowProperty, property.Row);
-                    propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
-                }
-                //Bottom
-                if (property.Row >= 22 && property.Row <= 24 && property.Column >= 0 && property.Column <= 21)
-                {
-                    propertyLabel.SetValue(Grid.RowProperty, property.Row - 1);
-                    propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
-                }
-                //Left
-                if (property.Row >= 0 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
-                {
-                    propertyLabel.SetValue(Grid.RowProperty, property.Row);
-                    propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                }
-                //Left-top corner
-                if (property.Row >= 4 && property.Row <= 5 && property.Column >= 0 && property.Column <= 3)
-                {
-                    propertyLabel.SetValue(Grid.RowProperty, 5);
-                    propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                }
-                //Left-bottom corner
-                if (property.Row >= 20 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
-                {
-                    propertyLabel.SetValue(Grid.RowProperty, 20);
-                    propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
-                }
-                //Right-top corner
-                if (property.Row >= 4 && property.Row <= 5 && property.Column >= 22 && property.Column <= 24)
-                {
-                    propertyLabel.SetValue(Grid.RowProperty, 5);
-                    propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
-                }
-
-                // Label with the same color of the player
-                propertyLabel.Foreground = PlayerViewModel.CurrentPlayer.Color;
-
-                // Add the label to the Grid
-                boardGrid.Children.Add(propertyLabel);
-
-                //Update Players Panel
-                foreach (TextBox textBox in txtBoxPanelPlayers)
-                {
-                    if (textBox.Name == currentPlayer.Name)
-                    {
-                        UpdatePlayerPanel(textBox, currentPlayer);
-                    }
+                    return;
                 }
             }
-            else //Otherwise, do nothing
+            else
             {
-                return;
+                MessageBox.Show($"Not enough balance to purchase {_t} [{property.Price}].", "Insufficient Balance.", MessageBoxButton.OK);
             }
         }
 
@@ -452,13 +584,13 @@ namespace Monopoly.ViewModel
             MessageBox.Show(message, title, MessageBoxButton.OK);
         }
 
-
-
         public static void UpdatePlayerPanel(TextBox textBox, PlayerViewModel player)
         {
             textBox.Text = $"Panel: {player.Name}" +
                            $"\nBalance: {player.Balance}" +
-                           $"\nTotal Of Properties: {player.PlayerTotalOfProperties()}";
+                           $"\nTotal Of Properties: {player.PlayerTotalOfProperties()}" +
+                           $"\n{player.CommunityCard}" +
+                           $"\n{player.ChanceCard}"; 
         }
 
         public static bool PlayerOwnsAllPropertiesOfGroup(PlayerViewModel player, string group)
@@ -468,16 +600,11 @@ namespace Monopoly.ViewModel
                 .All(property => ((PropertyModel)property).Owner == player);
         }
 
+        //public void PositionSpaces()
+        //{
 
-        public void PositionSpaces()
-        {
+        //}     
 
-        }
-
-        delegate void ResolveSpaceAction();
-
-
-        
         public static void PopulateBoard()
         {
             spaceModels.Add(0,

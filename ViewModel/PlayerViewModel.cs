@@ -73,11 +73,18 @@ namespace Monopoly.ViewModel
             set { PlayerModels[instanceNumber].Balance = value; OnPropertyChanged(nameof(Balance));}
         }
 
-        public string Card
+        public string CommunityCard
         {
-            get { return PlayerModels[instanceNumber].Card; }
+            get { return PlayerModels[instanceNumber].CommunityCard; }
 
-            set { PlayerModels[instanceNumber].Card = value; OnPropertyChanged(nameof(Card)); }
+            set { PlayerModels[instanceNumber].CommunityCard = value; OnPropertyChanged(nameof(CommunityCard)); }
+        }
+
+        public string ChanceCard
+        {
+            get { return PlayerModels[instanceNumber].ChanceCard; }
+
+            set { PlayerModels[instanceNumber].ChanceCard = value; OnPropertyChanged(nameof(ChanceCard)); }
         }
 
         public PlayerViewModel()
@@ -93,6 +100,7 @@ namespace Monopoly.ViewModel
             PlayerModels.Add(Player);
             Players.Add(this);
             CurrentPlayer = Players[0];
+            SpaceViewModel.propertyOwners.Add(this, new List<PropertyModel>());
         }
 
         public void LapCompleted(int amount)
@@ -152,18 +160,82 @@ namespace Monopoly.ViewModel
 
         public static void GoToJail()
         {
-            //If the player is behind position 10 (prison)
-            if (CurrentPlayer.Position < 10)
+            //Jail position on the board
+            int jailPosition = 10;
+
+            //Number of positions to move to go to the jail
+            int move = jailPosition - CurrentPlayer.Position;
+
+            //Check if the player is already in jail or needs to move to jail
+            if (move != 0)
             {
-                int move = 10 - CurrentPlayer.Position;
-                CurrentPlayer.MovePlayer(move);
+                //Player needs to move to jail
+                HandleMoveToJail(move);
             }
-            else //If the player is ahead of position 10, move back to prison
+            else
             {
-                int move = 10 - CurrentPlayer.Position;
+                //Player is already in jail, ask if they want to use a 'Get Out of Jail Free' card
+                AskToUseJailCard();
+            }
+        }
+
+        private static void HandleMoveToJail(int move)
+        {
+            //Check if the player has a 'Get Out of Jail Free' card
+            if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard) || HasGetOutOfJailCard(CurrentPlayer.CommunityCard))
+            {
+                AskToUseJailCard();
+            }
+            else
+            {
+                move = -CurrentPlayer.Position + 10;
                 CurrentPlayer.MovePlayer(move);
             }
         }
+
+        private static void AskToUseJailCard()
+        {
+            MessageBoxResult result = MessageBox.Show("Do you want to use the 'Get Out of Jail Free' card?", "Jail", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                UseJailCard();
+            }
+            else
+            {
+                MovePlayerToJail();
+            }
+        }
+
+        private static void UseJailCard()
+        {
+            if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard))
+            {
+                CurrentPlayer.ChanceCard = "No chance card";
+                CardViewModel.AddChanceCard("Get Out of Jail Free", "JailFree", 0);
+            }
+            else
+            {
+                CurrentPlayer.CommunityCard = "No community card";
+                CardViewModel.AddCommunityCard("Get Out of Jail Free", "JailFree", 0);
+            }
+        }
+
+        private static void MovePlayerToJail()
+        {
+            //Number of positions to move the player to go to the jail
+            int jailPosition = 10;
+            int move = jailPosition - CurrentPlayer.Position;
+
+            CurrentPlayer.MovePlayer(move);
+        }
+
+        private static bool HasGetOutOfJailCard(string card)
+        {
+            return card == "Jail Free Card";
+        }
+
+
 
         public static void GoToNextRailroad()
         {
@@ -228,6 +300,7 @@ namespace Monopoly.ViewModel
         // If a player cannot afford something (their balance would become negative) they lose the game and are removed from the board:
         public void FileBankruptcy(Grid boardGrid, MainWindow board)
         {
+            MainWindow.isBankrupt = true;
             // Adjust each pvm's instance number
             foreach (PlayerViewModel _pvm in Players)
                 if (_pvm.instanceNumber > CurrentPlayer.instanceNumber)
@@ -242,7 +315,7 @@ namespace Monopoly.ViewModel
             if(Players.Count > 1)
             {
                 PlayerWentBankrupt bankrupt = new PlayerWentBankrupt(CurrentPlayer);
-                bankrupt.Show();
+                bankrupt.ShowDialog();
             }
 
             // If there is only one player left, show victory screen.

@@ -180,5 +180,25 @@ namespace Monopoly.ViewModel
                 CommunityCards.Enqueue(CurrentCard);
             }
         }
+
+        public static void AddChanceCard(string description, string effect, int value, int move = 0)
+        {
+            ChanceCards.Enqueue(new CardModel(description, effect, value, move));
+        }
+
+        public static void RemoveChanceCard(CardModel card)
+        {
+            ChanceCards = new Queue<CardModel>(ChanceCards.Where(c => c != card));
+        }
+
+        public static void AddCommunityCard(string description, string effect, int value, int move = 0)
+        {
+            CommunityCards.Enqueue(new CardModel(description, effect, value, move));
+        }
+
+        public static void RemoveCommunityCard(CardModel card)
+        {
+            CommunityCards = new Queue<CardModel>(CommunityCards.Where(c => c != card));
+        }
     }
 }
