@@ -11,8 +11,7 @@
         WindowStyle="None"
         Background="#FFD8EEEB"
         BorderBrush="Black"
-        BorderThickness="2,2,2,2">
-
+        BorderThickness="4">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />

@@ -32,6 +32,7 @@ namespace Monopoly
         public static int NumberOfPlayers = 0;
         public static List<TextBox> txtBoxPanelPlayers;
         public static bool isBankrupt = false;
+        public static string jailLogic = "false";
         public List<Label> LblPlayers = new List<Label>();
         public CardViewModel Cards;
 
@@ -56,59 +57,15 @@ namespace Monopoly
         private void btnRollDice_Click(object sender, RoutedEventArgs e)
         {
 
-            bool prisonLogic = false;
-            //First check if user is in prison
-            if(PlayerViewModel.CurrentPlayer.IsInJail)
-            {
-                //Check if the player has the option to get out of jail
-                PlayerViewModel.GoToJail();
-                PlayerViewModel currentPlayer = PlayerViewModel.CurrentPlayer;
+            jailLogic = "false";
 
-                //If player is still in jail, then start jail logic
-                while (currentPlayer.IsInJail)
-                {
-                    //While the player doesn't roll the dice, keep asking
-                    while (DieView.Click != true)
-                    {
-                        DieView dieView = new DieView(currentPlayer.Name);
+            if (PlayerViewModel.CurrentPlayer.IsInJail)
+                jailLogic = SpaceViewModel.JailLogic(PlayerViewModel.CurrentPlayer, BoardGrid, this);
 
-                        //Open dice window to roll dice
-                        dieView.txtPlayer.Text = $"Player {currentPlayer.Name}, how would you like to move?";
-                        dieView.ShowDialog();
-                    }
-                                     
-                    //After rolling dice, if the player got out of jail,
-                    //then set prisonLogic to true to skip rolling dice again
-                    if (!currentPlayer.IsInJail)
-                    {
-                        prisonLogic = true;
-                        break;
-                    }
-                    else
-                    {
-                        //Give the player the option to pay to get out of jail
-                        SpaceViewModel.HandlePlayerInJail(currentPlayer, BoardGrid, this);
+            if (jailLogic == "return") return;
 
-                        //If player got out of jail,
-                        //then set prisonLogic to true to skip rolling dice again
-                        if (!currentPlayer.IsInJail)
-                        {
-                            prisonLogic = true;
-                            break;
-                        }
-                        //If not, it means the player didn't pay,
-                        //set Click to false and call next player turn
-                        else
-                        {
-                            DieView.Click = false;
-                            ChangePlayer();
-                            return;
-                        }
-                    }  
-                }
-            }
-
-            if (!prisonLogic)
+            //If the dice are not being rolled to resolve prison logic, then proceed
+            if (jailLogic == "false")
             {
                 //If the user closes the window and does not choose any option to roll dice,
                 //then open the window again
@@ -138,8 +95,8 @@ namespace Monopoly
                 return;
             }
 
-            prisonLogic = false;
             ResolveLogic();
+
         }
 
         //Method to ask number of players
@@ -256,7 +213,15 @@ namespace Monopoly
 
             UpdateAllPlayersPanel();
 
-            //If the player got double in the turn and did not go bankrupt, then continue playing
+            //If the last turn was a player getting out of prison due to a double,
+            //then the double doesn't count to play again and call next player
+            if(jailLogic == "true")
+            {
+                ChangePlayer();
+                return;
+            }
+
+            //If the player got double and did not go bankrupt, then roll dice again
             if (DieView.Double != 0 && PlayerViewModel.Players.Contains(PlayerViewModel.CurrentPlayer)) return;
 
             ChangePlayer();
@@ -264,7 +229,7 @@ namespace Monopoly
         }
 
         // Call the next player to roll the dice
-        private void ChangePlayer()
+        public void ChangePlayer()
         {
             int _ind = PlayerViewModel.CurrentPlayer.instanceNumber;
              // If the player is the last in the list, call the first one
