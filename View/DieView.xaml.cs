@@ -54,15 +54,15 @@ namespace Monopoly.View
 
                         if (Double == 3)
                         {
-                            lblDiceResult.Content = $"You got 3 doubles. Go to the prison...";
+                            lblDiceResult.Content = $"You got 3 doubles. Go to prison...";
                             MovePlayerAndClose();
                             Roll = 0;
                             break;
                         }
 
                         Roll = face[0] + face[1];
-                        txtPlayer.Text = $"Player {PlayerName} rolled dice.";
-                        lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Double!";
+                        txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
+                        lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble! Move {Roll} places!";
                         MovePlayerAndClose();
                         break;
 
@@ -71,8 +71,8 @@ namespace Monopoly.View
                     {
                         Double = 0;
                         Roll = face[0] + face[1];
-                        txtPlayer.Text = $"Player {PlayerName} rolled dice.";
-                        lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Move {Roll} places!";
+                        txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
+                        lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nMove {Roll} places!";
                         MovePlayerAndClose();
                         break;
                     }
@@ -86,15 +86,16 @@ namespace Monopoly.View
 
                     if (Double == 3)
                     {
-                        lblDiceResult.Content = $"You got 3 doubles. Go to the prison...";
+                        lblDiceResult.Content = $"You got 3 doubles. Go to prison...";
                         MovePlayerAndClose();
                         Roll = 0;
                         break;
                     }
 
                     Roll = face[0] + face[1];
-                    txtPlayer.Text = $"Player {PlayerName} rolled dice.";
-                    lblDiceResult.Content = $"Die 1 face: {face[0]} || Die 2 face: {face[1]}. Double!";
+                    txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
+                    lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble! Move {Roll} places!";
+;
                     MovePlayerAndClose();
                     break;
                 }
