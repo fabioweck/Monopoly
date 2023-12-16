@@ -35,5 +35,13 @@ namespace Monopoly.View
         {
             this.Close();
         }
+
+        private void KeyDownClose(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter) 
+            {
+                this.Close();
+            }
+        }
     }
 }
