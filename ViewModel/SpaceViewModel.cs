@@ -14,6 +14,9 @@ namespace Monopoly.ViewModel
 {
     public class SpaceViewModel
     {
+        delegate void AddLodgingToBoard(PropertyModel property);
+        delegate void ResolveSpaceAction();
+
         public static Dictionary<int, SpaceModel> spaceModels = new Dictionary<int, SpaceModel>();
         // public static Dictionary<int, PlayerViewModel> propertyOwners = new Dictionary<int, PlayerViewModel>();
 
@@ -141,7 +144,6 @@ namespace Monopoly.ViewModel
 
         }
 
-        public delegate void AddLodgingToBoard(PropertyModel property);
 
         // Resolves what happens when the player lands on a space.
         public static void Resolve(Grid boardGrid, List<TextBox> txtBoxPanelPlayers, Action<Grid, PropertyModel> addLodgingToBoard, MainWindow board)
@@ -598,12 +600,10 @@ namespace Monopoly.ViewModel
                 .All(property => ((PropertyModel)property).Owner == player);
         }
 
-        public void PositionSpaces()
-        {
+        //public void PositionSpaces()
+        //{
 
-        }
-
-        delegate void ResolveSpaceAction();
+        //}     
 
         public static void PopulateBoard()
         {

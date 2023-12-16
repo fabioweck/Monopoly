@@ -30,10 +30,10 @@ namespace Monopoly
     {
 
         public static int NumberOfPlayers = 0;
-        public List<Label> LblPlayers = new List<Label>();
         public static List<TextBox> txtBoxPanelPlayers;
-        public CardViewModel Cards;
         public static bool isBankrupt = false;
+        public List<Label> LblPlayers = new List<Label>();
+        public CardViewModel Cards;
 
         LodgingViewModel lodgingViewModel = new LodgingViewModel();
 

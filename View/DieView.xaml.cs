@@ -148,6 +148,15 @@ namespace Monopoly.View
             }
         }
 
+        private void btnDouble_Click(object sender, RoutedEventArgs e)
+        {
+            Click = true;
+            btnAuto.Visibility = Visibility.Hidden;
+            btnManual.Visibility = Visibility.Hidden;
+            btnMove.Visibility = Visibility.Hidden;
+            GetNumbers(1); //Add any number to the method to get double
+        }
+
         private void txtNumberOfPlaces_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             // Allow only numeric input
@@ -164,16 +173,7 @@ namespace Monopoly.View
             {
                 btnMove_Click(sender, e);
             }
-        }
-
-        private void btnDouble_Click(object sender, RoutedEventArgs e)
-        {
-            Click = true;
-            btnAuto.Visibility = Visibility.Hidden;
-            btnManual.Visibility = Visibility.Hidden;
-            btnMove.Visibility = Visibility.Hidden;
-            GetNumbers(1); //Add any number to the method to get double
-        }
+        } 
 
     }
 }
