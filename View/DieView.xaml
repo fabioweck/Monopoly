@@ -8,15 +8,8 @@
         Width="371"
         Height="283"
         mc:Ignorable="d"
-        WindowStyle="None">
-    <Window.Background>
-        <LinearGradientBrush EndPoint="0.5,1"
-                             StartPoint="0.5,0">
-            <GradientStop Color="Black" />
-            <GradientStop Color="#FFD5FFFF"
-                          Offset="1" />
-        </LinearGradientBrush>
-    </Window.Background>
+        WindowStyle="None"
+        Background="#FFD8EEEB">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -42,17 +35,16 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock x:Name="txtPlayer"
-               Grid.RowSpan="4"
-               Grid.ColumnSpan="8"
-               Text="Enter the number of places P0 will move. (Range: 0 - 79)"
-               TextAlignment="Center"
-               FontSize="18"
-               Height="71"
-               Margin="10,28,10,0"
-               FontWeight="Medium"
-               Foreground="White"
-               VerticalAlignment="Top"
-                   TextWrapping="Wrap"/>
+                   Grid.RowSpan="4"
+                   Grid.ColumnSpan="8"
+                   Text="Enter the number of places P0 will move. (Range: 0 - 79)"
+                   TextAlignment="Center"
+                   FontSize="18"
+                   Height="71"
+                   Margin="10,28,10,0"
+                   FontWeight="Medium"
+                   VerticalAlignment="Top"
+                   TextWrapping="Wrap" />
         <Label x:Name="lblDiceResult"
                Grid.Row="2"
                Grid.Column="0"
@@ -62,8 +54,7 @@
                VerticalAlignment="Center"
                FontSize="18"
                HorizontalContentAlignment="Center"
-               Grid.RowSpan="3"
-               Foreground="White" />
+               Grid.RowSpan="3"/>
         <Label x:Name="lblTimer"
                Grid.Row="5"
                Grid.Column="3"
@@ -72,8 +63,7 @@
                FontSize="20"
                Content="3s"
                Margin="31,24,26,18"
-               Foreground="White"
-               Visibility="Hidden" />
+               Visibility="Hidden"/>
         <TextBox x:Name="txtNumberOfPlaces"
                  TextWrapping="Wrap"
                  Grid.Row="5"
@@ -155,8 +145,8 @@
                VerticalAlignment="Top"
                Grid.ColumnSpan="2"
                Margin="0,13,0,0"
-               Visibility="Hidden"
-               Source="/View/timer.png" />
+               Source="/View/timer.png"
+               Visibility="Hidden"/>
         <GroupBox x:Name="gpBoxDebug"
                   Grid.Column="3"
                   Header="Debugging mode"
@@ -164,8 +154,8 @@
                   Grid.ColumnSpan="4"
                   Margin="16,5,16,21"
                   Grid.RowSpan="3"
-                  Foreground="White"
-                  BorderThickness="0.5,0.5,0.5,0.5" />
+                  BorderThickness="0.5,0.5,0.5,0.5"
+                  BorderBrush="Black" />
     </Grid>
 
 
