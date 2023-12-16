@@ -8,7 +8,8 @@
         Height="Auto"
         Loaded="HowManyPlayers"
         SizeToContent="WidthAndHeight"
-        mc:Ignorable="d">
+        mc:Ignorable="d"
+        KeyDown="DiceKeyDown">
     <Grid x:Name="BoardGrid"
           Width="1250"
           Height="850">
@@ -96,8 +97,7 @@
                 Width="120"
                 Cursor="Hand"
                Source="/dice.png"
-               MouseLeftButtonDown="btnRollDice_Click">
-        </Image>
+               MouseLeftButtonDown="btnRollDice_Click" />
         <!--<Button x:Name="btnRollDice"
                 Grid.Row="5"
                 Grid.RowSpan="3"
