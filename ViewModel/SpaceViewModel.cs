@@ -585,7 +585,7 @@ namespace Monopoly.ViewModel
         }
 
         //Execute the prison logic whenever a player is in jail
-        public static string JailLogic(PlayerViewModel currentPlayer, Grid boardGrid, MainWindow board)
+        public static string ResolveJail(PlayerViewModel currentPlayer, Grid boardGrid, MainWindow board)
         {
             string prisonLogic = string.Empty;
             //Check if the player has the option to get out of jail

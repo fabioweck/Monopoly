@@ -344,6 +344,7 @@ namespace Monopoly.ViewModel
                     }
                 }
             }
+
             MainWindow.isBankrupt = true;
             // Adjust each pvm's instance number
             foreach (PlayerViewModel _pvm in Players)

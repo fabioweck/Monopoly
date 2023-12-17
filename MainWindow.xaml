@@ -88,14 +88,14 @@
             <RowDefinition Height="0.45*" />
         </Grid.RowDefinitions>
         <Image x:Name="btnRollDice"
-                Grid.Row="5"
-                Grid.RowSpan="3"
-                Grid.Column="11"
-                Grid.ColumnSpan="5"
-                Margin="0,5,33,0"
-                Panel.ZIndex="2"
-                Width="120"
-                Cursor="Hand"
+               Grid.Row="5"
+               Grid.RowSpan="3"
+               Grid.Column="11"
+               Grid.ColumnSpan="5"
+               Margin="0,5,33,0"
+               Panel.ZIndex="2"
+               Width="120"
+               Cursor="Hand"
                Source="/dice.png"
                MouseLeftButtonDown="btnRollDice_Click" />
         <!--<Button x:Name="btnRollDice"
@@ -169,6 +169,20 @@
                  Text="Panel P4"
                  TextWrapping="Wrap"
                  Visibility="Hidden" />
-        <Label Grid.Column="11" Grid.ColumnSpan="4" Content="Click the dice to play" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="5" VerticalAlignment="Top" Panel.ZIndex="1" Height="22" IsHitTestVisible="False" Padding="5,0,5,5" Width="122"/>
+        <Label Grid.Column="9"
+               Grid.ColumnSpan="8"
+               Content="Click the dice to play"
+               HorizontalAlignment="Center"
+               HorizontalContentAlignment="Center"
+               Grid.Row="4"
+               VerticalAlignment="Top"
+               Panel.ZIndex="1"
+               Height="30"
+               IsHitTestVisible="False"
+               Padding="5,0,5,5"
+               Width="207"
+               FontSize="20"
+               Margin="0,19,0,0"
+               Grid.RowSpan="2" />
     </Grid>
 </Window>

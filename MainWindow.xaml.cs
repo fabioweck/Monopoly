@@ -32,7 +32,7 @@ namespace Monopoly
         public static int NumberOfPlayers = 0;
         public static List<TextBox> txtBoxPanelPlayers;
         public static bool isBankrupt = false;
-        public static string jailLogic = "false";
+        public static string jailLogic;
         public List<Label> LblPlayers = new List<Label>();
         public CardViewModel Cards;
 
@@ -60,7 +60,7 @@ namespace Monopoly
             jailLogic = "false";
 
             if (PlayerViewModel.CurrentPlayer.IsInJail)
-                jailLogic = SpaceViewModel.JailLogic(PlayerViewModel.CurrentPlayer, BoardGrid, this);
+                jailLogic = SpaceViewModel.ResolveJail(PlayerViewModel.CurrentPlayer, BoardGrid, this);
 
             if (jailLogic == "return") return;
 
