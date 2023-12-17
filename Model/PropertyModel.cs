@@ -27,7 +27,6 @@ namespace Monopoly.Model
             set
             {
                 ownerName = value;
-                OnPropertyChanged(nameof(OwnerName));
             }
         }
 

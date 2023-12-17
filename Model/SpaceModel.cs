@@ -79,12 +79,5 @@ namespace Monopoly.Model
                 MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, obtained a card");
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }
