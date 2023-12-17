@@ -80,22 +80,43 @@ namespace Monopoly.ViewModel
                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
             }
             //Left-top corner
-            if (property.Row >= 4 && property.Row <= 5 && property.Column >= 0 && property.Column <= 3)
+            if (property.Row >= 0 && property.Row <= 3 && property.Column >= 0 && property.Column <= 5) //Top
+            {
+                propertyLabel.SetValue(Grid.RowProperty, 4);
+                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 1);
+            }
+            if (property.Row >= 4 && property.Row <= 5 && property.Column >= 0 && property.Column <= 3) //Left
             {
                 propertyLabel.SetValue(Grid.RowProperty, 5);
                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
             }
             //Left-bottom corner
-            if (property.Row >= 20 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3)
-            {
+            if (property.Row >= 22 && property.Row <= 24 && property.Column >= 0 && property.Column <= 21) //Bottom
+            {   
+                propertyLabel.SetValue(Grid.RowProperty, 21);
+                propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 1);
+            }
+            if (property.Row >= 20 && property.Row <= 21 && property.Column >= 0 && property.Column <= 3) //Left
+            {   
                 propertyLabel.SetValue(Grid.RowProperty, 20);
                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column + 3);
             }
             //Right-top corner
-            if (property.Row >= 4 && property.Row <= 5 && property.Column >= 22 && property.Column <= 24)
-            {
+            if (property.Row >= 0 && property.Row <= 3 && property.Column >= 20 && property.Column <= 21) //Top
+            {   
+                propertyLabel.SetValue(Grid.RowProperty, 4);
+                propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
+            }
+            if (property.Row >= 4 && property.Row <= 5 && property.Column >= 22 && property.Column <= 24) //Right
+            {   
                 propertyLabel.SetValue(Grid.RowProperty, 5);
                 propertyLabel.SetValue(Grid.ColumnProperty, property.Column - 1);
+            }
+            //Right-bottom corner
+            if (property.Row >= 22 && property.Row <= 24 && property.Column >= 20 && property.Column <= 21) //Bottom
+            {
+                propertyLabel.SetValue(Grid.RowProperty, 21);
+                propertyLabel.SetValue(Grid.ColumnProperty, property.Column);
             }
 
             // Label with the same color of the player

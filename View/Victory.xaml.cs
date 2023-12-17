@@ -27,6 +27,8 @@ namespace Monopoly.View
             Board = mw;
             playerName.Content = PlayerViewModel.Players[0].Name;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            btnClose.Focus();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

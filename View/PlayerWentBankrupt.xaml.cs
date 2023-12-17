@@ -25,6 +25,8 @@ namespace Monopoly.View
             InitializeComponent();
             playerName.Content = p.Name;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            Ok_leave.Focus();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
