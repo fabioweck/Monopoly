@@ -130,46 +130,64 @@ namespace Monopoly.ViewModel
         }
 
         // Moves the player, adjusting their token according to the segment of the board. Player tokens never overlap each other.
-        public void MovePlayer(int spaces)
+        public async Task MovePlayer(int spaces)
         {
-            //Define the new position
-            int newPosition = Position + spaces;
+            //Get initial position
+            int initPos = Position;
+            int delay = 50;
+            bool reverse = false;
 
-            //If the position passes the total of spaces, then adjust new position
-            if (newPosition > 39) { 
-                newPosition -= 40;
-                ChangeBalance(LapCompleted, 200);
+            if (spaces < 0) 
+            {
+                delay = 5;
+                spaces *= -1;
+                reverse = true;
             }
 
-            //Finds the space
-            var targetSpace = SpaceViewModel.spaceModels[newPosition];
+            for(int i = 1; i <= spaces; i++)
+            {
 
-            //Pass the parameters to the player
+                //Increase position
+                initPos += (reverse) ? -1 : 1;
+
+                //If it is a full lap, then adjust position
+                if (initPos > 39)
+                {
+                    initPos -= 40;
+                    ChangeBalance(LapCompleted, 200);
+                }
+                
+                //Finds the space
+                var targetSpace = SpaceViewModel.spaceModels[initPos];
+
+                //Pass the parameters to the player
                 Column = targetSpace.Column;
                 Row = targetSpace.Row;
-                Position = newPosition;
+                Position = initPos;
 
-            //Adjust the player position on the board
-            if ((newPosition > 10 && newPosition < 20))
-                Column++;
-
-            if ((newPosition > 20 && newPosition < 30))
-                Row++;
-
-            if(Players.Count > 1) 
-                if (CurrentPlayer.Name ==  Players[1].Name)
+                //Adjust the player position on the board
+                if ((initPos > 10 && initPos < 20))
                     Column++;
 
-            if (Players.Count > 2)
-                if (CurrentPlayer.Name == Players[2].Name)
+                if ((initPos > 20 && initPos < 30))
                     Row++;
 
-            if (Players.Count>3)
-                if (CurrentPlayer.Name == Players[3].Name)
-                {
-                    Row++;
-                    Column++;
-                }
+                if (Players.Count > 1)
+                    if (CurrentPlayer.Name == Players[1].Name)
+                        Column++;
+
+                if (Players.Count > 2)
+                    if (CurrentPlayer.Name == Players[2].Name)
+                        Row++;
+
+                if (Players.Count > 3)
+                    if (CurrentPlayer.Name == Players[3].Name)
+                    {
+                        Row++;
+                        Column++;
+                    }
+                await Task.Delay(delay);
+            }  
         }
 
         //Notifies the board that properties have changed
@@ -209,7 +227,7 @@ namespace Monopoly.ViewModel
         }
 
 
-        private static void HandleMoveToJail(int move)
+        private async static void HandleMoveToJail(int move)
         {
             //Check if the player has a 'Get Out of Jail Free' card
             if (HasGetOutOfJailCard(CurrentPlayer.ChanceCard) || HasGetOutOfJailCard(CurrentPlayer.CommunityCard))
@@ -220,7 +238,7 @@ namespace Monopoly.ViewModel
             {
                 CurrentPlayer.IsInJail = true;
                 move = -CurrentPlayer.Position + 10;
-                CurrentPlayer.MovePlayer(move);
+                await CurrentPlayer.MovePlayer(move);
             }
         }
 
@@ -268,14 +286,14 @@ namespace Monopoly.ViewModel
             }
         }
 
-        private static void MovePlayerToJail()
+        private async static void MovePlayerToJail()
         {
             //Number of positions to move the player to go to the jail
             int jailPosition = 10;
             int move = jailPosition - CurrentPlayer.Position;
             CurrentPlayer.IsInJail = true;
 
-            CurrentPlayer.MovePlayer(move);
+            await CurrentPlayer.MovePlayer(move);
         }
 
         public static bool HasGetOutOfJailCard(string card)
@@ -283,48 +301,48 @@ namespace Monopoly.ViewModel
             return card == "Jail Free Card";
         }
 
-        public static void GoToNextRailroad()
+        public async static void GoToNextRailroad()
         {
             // Move to Railroad at space #5
             if (CurrentPlayer.Position < 5)
             {
                 int move = 5 - CurrentPlayer.Position;
-                CurrentPlayer.MovePlayer(move);
+                await CurrentPlayer.MovePlayer(move);
             }
 
             // Move to Railroad at space #15
             else if (CurrentPlayer.Position > 5 && CurrentPlayer.Position < 15) 
             {
                 int move = 15 - CurrentPlayer.Position;
-                CurrentPlayer.MovePlayer(move);
+                await CurrentPlayer.MovePlayer(move);
             }
 
             // Move to Railroad at space #25
             else if (CurrentPlayer.Position > 15 && CurrentPlayer.Position < 25)
             {
                 int move = 25 - CurrentPlayer.Position;
-                CurrentPlayer.MovePlayer(move);
+                await CurrentPlayer.MovePlayer(move);
             }
 
             // Move to Railroad at space #35
             else if (CurrentPlayer.Position > 25 && CurrentPlayer.Position < 35)
             {
                 int move = 35 - CurrentPlayer.Position;
-                CurrentPlayer.MovePlayer(move);
+                await CurrentPlayer.MovePlayer(move);
             }
             // Move to Railroad at space #5
             else
             {
                 int move = 5 - CurrentPlayer.Position + 40;
-                CurrentPlayer.MovePlayer(move);
+                await CurrentPlayer.MovePlayer(move);
             }
         }
 
         // Move to the starting position, completing a lap.
-        public static void GotToFirstPlace()
+        public async static void GotToFirstPlace()
         {
             int move = 40 - CurrentPlayer.Position;
-            CurrentPlayer.MovePlayer(move);
+            await CurrentPlayer.MovePlayer(move);
         }
 
         // Calcuclates the amount of properties owned by the player:
