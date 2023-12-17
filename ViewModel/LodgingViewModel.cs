@@ -12,15 +12,14 @@ namespace Monopoly.ViewModel
 {
     public class LodgingViewModel
     {
+
         public static Dictionary<int, LodgingModel> LodgingModel = new Dictionary<int, LodgingModel>();
         
         // Store property and lodging pairs
         public List<Tuple<PropertyModel, LodgingModel, Image>> PropertyLodgingPairs = new List<Tuple<PropertyModel, LodgingModel, Image>>();
 
-        public LodgingViewModel()
-        {
+        public LodgingViewModel(){ }
 
-        }
 
         public void AddLodgingToBoard(Grid boardGrid, PropertyModel property)
         {
@@ -125,6 +124,7 @@ namespace Monopoly.ViewModel
             }
         }
 
+
         private void SetGridOffsets(PropertyModel property, out int offSetCol, out int offSetRow, out int offSetColSecondary, out int offSetRowSecondary, out int rowSpan, out int columnSpan)
         {
             offSetCol = 0;
@@ -185,7 +185,6 @@ namespace Monopoly.ViewModel
                 {
                     offSetColSecondary = -1;
                     offSetRowSecondary = 0;
-                    //rowSpan = 1;
                     columnSpan = 2;
                 }
             }
@@ -262,8 +261,5 @@ namespace Monopoly.ViewModel
         {
             return PropertyLodgingPairs.FirstOrDefault(pair => pair.Item2.SerialNumber == serialNumber && pair.Item1.Name == propertyName);
         }
-
-
-
     }
 }

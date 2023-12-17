@@ -19,15 +19,9 @@ namespace Monopoly.ViewModel
         delegate void ResolveSpaceAction();
 
         public static Dictionary<int, SpaceModel> spaceModels = new Dictionary<int, SpaceModel>();
-        // public static Dictionary<int, PlayerViewModel> propertyOwners = new Dictionary<int, PlayerViewModel>();
-
-        //Suggestion for the dictionary
         public static Dictionary<PlayerViewModel, List<PropertyModel>> propertyOwners = new Dictionary<PlayerViewModel, List<PropertyModel>>();
 
-        public SpaceViewModel()
-        {
-
-        }
+        public SpaceViewModel() { }
 
         // Assign ownership of a property.
         public static void AddOwner(PropertyModel property, PlayerViewModel pvm)
@@ -137,11 +131,15 @@ namespace Monopoly.ViewModel
 
         public static void SellProperty(PropertyModel property, PlayerViewModel pvm, Grid boardGrid)
         {
+            //Remove the owner from a property
             RemoveOwner(property, pvm);
+
+            //Split the value in half (condition to sell a property)
             pvm.Player.Balance += (int)property.Price/ 2;
+
+            //remove the property from the sell asset
             var childToRemove = boardGrid.Children.OfType<Label>()
                         .FirstOrDefault(x => x.Name == property.Name.Replace(" ", "").Replace(".", "").Replace("&", ""));
-
 
             if (childToRemove != null)
             {
@@ -190,12 +188,15 @@ namespace Monopoly.ViewModel
             {
                 CustomMessageBox($"{PlayerViewModel.CurrentPlayer.Name} landed on a {currentSpace.Name}", $"Pick a card!", false);
 
+                //get a card
                 CardViewModel.FlipACard("Community");
 
+                //Display the card with its definition
                 string description = CardViewModel.CurrentCard.Description;
                 CardView card = new CardView("Community Chest Card", description);
                 card.ShowDialog();
 
+                //Gets the card effect 
                 string effect = CardViewModel.CurrentCard.Effect;
 
                 switch(effect)
@@ -231,12 +232,15 @@ namespace Monopoly.ViewModel
 
                 CustomMessageBox($"{PlayerViewModel.CurrentPlayer.Name} landed on a {currentSpace.Name}", $"Pick a card!", false);
 
+                //Get a card
                 CardViewModel.FlipACard("Chance");
 
+                //Display the card with its definition
                 string description = CardViewModel.CurrentCard.Description;
                 CardView card = new CardView("Chance Card", description);
                 card.ShowDialog();
 
+                //Gets the card effect
                 string effect = CardViewModel.CurrentCard.Effect;
 
                 switch (effect)
@@ -587,6 +591,7 @@ namespace Monopoly.ViewModel
             }
         }
 
+        //Method to provide a custom message box in order to avoid the standard WPF MessageBox
         public static string CustomMessageBox(string title, string content, bool yesOrNo)
         {
             string result = string.Empty;
@@ -692,13 +697,16 @@ namespace Monopoly.ViewModel
             return prisonLogic;
         }
 
+        //Offers the player the chance to pay to get out of jail
         public static void HandlePlayerInJail(PlayerViewModel currentPlayer, Grid boardGrid, MainWindow board)
         {
             int fee = 50;
             int attempts = currentPlayer.AttemptsToGetOutOfJail;
 
+            //Check if it is the third attempt
             if(attempts < 3)
             {
+                //Check if the player can pay to get out
                 if (currentPlayer.Balance >= fee)
                 {
                     string result = CustomMessageBox("You are in jail.", $"{currentPlayer.Name}, would you like to pay {fee} to get out of jail and move {DieView.Roll} spaces?", true);
@@ -713,6 +721,7 @@ namespace Monopoly.ViewModel
                     }
                 }            
             }
+            //If yes, then the player is forced to pay
             else
             {
                 CustomMessageBox("Get out of here.", $"{currentPlayer.Name}, you tried to get a double 3 times and we are tired of you. You're leaving but you must pay $50!", false);
@@ -741,7 +750,7 @@ namespace Monopoly.ViewModel
             return spaceModels.Values
                 .Where(space => space is PropertyModel && ((PropertyModel)space).Group == group)
                 .All(property => ((PropertyModel)property).Owner == player);
-        }
+        }    
 
         public static void PopulateBoard()
         {

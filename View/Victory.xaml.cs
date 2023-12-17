@@ -20,6 +20,7 @@ namespace Monopoly.View
     /// </summary>
     public partial class Victory : Window
     {
+        //Window to display the player who won
         public MainWindow Board;
         public Victory(MainWindow mw)
         {

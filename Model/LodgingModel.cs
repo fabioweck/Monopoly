@@ -16,6 +16,7 @@ namespace Monopoly.Model
 
         public string Image = null;
 
+        //Holds the image path of a lodging
         public ImageSource ImgSrc
         {
             get
@@ -24,13 +25,12 @@ namespace Monopoly.Model
             }
         }
         
+        //Properties used to display it on the board/grid
         public int Row { get; set; }
         public int Column { get; set; }
         public int RowSpan { get; set; } = 2;
         public int ColumnSpan { get; set; } = 2;
         public int SerialNumber { get; set; }
-
-
 
         public LodgingModel(string img, int row, int column, int rowSpan, int columnSpan, int serialNumber)
         {

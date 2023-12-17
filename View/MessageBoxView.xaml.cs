@@ -19,11 +19,14 @@ namespace Monopoly.View
     /// </summary>
     public partial class MessageBoxView : Window
     {
+        //To accept the method which will take the result
         public delegate void GetOption(string result);
 
+        //If the user wans the buttons "Yes" and "No" or only the "Ok" button
         public bool YesOrNo;
         public GetOption SetOption;
 
+        //Simple message box with title and text
         public MessageBoxView(string title, string content)
         {
             InitializeComponent();
@@ -38,6 +41,7 @@ namespace Monopoly.View
 
         }
 
+        //Overload to open a window with yes and no buttons/ok button and return a response
         public MessageBoxView(string title, string content, GetOption setOption, bool yesOrNo = false)
         {
             InitializeComponent();
@@ -47,11 +51,13 @@ namespace Monopoly.View
             YesOrNo = yesOrNo;
             SetOption = setOption;
 
+            //Hide the button ok
             if (YesOrNo)
             {
                 btnOk.Visibility = Visibility.Hidden;
                 btnYes.Focus();
             }
+            //Hide the buttons yes and no
             else
             {
                 btnYes.Visibility = Visibility.Hidden;
@@ -63,12 +69,16 @@ namespace Monopoly.View
             
         }
 
-
         //Identify a button was clicked and return its content
         public void OptionClicked(object sender, RoutedEventArgs e)
         {
+            //Define the option chose
             Button button = sender as Button;
+
+            //Get the option
             string option = button.Content.ToString();
+
+            //Pass to the delegate to return a response
             SetOption(option);
             this.Close();
         }

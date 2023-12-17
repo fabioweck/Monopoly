@@ -38,9 +38,9 @@ namespace Monopoly.View
             btnAuto.Focus();
         }
 
-        private async void GetNumbers(bool isDouble = false)
-        {
-            
+        //Method to generante dice numbers
+        private void GetNumbers(bool isDouble = false)
+        {       
             //Repeat rolling dice until getting a result to exit the loop
             while (true)
             {
@@ -56,10 +56,12 @@ namespace Monopoly.View
                         //Count +1 double
                         Double++;
 
+                        //Define roll total number
+                        Roll = face[0] + face[1];
+
                         //If the player is in jail, they get out of jail
                         if (PlayerViewModel.CurrentPlayer.IsInJail)
                         {
-                            Roll = face[0] + face[1];
                             txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
                             txtDiceResult.Text = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble?! You are free! Move {Roll} spaces!";
                             PlayerViewModel.CurrentPlayer.AttemptsToGetOutOfJail = 0;
@@ -71,14 +73,13 @@ namespace Monopoly.View
                         //If is not in jail and gets 3 double, go to jail
                         if (Double == 3)
                         {
-                            txtDiceResult.Text = $"You got 3 doubles. Go to prison...";
+                            txtDiceResult.Text = $"You got 3 doubles. Go to jail...";
                             CountTimeAndClose();
                             Roll = 0;
                             break;
                         }
 
                         //Else, move
-                        Roll = face[0] + face[1];
                         txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
                         txtDiceResult.Text = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble! Move {Roll} spaces!";
                         CountTimeAndClose();
@@ -87,9 +88,12 @@ namespace Monopoly.View
                     }
                     else
                     {
+                        //Define roll total number
+                        Roll = face[0] + face[1];
+
+                        //If the playeris in jail, can't leave without a double
                         if (PlayerViewModel.CurrentPlayer.IsInJail)
                         {
-                            Roll = face[0] + face[1];
                             txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
                             txtDiceResult.Text = $"Die 1: {face[0]}\nDie 2: {face[1]}\nIt's not a double - you stay in jail!";
                             PlayerViewModel.CurrentPlayer.AttemptsToGetOutOfJail++;
@@ -97,23 +101,24 @@ namespace Monopoly.View
                             return;
                         }
 
+                        //Else, move
                         Double = 0;
-                        Roll = face[0] + face[1];
                         txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
                         txtDiceResult.Text = $"Die 1: {face[0]}\nDie 2: {face[1]}\nMove {Roll} spaces!";
                         CountTimeAndClose();
                         break;
                     }
                 }
+                //If it is a forced double, then proceed
                 else
                 {
                     int[] face = { 2, 2 }; //Alter the number from 1 to 6
-
                     Double++;
+                    Roll = face[0] + face[1];
 
+                    //If player is in jail, then leave
                     if (PlayerViewModel.CurrentPlayer.IsInJail)
                     {
-                        Roll = face[0] + face[1];
                         txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
                         txtDiceResult.Text = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble?! You are free! Move {Roll} spaces.";
                         PlayerViewModel.CurrentPlayer.IsInJail = false;
@@ -122,6 +127,7 @@ namespace Monopoly.View
                         break;
                     }
 
+                    //If the player gets 3 doubles in a row, go to prison
                     if (Double == 3)
                     {
                         txtDiceResult.Text = $"You got 3 doubles. Go to prison...";
@@ -130,7 +136,7 @@ namespace Monopoly.View
                         break;
                     }
 
-                    Roll = face[0] + face[1];
+                    //Else, move
                     txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
                     txtDiceResult.Text = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble! Move {Roll} spaces.";
 ;
@@ -140,6 +146,7 @@ namespace Monopoly.View
             }
         }
 
+        //Method to display a counter to the player
         private async void CountTimeAndClose()
         {
             timerImage.Visibility = Visibility.Visible;
@@ -152,6 +159,7 @@ namespace Monopoly.View
             this.Close();
         }
 
+        //Display all items related to auto roll
         private void btnAuto_Click(object sender, RoutedEventArgs e)
         {
             Click = true;
@@ -163,6 +171,7 @@ namespace Monopoly.View
             GetNumbers();
         }
 
+        //Display all item related to manual move
         private void btnManual_Click(object sender, RoutedEventArgs e)
         {
             Click = true;
@@ -178,11 +187,12 @@ namespace Monopoly.View
             txtNumberOfPlaces.Focus();
         }
 
+        //Move the player with manual move
         private void btnMove_Click(object sender, RoutedEventArgs e)
         {
             Click = true;
 
-            // Check and paser the input to int number and check the valid range
+            // Check and parse the input to int number and check the valid range
             if(int.TryParse(txtNumberOfPlaces.Text, out int result) && result >= 0 && result <= 40)
             {
                 Roll = result;
@@ -208,6 +218,7 @@ namespace Monopoly.View
             }
         }
 
+        //Method to simulate a double and display all itens related to double
         private void btnDouble_Click(object sender, RoutedEventArgs e)
         {
             Click = true;
@@ -219,6 +230,7 @@ namespace Monopoly.View
             GetNumbers(true); //Add any number to the method to get double
         }
 
+        //Method to limit wrong input
         private void txtNumberOfPlaces_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             // Allow only numeric input
@@ -228,6 +240,7 @@ namespace Monopoly.View
             }
         }
 
+        //Method to allow user move pressing "enter" key
         private void txtNumberOfPlaces_KeyDown(object sender, KeyEventArgs e)
         {
             // Invoke method pressing enter key

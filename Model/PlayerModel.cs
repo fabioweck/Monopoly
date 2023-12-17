@@ -14,15 +14,20 @@ namespace Monopoly.Model
 
     public class PlayerModel
     {
+
         public string Name { get; set; }
 
+        //Holds the player's position
         public System.Windows.Point Position { get; set; }
 
         public int Balance { get; set; } = 1500;
 
         public string CommunityCard { get; set; } = "No community card";
         public string ChanceCard { get; set; } = "No chance card";
+
+        //Check if the player was sent to jail
         public bool isInJail = false;
+
         public int attemptsToGetOutOfJail = 0;
 
         public SolidColorBrush Color { get; set; }
@@ -31,6 +36,7 @@ namespace Monopoly.Model
             Name = name;
             Position = position;
 
+            //Set the player color based on player's name
             switch (Name)
             {
                 case "P1": // Player 1

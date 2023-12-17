@@ -8,6 +8,7 @@ namespace Monopoly.Model
 {
     public class DieModel
     {
+        //Holds the 6 faces of a die
         public int[] Faces {  get; set; }
 
         public DieModel()
