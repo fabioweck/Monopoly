@@ -83,6 +83,9 @@
     <Compile Include="View\PlayerCountQuestion.xaml.cs">
       <DependentUpon>PlayerCountQuestion.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\PlayerPropertiesPanel.xaml.cs">
+      <DependentUpon>PlayerPropertiesPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\PlayerWentBankrupt.xaml.cs">
       <DependentUpon>PlayerWentBankrupt.xaml</DependentUpon>
     </Compile>
@@ -117,6 +120,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PlayerCountQuestion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PlayerPropertiesPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

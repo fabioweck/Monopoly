@@ -43,7 +43,7 @@
                     FontSize="24"
                     FontStyle="Italic" />
             </StackPanel>
-            <Button
+            <Button x:Name="btnClose"
                 Width="100"
                 Height="46"
                 Margin="0,341,0,0"

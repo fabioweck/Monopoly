@@ -55,12 +55,14 @@ namespace Monopoly.View
             if (YesOrNo)
             {
                 btnOk.Visibility = Visibility.Hidden;
+                btnYes.Focus();
             }
             //Hide the buttons yes and no
             else
             {
                 btnYes.Visibility = Visibility.Hidden;
                 btnNo.Visibility = Visibility.Hidden;
+                btnOk.Focus();
             }
 
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
