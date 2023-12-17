@@ -10,8 +10,9 @@ using System.Threading.Tasks;
 
 namespace Monopoly.Model
 {
-    public class PropertyModel : SpaceModel 
+    public class PropertyModel : SpaceModel
     {
+
         public string Group { get; set; }
         public int Price { get; set; } = 0;
         public int[] Rent { get; set; } = new int[6];
@@ -27,15 +28,14 @@ namespace Monopoly.Model
             set
             {
                 ownerName = value;
-                OnPropertyChanged(nameof(OwnerName));
             }
         }
 
         public PlayerViewModel Owner
         {
             get { return _owner; }
-            set 
-            { 
+            set
+            {
                 _owner = value;
                 if (_owner != null)
                     ownerName = value.Name;
@@ -81,7 +81,7 @@ namespace Monopoly.Model
         }
 
         // For properties:
-        public PropertyModel(string name, string description, string img, string group, int price, int housePrice, int rent0, int rent1, int rent2, int rent3, int rent4, int rent5, int row, int column, int rowSpan, int columnSpan) : base(name, description, img, row, column, rowSpan, columnSpan) 
+        public PropertyModel(string name, string description, string img, string group, int price, int housePrice, int rent0, int rent1, int rent2, int rent3, int rent4, int rent5, int row, int column, int rowSpan, int columnSpan) : base(name, description, img, row, column, rowSpan, columnSpan)
         {
             Type = "Property";
             Name = name;

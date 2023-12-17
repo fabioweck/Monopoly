@@ -18,9 +18,12 @@ namespace Monopoly.ViewModel
             Die2 = new DieModel();
         }
 
+        //Simulate the dice rolling 
         public int[] RollDice()
         {
             Random rnd = new Random();
+
+            //Generates numbers between 1 and 6 and simulate each face of a single die
             int[] randomNumber = { Die1.Faces[rnd.Next(1, 6)], Die1.Faces[rnd.Next(1, 6)] };
 
             return randomNumber;

@@ -117,11 +117,13 @@ namespace Monopoly.ViewModel
             SpaceViewModel.propertyOwners.Add(this, new List<PropertyModel>());
         }
 
+        //Method to change balance after completing a full lap on the board
         public void LapCompleted(int amount)
         {
             Player.Balance += amount;
         }
 
+        //Method to change the player balance
         public void ChangeBalance(Transaction transaction, int amount)
         {
             transaction(amount);
@@ -130,16 +132,24 @@ namespace Monopoly.ViewModel
         // Moves the player, adjusting their token according to the segment of the board. Player tokens never overlap each other.
         public void MovePlayer(int spaces)
         {
+            //Define the new position
             int newPosition = Position + spaces;
+
+            //If the position passes the total of spaces, then adjust new position
             if (newPosition > 39) { 
                 newPosition -= 40;
                 ChangeBalance(LapCompleted, 200);
             }
+
+            //Finds the space
             var targetSpace = SpaceViewModel.spaceModels[newPosition];
+
+            //Pass the parameters to the player
                 Column = targetSpace.Column;
                 Row = targetSpace.Row;
                 Position = newPosition;
 
+            //Adjust the player position on the board
             if ((newPosition > 10 && newPosition < 20))
                 Column++;
 
@@ -162,6 +172,7 @@ namespace Monopoly.ViewModel
                 }
         }
 
+        //Notifies the board that properties have changed
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -172,6 +183,7 @@ namespace Monopoly.ViewModel
             return $"{Name} :: R{Row} | C{Column} :: B{Balance}";
         }
 
+        //Logic to send a player to jail
         public static void GoToJail()
         {
             //Jail position on the board
@@ -195,6 +207,7 @@ namespace Monopoly.ViewModel
                 }
             }
         }
+
 
         private static void HandleMoveToJail(int move)
         {

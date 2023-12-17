@@ -20,6 +20,7 @@ namespace Monopoly.View
     /// </summary>
     public partial class PlayerCountQuestion : Window
     {
+
         public PlayerCountQuestion()
         {
             InitializeComponent();
@@ -27,6 +28,7 @@ namespace Monopoly.View
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
+        //Get the number of players
         private void NumberOfPlayers(object sender, RoutedEventArgs e)
         {
             Button button;

@@ -31,8 +31,11 @@ namespace Monopoly
 
         public static int NumberOfPlayers = 0;
         public static List<TextBox> txtBoxPanelPlayers;
+
+        //Helper variables
         public static bool isBankrupt = false;
         public static string jailLogic;
+
         public List<Label> LblPlayers = new List<Label>();
         public CardViewModel Cards;
 
@@ -59,9 +62,11 @@ namespace Monopoly
 
             jailLogic = "false";
 
+            //First check if the player is in jail
             if (PlayerViewModel.CurrentPlayer.IsInJail)
                 jailLogic = SpaceViewModel.ResolveJail(PlayerViewModel.CurrentPlayer, BoardGrid, this);
 
+            //Exit the method
             if (jailLogic == "return") return;
 
             //If the dice are not being rolled to resolve prison logic, then proceed
@@ -141,24 +146,13 @@ namespace Monopoly
 
                 Panel.SetZIndex(myLabel, 2);
 
-                //-----------------------------------------------------
-
-                // Iterate through our dictionary and create data binding to properly display on View:
-
-                //Label label = new Label();
-
-                //label.Content = Players[i].Name;
-                //Grid.SetRow(label, Players[i].Row);
-                //Grid.SetColumn(label, Players[i].Column);
-
-
+                //add labels to the board
                 LblPlayers.Add(myLabel);
                 BoardGrid.Children.Add(myLabel);
 
-                // TODO - Set Panel.Zindex on boardGrid (each player should have the ZIndex set to 1 or higher)
-
+                //Make them visible
                 txtBoxPanelPlayers[i].Visibility = Visibility.Visible;
-                //System.Diagnostics.Debug.WriteLine(txtBoxPanelPlayers[i]);
+
             }
 
             foreach (var space in SpaceViewModel.spaceModels)
@@ -209,8 +203,9 @@ namespace Monopoly
         public async void ResolveLogic()
         {
 
+            //Add a delay to show the player moving before resolving logic
             await Task.Delay(400);
-
+            
             SpaceViewModel.Resolve(BoardGrid, txtBoxPanelPlayers, lodgingViewModel.AddLodgingToBoard, this);
 
             UpdateAllPlayersPanel();

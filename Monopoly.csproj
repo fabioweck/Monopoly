@@ -68,7 +68,6 @@
     </Compile>
     <Compile Include="ViewModel\CardViewModel.cs" />
     <Compile Include="ViewModel\DieViewModel.cs" />
-    <Compile Include="ViewModel\ILogic.cs" />
     <Compile Include="ViewModel\PlayerViewModel.cs" />
     <Compile Include="ViewModel\LodgingViewModel.cs" />
     <Compile Include="ViewModel\SpaceViewModel.cs" />

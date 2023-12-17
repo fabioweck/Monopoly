@@ -36,6 +36,7 @@ namespace Monopoly.View
             this.Close();
         }
 
+        //Method to allow user pressing enter and closing the card
         private void KeyDownClose(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Enter) 

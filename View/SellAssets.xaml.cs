@@ -22,6 +22,7 @@ namespace Monopoly.View
     /// </summary>
     public partial class SellAssets : Window, INotifyPropertyChanged
     {
+        
         static int _ind = 0;
         public List<PropertyModel> properties;
         private ImageSource _imgSrc;
@@ -54,6 +55,8 @@ namespace Monopoly.View
             CardPicture.Source = ImageSource;
             _boardGrid = boardGrid;
         }
+
+        //Notifies property change to display on board
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

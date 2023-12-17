@@ -20,6 +20,7 @@ namespace Monopoly.Model
         public string Type { get; set; } = "Neutral";
         public string Image = null;
 
+        //Holds the image path of a space
         public ImageSource ImgSrc
         {
             get
@@ -28,12 +29,12 @@ namespace Monopoly.Model
             }
         }
 
+        //Holds the properties used to display on board
         public int Row { get; set; }
         public int Column { get; set; }
         public int RowSpan { get; set; } = 2;
         public int ColumnSpan { get; set; } = 2;
         public int SpaceNumber { get; set; }
-
 
 
         public SpaceModel(string name, string description, string type, string img, int row, int column, int rowSpan, int columnSpan, int spaceNumber)
@@ -70,21 +71,6 @@ namespace Monopoly.Model
             Column = column;
             RowSpan = rowSpan;
             ColumnSpan = columnSpan;
-        }
-
-        public static void ReadCard(SpaceModel sm)
-        {
-            if (sm.Type == "Card")
-            {
-                MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, obtained a card");
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

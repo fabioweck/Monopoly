@@ -155,6 +155,8 @@ namespace Monopoly.ViewModel
             }
         }
 
+        //Methods to add and remove a card from the pile when giving to the player
+
         public static void AddChanceCard(string description, string effect, int value, int move = 0)
         {
             ChanceCards.Enqueue(new CardModel(description, effect, value, move));
