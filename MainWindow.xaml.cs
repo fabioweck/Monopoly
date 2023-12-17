@@ -59,7 +59,7 @@ namespace Monopoly
         }
 
         //Method to roll dice
-        private void btnRollDice_Click(object sender, RoutedEventArgs e)
+        private async void btnRollDice_Click(object sender, RoutedEventArgs e)
         {
 
             jailLogic = "false";
@@ -95,7 +95,9 @@ namespace Monopoly
             //If move is zero, it means that the player rolled dice and got 3 doubles
             //Send the player to the jail
             if (move != 0)
-                PlayerViewModel.CurrentPlayer.MovePlayer(move);
+            {
+                await PlayerViewModel.CurrentPlayer.MovePlayer(move);
+            }
             else
             {
                 PlayerViewModel.GoToJail();

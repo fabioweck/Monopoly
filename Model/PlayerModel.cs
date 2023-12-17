@@ -20,7 +20,7 @@ namespace Monopoly.Model
         //Holds the player's position
         public System.Windows.Point Position { get; set; }
 
-        public int Balance { get; set; } = 1500;
+        public int Balance { get; set; } = 150;
 
         public string CommunityCard { get; set; } = "No community card";
         public string ChanceCard { get; set; } = "No chance card";
