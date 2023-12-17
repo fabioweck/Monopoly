@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows;
 using Monopoly.View;
 using System.Windows.Documents;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Monopoly.ViewModel
 {
@@ -149,6 +150,7 @@ namespace Monopoly.ViewModel
         public static void Resolve(Grid boardGrid, List<TextBox> txtBoxPanelPlayers, Action<Grid, PropertyModel> addLodgingToBoard, MainWindow board)
         {
 
+            
             //Get both current player and current property
             PlayerViewModel currentPlayer = PlayerViewModel.CurrentPlayer;
             var currentSpace = spaceModels[currentPlayer.Position];
@@ -157,7 +159,7 @@ namespace Monopoly.ViewModel
             //If player position is over place 30, it means go to prison
             if (currentPlayer.Position == 30)
             {
-                MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, go to jail...", ":(", MessageBoxButton.OK);
+                CustomMessageBox($":(", $"{PlayerViewModel.CurrentPlayer.Name}, go to jail...", false);
                 PlayerViewModel.GoToJail();
                 return;
             }
@@ -165,6 +167,8 @@ namespace Monopoly.ViewModel
             //If player position is over place 2, 17 or 33, it means Community card
             if(new int[] { 2, 17, 33 }.Contains(currentPlayer.Position))
             {
+                CustomMessageBox($"{PlayerViewModel.CurrentPlayer.Name} landed on a {currentSpace.Name}", $"Pick a card!", false);
+
                 CardViewModel.FlipACard("Community");
 
                 string description = CardViewModel.CurrentCard.Description;
@@ -203,6 +207,9 @@ namespace Monopoly.ViewModel
             //If player position is over place 7, 17 or 33, it means Chance card
             if (new int[] { 7, 22, 36 }.Contains(currentPlayer.Position))
             {
+
+                CustomMessageBox($"{PlayerViewModel.CurrentPlayer.Name} landed on a {currentSpace.Name}", $"Pick a card!", false);
+
                 CardViewModel.FlipACard("Chance");
 
                 string description = CardViewModel.CurrentCard.Description;
@@ -258,9 +265,9 @@ namespace Monopoly.ViewModel
 
                         if (canUpgradeProperty)
                         {
-                            MessageBoxResult upgradeResult = MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, do you want to upgrade lodging on this property?", "Upgrade Lodging", MessageBoxButton.YesNo);
+                            string upgradeResult = CustomMessageBox("Upgrade Lodging", $"{PlayerViewModel.CurrentPlayer.Name}, do you want to upgrade lodging on this property?", true);
 
-                            if (upgradeResult == MessageBoxResult.Yes)
+                            if (upgradeResult == "Yes")
                             {
                                 currentPlayer.ChangeBalance(value => currentPlayer.Balance -= value, property.HousePrice);
                                 addLodgingToBoard?.Invoke(boardGrid, property);
@@ -337,7 +344,7 @@ namespace Monopoly.ViewModel
                 }
                 if (rent > 0)
                 {
-                    MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, pay {rent}.");
+                    CustomMessageBox($"{PlayerViewModel.CurrentPlayer.Name} landed on a {currentSpace.Name}", $"Pay ${rent}", false);
 
                     // If cannot pay rent, and has properties to sell:
                     TryToSellAssets(rent, currentPlayer, boardGrid);
@@ -473,7 +480,7 @@ namespace Monopoly.ViewModel
                 rent = property.Rent[0] * 2;
             }
             //If the player is not the owner, pass the functions to debit from current player and pay rent to the owner
-            MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, pay rent to {property.OwnerName}\n${rent}");
+            CustomMessageBox($"{PlayerViewModel.CurrentPlayer.Name} landed on a property.", $"Pay rent to {property.OwnerName}\n${rent}", false);
 
             // If cannot pay rent, and has properties to sell:
             TryToSellAssets(property, rent, currentPlayer, boardGrid);
@@ -503,7 +510,7 @@ namespace Monopoly.ViewModel
             int rent = property.Rent[numberOfProperties - 1];
 
             // If the player is not the owner, pass the functions to debit from current player and pay rent to the owner
-            MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, pay rent to {property.OwnerName}\n${rent}");
+            CustomMessageBox($"{PlayerViewModel.CurrentPlayer.Name} landed on a Railroad.", $"Pay rent to {property.OwnerName}\n${rent}", false);
 
             // If cannot pay rent, and has properties to sell:
             TryToSellAssets(property, rent, currentPlayer, boardGrid);
@@ -532,7 +539,7 @@ namespace Monopoly.ViewModel
 
             int rent = property.Rent[numberOfProperties - 1] * DieView.Roll;
 
-            MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name} landed on a utility.\nPay rent to {property.OwnerName}\n${rent}");
+            CustomMessageBox($"{PlayerViewModel.CurrentPlayer.Name} landed on a utility.", $"Pay rent to {property.OwnerName}\n${rent}", false);
 
             // If cannot pay rent, and has properties to sell:
             TryToSellAssets(property, rent, currentPlayer, boardGrid);
@@ -559,6 +566,16 @@ namespace Monopoly.ViewModel
             }
         }
 
+        public static string CustomMessageBox(string title, string content, bool yesOrNo)
+        {
+            string result = string.Empty;
+
+            MessageBoxView msg = new MessageBoxView(title, content, option => result = option, yesOrNo);
+            msg.ShowDialog();
+
+            return result;
+        }
+
         public static void HandlePropertyPurchase(PlayerViewModel currentPlayer, PropertyModel property, Grid boardGrid, List<TextBox> txtBoxPanelPlayers)
         {
             string _t = $"{property.Name} ({property.Group})";
@@ -566,10 +583,13 @@ namespace Monopoly.ViewModel
             // If the player has enough balance to purchase, handle the question and purchase
             if (currentPlayer.Balance >= property.Price)
             {
-                MessageBoxResult result = MessageBox.Show($"{PlayerViewModel.CurrentPlayer.Name}, would you like to buy {_t} for ${property.Price}?", "Landed on a property.", MessageBoxButton.YesNo);
+
+                string result = CustomMessageBox("Landed on a property.",
+                                                $"{PlayerViewModel.CurrentPlayer.Name}, would you like to buy {_t} for ${property.Price}?", 
+                                                true);
 
                 //If the player wants to buy the property, pass the function to balance to perform the calculation
-                if (result == MessageBoxResult.Yes)
+                if (result == "Yes")
                 {
                     BuyProperty(property, currentPlayer, boardGrid);
                 }
@@ -580,7 +600,7 @@ namespace Monopoly.ViewModel
             }
             else
             {
-                MessageBox.Show($"Not enough balance to purchase {_t} [{property.Price}].", "Insufficient Balance.", MessageBoxButton.OK);
+                CustomMessageBox("Insufficient Balance.", $"Not enough balance to purchase {_t} [{property.Price}].", false);
             }
         }
 
@@ -658,20 +678,24 @@ namespace Monopoly.ViewModel
 
             if(attempts < 3)
             {
-                MessageBoxResult result = MessageBox.Show($"{currentPlayer.Name}, would you like to pay {fee} to get out of jail?", "You are imprisoned.", MessageBoxButton.YesNo);
-                if (result == MessageBoxResult.Yes)
+                if (currentPlayer.Balance >= fee)
                 {
-                    PayTaxesOrFees(fee, currentPlayer, boardGrid, board);
-                    currentPlayer.IsInJail = false;
-                }
-                else
-                {
-                    MessageBox.Show($"{currentPlayer.Name}, you remain imprisoned.", "Stay in the jail :(", MessageBoxButton.OK);
-                }
+                    string result = CustomMessageBox("You are in jail.", $"{currentPlayer.Name}, would you like to pay {fee} to get out of jail and move {DieView.Roll} spaces?", true);
+                    if (result == "Yes")
+                    {
+                        PayTaxesOrFees(fee, currentPlayer, boardGrid, board);
+                        currentPlayer.IsInJail = false;
+                    }
+                    else
+                    {
+                        CustomMessageBox("Stay in jail.", ":(", false);
+                    }
+                }            
             }
             else
             {
-                MessageBox.Show($"{currentPlayer.Name}, you tried to get a double 3 times and we are tired of you. You're leaving but you must pay $50!", "Get out of here.", MessageBoxButton.OK);
+                CustomMessageBox("Get out of here.", $"{currentPlayer.Name}, you tried to get a double 3 times and we are tired of you. You're leaving but you must pay $50!", false);
+                TryToSellAssets(fee, currentPlayer, boardGrid);
                 PayTaxesOrFees(fee, currentPlayer, boardGrid, board);
                 currentPlayer.IsInJail = false;
             }    

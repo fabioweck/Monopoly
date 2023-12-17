@@ -366,6 +366,8 @@ namespace Monopoly.ViewModel
             // If there is only one player left, show victory screen.
             if (Players.Count == 1)
             {
+                PlayerWentBankrupt bankrupt = new PlayerWentBankrupt(CurrentPlayer);
+                bankrupt.ShowDialog();
                 Victory _v = new Victory(board);
                 _v.Show();
             }

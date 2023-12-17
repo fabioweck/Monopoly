@@ -206,8 +206,10 @@ namespace Monopoly
         }
 
         // After rolling the dice, resolve game's logic:
-        public void ResolveLogic()
+        public async void ResolveLogic()
         {
+
+            await Task.Delay(400);
 
             SpaceViewModel.Resolve(BoardGrid, txtBoxPanelPlayers, lodgingViewModel.AddLodgingToBoard, this);
 

@@ -1,20 +1,23 @@
-﻿<Window x:Class="Monopoly.View.Victory"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Monopoly.View"
-        mc:Ignorable="d"
-        Title="Victory" Height="450" Width="800"
-        WindowStyle="None"
-        AllowsTransparency="True">
+﻿<Window
+    x:Class="Monopoly.View.Victory"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Monopoly.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Victory"
+    Width="800"
+    Height="450"
+    AllowsTransparency="True"
+    WindowStyle="None"
+    mc:Ignorable="d">
 
     <Border BorderBrush="Black" BorderThickness="8">
         <Grid>
             <Grid.Background>
                 <RadialGradientBrush>
-                    <GradientStop Color="White" Offset="0"/>
-                    <GradientStop Color="#FFDFFFFD" Offset="1"/>
+                    <GradientStop Offset="0" Color="White" />
+                    <GradientStop Offset="1" Color="#FFDFFFFD" />
                 </RadialGradientBrush>
             </Grid.Background>
 
@@ -24,8 +27,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Content=""
-                    FontSize="48" 
-                    FontWeight="Bold"/>
+                    FontSize="48"
+                    FontWeight="Bold" />
                 <Label
                     Name="victory"
                     HorizontalAlignment="Center"
@@ -33,21 +36,25 @@
                     Content="Won the game!"
                     FontSize="48" />
                 <Label
-                        Name="description"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Content="Congratulations"
-                        FontSize="24" 
-                        FontStyle="Italic"/>
+                    Name="description"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Congratulations"
+                    FontSize="24"
+                    FontStyle="Italic" />
             </StackPanel>
-            <Button 
+            <Button
+                Width="100"
+                Height="46"
+                Margin="0,341,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Background="#FFE0E0E0"
                 BorderBrush="Black"
                 BorderThickness="2"
-                Margin="0,341,0,0"
-                FontSize="24"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Center"
-                Content="Close" Width="100" Height="46" Background="#FFE0E0E0" Click="Button_Click"/>
+                Click="Button_Click"
+                Content="Close"
+                FontSize="24" />
         </Grid>
     </Border>
 </Window>
