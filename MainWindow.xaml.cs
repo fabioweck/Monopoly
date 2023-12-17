@@ -36,6 +36,7 @@ namespace Monopoly
         public static string jailLogic;
         public List<Label> LblPlayers = new List<Label>();
         public CardViewModel Cards;
+        public static List<PlayerPropertiesPanel> PlayerPropertiesPanels = new List<PlayerPropertiesPanel>();
 
         LodgingViewModel lodgingViewModel = new LodgingViewModel();
 
@@ -89,13 +90,7 @@ namespace Monopoly
             //If move is zero, it means that the player rolled dice and got 3 doubles
             //Send the player to the jail
             if (move != 0)
-            {
-                for (int i = 0; i < move;)
-                {
-                    PlayerViewModel.CurrentPlayer.MovePlayer(1);
-                    Thread.Sleep(400/move);
-                }
-            }
+                PlayerViewModel.CurrentPlayer.MovePlayer(move);
             else
             {
                 PlayerViewModel.GoToJail();
@@ -165,7 +160,23 @@ namespace Monopoly
 
                 PlayerPropertiesPanel pp = new PlayerPropertiesPanel(myData, SpaceViewModel.propertyOwners, BoardGrid);
                 BoardGrid.Children.Add(pp);
-                
+                Grid.SetColumnSpan(pp, 5);
+                if (i == 0 || i == 2)
+                    Grid.SetColumn(pp, 27);
+                else
+                {
+                    Grid.SetColumn(pp, 32);
+                    Grid.SetColumnSpan(pp, 6);
+                }
+                if (i == 0 || i == 1)
+                    Grid.SetRow(pp, 5);
+                else
+                    Grid.SetRow(pp, 16);
+
+                Grid.SetZIndex(pp, 5);
+                Grid.SetRowSpan(pp, 7);
+                PlayerPropertiesPanels.Add(pp);
+
 
                 // TODO - Set Panel.Zindex on boardGrid (each player should have the ZIndex set to 1 or higher)
 
@@ -280,7 +291,11 @@ namespace Monopoly
                         SpaceViewModel.UpdatePlayerPanel(textBox, player);
                     }
                 }
-            }          
+            }        
+            foreach (PlayerPropertiesPanel pp in PlayerPropertiesPanels)
+            {
+                pp.Update();
+            }
         }
 
         //Method to allow users to press enter when on the main screen and roll dice

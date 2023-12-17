@@ -23,7 +23,7 @@ namespace Monopoly.View
     /// </summary>
     public partial class PlayerPropertiesPanel : UserControl, INotifyPropertyChanged
     {
-        static int _ind = 0;
+        int _ind = 0;
         public List<PropertyModel> properties;
         private ImageSource _imgSrc;
         private static Grid _boardGrid;
@@ -42,7 +42,6 @@ namespace Monopoly.View
         public PlayerPropertiesPanel(PlayerViewModel owner, Dictionary<PlayerViewModel, List<PropertyModel>> propertyOwners, Grid boardGrid)
         {
             InitializeComponent();
-            pName.Content = owner.Name;
             properties = propertyOwners[owner];
             if (properties.Count > 0)
                 Houses.Content = $"Houses: {properties[0].HousesBuilt}";
@@ -85,7 +84,7 @@ namespace Monopoly.View
             }
         }
 
-        private void Update()
+        public void Update()
         {
             if (properties.Count > 0)
             {

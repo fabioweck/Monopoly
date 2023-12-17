@@ -130,7 +130,7 @@
             <TextBox
             x:Name="P1"
             Grid.Row="1"
-            Grid.RowSpan="10"
+            Grid.RowSpan="4"
             Grid.Column="27"
             Grid.ColumnSpan="5"
             FontSize="16"
@@ -142,7 +142,7 @@
             <TextBox
             x:Name="P2"
             Grid.Row="1"
-            Grid.RowSpan="10"
+            Grid.RowSpan="4"
             Grid.Column="33"
             Grid.ColumnSpan="5"
             FontSize="16"
@@ -154,7 +154,7 @@
             <TextBox
             x:Name="P3"
             Grid.Row="12"
-            Grid.RowSpan="10"
+            Grid.RowSpan="4"
             Grid.Column="27"
             Grid.ColumnSpan="5"
             FontSize="16"
@@ -166,7 +166,7 @@
             <TextBox
             x:Name="P4"
             Grid.Row="12"
-            Grid.RowSpan="10"
+            Grid.RowSpan="4"
             Grid.Column="33"
             Grid.ColumnSpan="5"
             FontSize="16"
