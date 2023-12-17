@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Security.AccessControl;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -87,7 +88,14 @@ namespace Monopoly
 
             //If move is zero, it means that the player rolled dice and got 3 doubles
             //Send the player to the jail
-            if (move != 0) PlayerViewModel.CurrentPlayer.MovePlayer(move);
+            if (move != 0)
+            {
+                for (int i = 0; i < move;)
+                {
+                    PlayerViewModel.CurrentPlayer.MovePlayer(1);
+                    Thread.Sleep(400/move);
+                }
+            }
             else
             {
                 PlayerViewModel.GoToJail();
@@ -154,6 +162,10 @@ namespace Monopoly
 
                 LblPlayers.Add(myLabel);
                 BoardGrid.Children.Add(myLabel);
+
+                PlayerPropertiesPanel pp = new PlayerPropertiesPanel(myData, SpaceViewModel.propertyOwners, BoardGrid);
+                BoardGrid.Children.Add(pp);
+                
 
                 // TODO - Set Panel.Zindex on boardGrid (each player should have the ZIndex set to 1 or higher)
 

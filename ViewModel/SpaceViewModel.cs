@@ -722,11 +722,6 @@ namespace Monopoly.ViewModel
                 .All(property => ((PropertyModel)property).Owner == player);
         }
 
-        //public void PositionSpaces()
-        //{
-
-        //}     
-
         public static void PopulateBoard()
         {
             spaceModels.Add(0,
@@ -738,7 +733,7 @@ namespace Monopoly.ViewModel
                    1, 1, 3, 3, 0));
 
             SpaceModel sm1 = new PropertyModel(
-                    "Chinatown",                             // Name
+                    "Chinatown",                                        // Name
                     "A property belonging to group 'Brown'. Space #1",  // Description
                     "Tile01_Brown",                                     // Image
                     "Brown",                                            // Group
@@ -757,7 +752,7 @@ namespace Monopoly.ViewModel
                     1, 6, 3, 2, 1));
 
             SpaceModel sm3 = new PropertyModel(
-                   "Memorial Drive",                                     // Name
+                   "Memorial Drive",                                    // Name
                    "A property belonging to group 'Brown'. Space #3",   // Description
                    "Tile03_Brown",                                      // Image
                    "Brown",                                             // Group
@@ -776,7 +771,7 @@ namespace Monopoly.ViewModel
                     1, 10, 3, 2, 2));
 
             SpaceModel sm5 = new PropertyModel(
-                    "CTrain Red Line",                                 // Name
+                    "CTrain Red Line",                                  // Name
                     "Railroad Company. Space#5",                        // Description
                     "Tile05_Rail",                                      // Image
                     200,                                                // Price to buy
@@ -785,7 +780,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(5, sm5);
 
             SpaceModel sm6 = new PropertyModel(
-                    "Airport Drive",                                  // Name
+                    "Airport Drive",                                    // Name
                     "A property belonging to group 'Teal'. Space#6",    // Description
                     "Tile06_Teal",                                      // Image
                     "Teal",                                             // Group
@@ -815,7 +810,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(8, sm8);
 
             SpaceModel sm9 = new PropertyModel(
-                    "Ave 32 NE",                               // Name
+                    "Ave 32 NE",                                        // Name
                     "A property belonging to group 'Teal'. Space#9",    // Description
                     "Tile09_Teal",                                      // Image
                     "Teal",                                             // Group
@@ -834,7 +829,7 @@ namespace Monopoly.ViewModel
                    1, 22, 3, 3, 4));
 
             SpaceModel sm11 = new PropertyModel(
-                    "Heritage Park",                                // Name
+                    "Heritage Park",                                    // Name
                     "A property belonging to group 'Pink'. Space#11",   // Description
                     "Tile11_Pink",                                      // Image
                     "Pink",                                             // Group
@@ -855,7 +850,7 @@ namespace Monopoly.ViewModel
 
 
             SpaceModel sm13 = new PropertyModel(
-                    "Nose Hill",                                    // Name
+                    "Nose Hill",                                        // Name
                     "A property belonging to group 'Pink'. Space#13",   // Description
                     "Tile13_Pink",                                      // Image
                     "Pink",                                             // Group
@@ -866,7 +861,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(13, sm13);
 
             SpaceModel sm14 = new PropertyModel(
-                    "Fish Creek",                                  // Name
+                    "Fish Creek",                                       // Name
                     "A property belonging to group 'Pink'. Space#14",   // Description
                     "Tile14_Pink",                                      // Image
                     "Pink",                                             // Group
@@ -877,7 +872,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(14, sm14);
 
             SpaceModel sm15 = new PropertyModel(
-                    "Tuscany Station",                            // Name
+                    "Tuscany Station",                                  // Name
                     "Railroad Company. Space#15",                       // Description
                     "Tile15_Rail",                                      // Image
                     200,                                                // Price to buy
@@ -886,7 +881,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(15, sm15);
             
             SpaceModel sm16 = new PropertyModel(
-                    "CORE Shopping Centre",                                  // Name
+                    "CORE Shopping Centre",                             // Name
                     "A property belonging to group 'Orange'. Space#16", // Description
                     "Tile16_Orange",                                    // Image
                     "Orange",                                           // Group
@@ -905,7 +900,7 @@ namespace Monopoly.ViewModel
                     16, 22, 2, 3, 5));
 
             SpaceModel sm18 = new PropertyModel(
-                    "Olympic Plaza",                                 // Name
+                    "Olympic Plaza",                                    // Name
                     "A property belonging to group 'Orange'. Space#18", // Description
                     "Tile18_Orange",                                    // Image
                     "Orange",                                           // Group
@@ -916,7 +911,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(18, sm18);
 
             SpaceModel sm19 = new PropertyModel(
-                    "Ave 9 SW",                                  // Name
+                    "Ave 9 SW",                                         // Name
                     "A property belonging to group 'Orange'. Space#19", // Description
                     "Tile19_Orange",                                    // Image
                     "Orange",                                           // Group
@@ -935,7 +930,7 @@ namespace Monopoly.ViewModel
                    22, 22, 3, 3, 6));
 
             SpaceModel sm21 = new PropertyModel(
-                    "Barclay Parade SW",                                  // Name
+                    "Barclay Parade SW",                                // Name
                     "A property belonging to group 'Red'. Space#21",    // Description
                     "Tile21_Red",                                       // Image
                     "Red",                                              // Group
@@ -954,7 +949,7 @@ namespace Monopoly.ViewModel
                    22, 18, 3, 2, 7));
 
             SpaceModel sm23 = new PropertyModel(
-                    "Riverfront Ave SW",                                   // Name
+                    "Riverfront Ave SW",                                // Name
                     "A property belonging to group 'Red'. Space#23",    // Description
                     "Tile23_Red",                                       // Image
                     "Red",                                              // Group
@@ -965,7 +960,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(23, sm23);
 
             SpaceModel sm24 = new PropertyModel(
-                    "Ave 2 SW",                                  // Name
+                    "Ave 2 SW",                                         // Name
                     "A property belonging to group 'Red'. Space#24",    // Description
                     "Tile24_Red",                                       // Image
                     "Red",                                              // Group
@@ -976,7 +971,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(24, sm24);
 
             SpaceModel sm25 = new PropertyModel(
-                    "Marlborough Station",                                    // Name
+                    "Marlborough Station",                              // Name
                     "Railroad Company. Space#25",                       // Description
                     "Tile25_Rail",                                      // Image
                     200,                                                // Price to buy
@@ -985,7 +980,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(25, sm25);
 
             SpaceModel sm26 = new PropertyModel(
-                    "Riley Park",                                  // Name
+                    "Riley Park",                                       // Name
                     "A property belonging to group 'Yellow'. Space#26", // Description
                     "Tile26_Yellow",                                    // Image
                     "Yellow",                                           // Group
@@ -996,7 +991,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(26, sm26);
 
             SpaceModel sm27 = new PropertyModel(
-                    "Prince Island Park",                                   // Name
+                    "Prince Island Park",                               // Name
                     "A property belonging to group 'Yellow'. Space#27", // Description
                     "Tile27_Yellow",                                    // Image
                     "Yellow",                                           // Group
@@ -1016,7 +1011,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(28, sm28);
 
             SpaceModel sm29 = new PropertyModel(
-                    "Calgary Zoo",                                   // Name
+                    "Calgary Zoo",                                      // Name
                     "A property belonging to group 'Yellow'. Space#29", // Description
                     "Tile29_Yellow",                                    // Image
                     "Yellow",                                           // Group
@@ -1035,7 +1030,7 @@ namespace Monopoly.ViewModel
                    22, 1, 3, 3, 8));
 
             SpaceModel sm31 = new PropertyModel(
-                    "Kensington Road",                                   // Name
+                    "Kensington Road",                                  // Name
                     "A property belonging to group 'Green'. Space#31",  // Description
                     "Tile31_Green",                                     // Image
                     "Green",                                            // Group
@@ -1046,7 +1041,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(31, sm31);
 
             SpaceModel sm32 = new PropertyModel(
-                    "Stephen Avenue",                            // Name
+                    "Stephen Avenue",                                   // Name
                     "A property belonging to group 'Green'. Space#32",  // Description
                     "Tile32_Green",                                     // Image
                     "Green",                                            // Group
