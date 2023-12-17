@@ -815,7 +815,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(8, sm8);
 
             SpaceModel sm9 = new PropertyModel(
-                    "32 Ave NE",                               // Name
+                    "Ave 32 NE",                               // Name
                     "A property belonging to group 'Teal'. Space#9",    // Description
                     "Tile09_Teal",                                      // Image
                     "Teal",                                             // Group
@@ -916,7 +916,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(18, sm18);
 
             SpaceModel sm19 = new PropertyModel(
-                    "9 Ave SW",                                  // Name
+                    "Ave 9 SW",                                  // Name
                     "A property belonging to group 'Orange'. Space#19", // Description
                     "Tile19_Orange",                                    // Image
                     "Orange",                                           // Group
@@ -965,7 +965,7 @@ namespace Monopoly.ViewModel
             spaceModels.Add(23, sm23);
 
             SpaceModel sm24 = new PropertyModel(
-                    "2 Ave SW",                                  // Name
+                    "Ave 2 SW",                                  // Name
                     "A property belonging to group 'Red'. Space#24",    // Description
                     "Tile24_Red",                                       // Image
                     "Red",                                              // Group
@@ -1065,7 +1065,7 @@ namespace Monopoly.ViewModel
                    16, 1, 2, 3, 9));
 
             SpaceModel sm34 = new PropertyModel(
-                    "17 Avenue SW",                                     // Name
+                    "Avenue 17 SW",                                     // Name
                     "A property belonging to group 'Green'. Space#34",  // Description
                     "Tile34_Green",                                     // Image
                     "Green",                                            // Group
