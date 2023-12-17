@@ -17,7 +17,9 @@ namespace Monopoly.Model
         public string Name { get; set; }
 
         public System.Windows.Point Position { get; set; }
+
         public int Balance { get; set; } = 1500;
+
         public string CommunityCard { get; set; } = "No community card";
         public string ChanceCard { get; set; } = "No chance card";
         public bool isInJail = false;

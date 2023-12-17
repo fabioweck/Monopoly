@@ -61,7 +61,7 @@ namespace Monopoly.View
                         {
                             Roll = face[0] + face[1];
                             txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
-                            lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble! You are free! Move {Roll} places!";
+                            txtDiceResult.Text = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble?! You are free! Move {Roll} spaces!";
                             PlayerViewModel.CurrentPlayer.AttemptsToGetOutOfJail = 0;
                             PlayerViewModel.CurrentPlayer.IsInJail = false;
                             CountTimeAndClose();
@@ -71,7 +71,7 @@ namespace Monopoly.View
                         //If is not in jail and gets 3 double, go to jail
                         if (Double == 3)
                         {
-                            lblDiceResult.Content = $"You got 3 doubles. Go to prison...";
+                            txtDiceResult.Text = $"You got 3 doubles. Go to prison...";
                             CountTimeAndClose();
                             Roll = 0;
                             break;
@@ -80,7 +80,7 @@ namespace Monopoly.View
                         //Else, move
                         Roll = face[0] + face[1];
                         txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
-                        lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble! Move {Roll} places!";
+                        txtDiceResult.Text = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble! Move {Roll} spaces!";
                         CountTimeAndClose();
                         break;
 
@@ -91,7 +91,7 @@ namespace Monopoly.View
                         {
                             Roll = face[0] + face[1];
                             txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
-                            lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nIt's not a double!";
+                            txtDiceResult.Text = $"Die 1: {face[0]}\nDie 2: {face[1]}\nIt's not a double - you stay in jail!";
                             PlayerViewModel.CurrentPlayer.AttemptsToGetOutOfJail++;
                             CountTimeAndClose();
                             return;
@@ -100,7 +100,7 @@ namespace Monopoly.View
                         Double = 0;
                         Roll = face[0] + face[1];
                         txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
-                        lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nMove {Roll} places!";
+                        txtDiceResult.Text = $"Die 1: {face[0]}\nDie 2: {face[1]}\nMove {Roll} spaces!";
                         CountTimeAndClose();
                         break;
                     }
@@ -115,7 +115,7 @@ namespace Monopoly.View
                     {
                         Roll = face[0] + face[1];
                         txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
-                        lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble! You are free! Move {Roll} places!";
+                        txtDiceResult.Text = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble?! You are free! Move {Roll} spaces.";
                         PlayerViewModel.CurrentPlayer.IsInJail = false;
                         PlayerViewModel.CurrentPlayer.AttemptsToGetOutOfJail = 0;
                         CountTimeAndClose();
@@ -124,7 +124,7 @@ namespace Monopoly.View
 
                     if (Double == 3)
                     {
-                        lblDiceResult.Content = $"You got 3 doubles. Go to prison...";
+                        txtDiceResult.Text = $"You got 3 doubles. Go to prison...";
                         CountTimeAndClose();
                         Roll = 0;
                         break;
@@ -132,7 +132,7 @@ namespace Monopoly.View
 
                     Roll = face[0] + face[1];
                     txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
-                    lblDiceResult.Content = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble! Move {Roll} places!";
+                    txtDiceResult.Text = $"Die 1: {face[0]}\nDie 2: {face[1]}\nDouble! Move {Roll} spaces.";
 ;
                     CountTimeAndClose();
                     break;
@@ -191,7 +191,7 @@ namespace Monopoly.View
                 if (PlayerViewModel.CurrentPlayer.IsInJail)
                 {
                     txtPlayer.Text = $"Player {PlayerName} rolled the dice.";
-                    lblDiceResult.Content = $"It's not a double!";
+                    txtDiceResult.Text = $"It's not a double - you stay in jail!";
                     btnMove.Visibility = Visibility.Hidden;
                     txtNumberOfPlaces.Visibility = Visibility.Hidden;
                     PlayerViewModel.CurrentPlayer.AttemptsToGetOutOfJail++;
