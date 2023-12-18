@@ -232,11 +232,11 @@ namespace Monopoly
             
             SpaceViewModel.Resolve(BoardGrid, txtBoxPanelPlayers, lodgingViewModel.AddLodgingToBoard, this);
 
-            UpdateAllPlayersPanel();
+            if (PlayerViewModel.PlayerModels.Contains(PlayerViewModel.CurrentPlayer.Player)) UpdateAllPlayersPanel();
 
             //If the last turn was a player getting out of prison due to a double,
             //then the double doesn't count to play again and call next player
-            if(jailLogic == "true")
+            if (jailLogic == "true")
             {
                 ChangePlayer();
                 return;
@@ -273,6 +273,7 @@ namespace Monopoly
             }
             DieView.Double = 0;
             isBankrupt = false;
+
         }
 
         // Updates the players panel with current information
